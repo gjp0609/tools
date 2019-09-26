@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.InputStream;
@@ -16,9 +17,10 @@ import java.time.Duration;
 import java.util.HashMap;
 
 @RestController
+@RequestMapping("/search")
 public class SearchController {
 
-    @GetMapping("/search")
+    @GetMapping
     public Object main(String q) throws Exception {
         long timeMillis = System.currentTimeMillis();
         HashMap<Object, Object> map = new HashMap<>();
