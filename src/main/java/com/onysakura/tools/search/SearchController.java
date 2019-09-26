@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.InputStream;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +32,7 @@ public class SearchController {
                 .connectTimeout(Duration.ofMillis(5000))
                 .followRedirects(HttpClient.Redirect.NORMAL)
                 .build();
-        URI uri = URI.create(googleUrl + q);
+        URI uri = URI.create(googleUrl + URLEncoder.encode(q, StandardCharsets.UTF_8));
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(uri)
                 .GET()
