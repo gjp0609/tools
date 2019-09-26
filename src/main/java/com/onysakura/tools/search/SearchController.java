@@ -14,6 +14,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @RestController
@@ -40,6 +41,7 @@ public class SearchController {
         Document document = Jsoup.parse(send.body(), "UTF-8", "https://www.google.com");
         Element body = document.body();
         Elements rcList = body.select(".rc");
+        ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
         for (Element rc : rcList) {
             Elements r = rc.select(".r");
             Elements a = r.select("a");
@@ -57,12 +59,16 @@ public class SearchController {
                 }
             }
             Elements s = rc.select(".s");
-            System.out.println("\n\n\n" + title + "\n" + url + "\n" + link + "\n" + s.text());
+            HashMap<String, String> hashMap = new HashMap<>();
+            hashMap.put("title", title);
+            hashMap.put("url", url);
+            hashMap.put("link", link);
+            hashMap.put("text", s.text());
+            arrayList.add(hashMap);
         }
         long timeUsage = System.currentTimeMillis() - timeMillis;
-        System.err.println("time usage: " + timeUsage + "ms");
         map.put("timeUsage", timeUsage);
-        map.put("resultList", timeUsage);
+        map.put("resultList", arrayList);
         return map;
     }
 }
