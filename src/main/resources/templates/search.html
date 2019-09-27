@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+</head>
+<body>
+<input id="search" value="" th:value="${searchText}"/>
+<span onclick="search()">Search</span>
+<ul>
+    <li th:each="item : ${resultList}">
+        <a th:href="${item.link}" href="">
+            <div th:text="${item.title}">Title</div>
+            <div th:text="${item.url}">http://onysakura.xyz</div>
+            <div th:text="${item.text}">text</div>
+        </a>
+    </li>
+</ul>
+</body>
+<script>
+    function search() {
+        let href = window.location.href;
+        // console.log(href.split('?q=')[0] + '?q=' + document.getElementById("search").value);
+        window.location.href = href.split('?q=')[0] + '?q=' + document.getElementById("search").value;
+    }
+</script>
+</html>
