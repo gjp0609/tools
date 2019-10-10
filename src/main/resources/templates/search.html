@@ -36,6 +36,7 @@
             padding: 0 1rem;
             border: firebrick solid 1px;
             border-radius: 2rem;
+            cursor: pointer;
         }
 
         .content {
@@ -64,12 +65,28 @@
             font-size: 1rem;
             color: lightslategray;
         }
+
+        .page {
+            text-align: center;
+        }
+
+        .page-num {
+            display: inline-block;
+            font-size: 0.9rem;
+            height: 2rem;
+            width: 2rem;
+            line-height: 2rem;
+            border: black solid 1px;
+            border-radius: 10rem;
+            margin: 0 0.5rem 0.5rem;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 <div class="search-box">
     <input class="search-input" id="search" value="Java" th:value="${searchText}"/>
-    <span class="search-button" onclick="search()">Search</span>
+    <span class="search-button" onclick="search(1)">Search</span>
 </div>
 <ul class="content">
     <li class="item" th:each="item : ${resultList}">
@@ -86,16 +103,27 @@
         <hr/>
     </li>
 </ul>
+<div class="page">
+    <span class="page-num" onclick="page(this)"
+          th:each="index : ${#numbers.sequence(0, 90, 10)}"
+          th:text="${(index / 10) + 1}">1</span>
+</div>
 </body>
 <script>
-    function search() {
+    function search(page) {
         let href = window.location.href;
-        window.location.href = href.split('?q=')[0] + '?q=' + document.getElementById("search").value;
+        window.location.href = href.split('?q=')[0]
+            + '?q=' + document.getElementById("search").value
+            + '&start=' + page;
+    }
+
+    function page(_this) {
+        search((Number(_this.innerHTML) - 1) * 10);
     }
 
     document.getElementById("search").addEventListener("keyup", function (event) {
         if (event.key === "Enter") {
-            search();
+            search(1);
         }
     });
 </script>

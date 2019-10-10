@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.InputStream;
@@ -26,8 +27,8 @@ import java.util.HashMap;
 public class SearchController {
 
     @GetMapping
-    public ModelAndView search(ModelAndView mv, String q) throws Exception {
-        HashMap<String, Object> map = searchApi(q);
+    public ModelAndView search(ModelAndView mv, String q, @RequestParam(required = false, defaultValue = "0") int start) throws Exception {
+        HashMap<String, Object> map = searchApi(q, start);
         mv.addObject("ad", "asd");
         mv.addObject("timeUsage", map.get("timeUsage"));
         mv.addObject("resultList", map.get("resultList"));
@@ -37,7 +38,7 @@ public class SearchController {
     }
 
     @GetMapping("/api")
-    public HashMap<String, Object> searchApi(String q) throws Exception {
+    public HashMap<String, Object> searchApi(String q, @RequestParam(required = false, defaultValue = "0") int start) throws Exception {
         long timeMillis = System.currentTimeMillis();
         HashMap<String, Object> map = new HashMap<>();
         ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
@@ -47,7 +48,7 @@ public class SearchController {
                     .connectTimeout(Duration.ofMillis(5000))
                     .followRedirects(HttpClient.Redirect.NORMAL)
                     .build();
-            URI uri = URI.create(googleUrl + URLEncoder.encode(q, StandardCharsets.UTF_8));
+            URI uri = URI.create(googleUrl + URLEncoder.encode(q, StandardCharsets.UTF_8) + "&start=" + start);
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(uri)
                     .GET()
