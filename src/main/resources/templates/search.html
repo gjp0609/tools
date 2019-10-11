@@ -20,22 +20,77 @@
             text-align: center;
         }
 
+        .logo {
+            width: 100%;
+            margin-top: 30vh;
+            text-align: center;
+            margin-bottom: 2vh;
+        }
+
+        label {
+            user-select: none;
+        }
+
+        .search-input:focus {
+            outline: none;
+        }
+
+        @media screen and (min-width: 800px) {
+            .search-input {
+                width: 25rem;
+            }
+
+            .logo img {
+                max-width: 15rem;
+            }
+
+            .search-input, .search-button {
+                height: 3rem;
+                line-height: 3rem;
+            }
+        }
+
+        @media screen and (min-width: 400px) and (max-width: 800px) {
+            .search-input {
+                width: 15rem;
+            }
+
+            .logo img {
+                max-width: 12rem;
+            }
+
+            .search-input, .search-button {
+                height: 2.5rem;
+                line-height: 2.5rem;
+            }
+        }
+
+        @media screen and (max-width: 400px) {
+            .search-input {
+                width: 10rem;
+            }
+
+            .logo img {
+                max-width: 10rem;
+            }
+
+            .search-input, .search-button {
+                height: 2rem;
+                line-height: 2rem;
+            }
+        }
+
         .search-input {
-            width: 10rem;
-            height: 2rem;
-            line-height: 2rem;
             padding: 0 1rem;
             border: darkcyan solid 1px;
-            border-radius: 2rem;
+            border-radius: 10rem;
         }
 
         .search-button {
             display: inline-block;
-            height: 2rem;
-            line-height: 2rem;
             padding: 0 1rem;
             border: firebrick solid 1px;
-            border-radius: 2rem;
+            border-radius: 10rem;
             cursor: pointer;
         }
 
@@ -84,11 +139,14 @@
     </style>
 </head>
 <body>
+<div th:if="${#strings.isEmpty(searchText)}" class="logo">
+    <img th:src="@{imgs/google.png}" src="../static/imgs/google.png" alt="Logo"/>
+</div>
 <div class="search-box">
-    <input class="search-input" id="search" value="Java" th:value="${searchText}"/>
+    <input id="search" class="search-input" value="Java" th:value="${searchText}"/>
     <span class="search-button" onclick="search(1)">Search</span>
 </div>
-<ul class="content">
+<ul class="content" th:if="${not #strings.isEmpty(searchText)}">
     <li class="item" th:each="item : ${resultList}">
         <a class="link" th:href="${item.link}" href="">
             <div class="title" th:text="${item.title}">Java | Oracle</div>
@@ -103,17 +161,20 @@
         <hr/>
     </li>
 </ul>
-<div class="page">
+<div class="page" th:if="${not #strings.isEmpty(searchText)}">
     <span class="page-num" onclick="page(this)"
           th:each="index : ${#numbers.sequence(0, 90, 10)}"
           th:text="${(index / 10) + 1}">1</span>
 </div>
 </body>
 <script>
+
+    let searchBox = document.getElementById("search");
+
     function search(page) {
         let href = window.location.href;
         window.location.href = href.split('?q=')[0]
-            + '?q=' + document.getElementById("search").value
+            + '?q=' + searchBox.value
             + '&start=' + page;
     }
 
@@ -121,10 +182,12 @@
         search((Number(_this.innerHTML) - 1) * 10);
     }
 
-    document.getElementById("search").addEventListener("keyup", function (event) {
+    searchBox.addEventListener("keyup", function (event) {
         if (event.key === "Enter") {
             search(1);
         }
     });
+
+    searchBox.focus();
 </script>
 </html>
