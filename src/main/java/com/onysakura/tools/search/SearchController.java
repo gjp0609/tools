@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @Controller
-@RequestMapping("/search")
+@RequestMapping("")
 public class SearchController {
 
     @GetMapping
