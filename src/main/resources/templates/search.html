@@ -148,7 +148,7 @@
 </div>
 <ul class="content" th:if="${not #strings.isEmpty(searchText)}">
     <li class="item" th:each="item : ${resultList}">
-        <a class="link" th:href="${item.link}" href="">
+        <a class="link" target="_blank" th:href="${item.link}" href="">
             <div class="title" th:text="${item.title}">Java | Oracle</div>
             <div class="url" th:text="${item.url}">https://www.java.com</div>
             <div class="text" th:text="${item.text}">
