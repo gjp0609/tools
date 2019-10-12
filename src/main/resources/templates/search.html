@@ -144,7 +144,7 @@
 </div>
 <div class="search-box">
     <input id="search" class="search-input" value="Java" th:value="${searchText}"/>
-    <span class="search-button" onclick="search(1)">Search</span>
+    <span class="search-button" onclick="search(0)">Search</span>
 </div>
 <ul class="content" th:if="${not #strings.isEmpty(searchText)}">
     <li class="item" th:each="item : ${resultList}">
@@ -184,7 +184,7 @@
 
     searchBox.addEventListener("keyup", function (event) {
         if (event.key === "Enter") {
-            search(1);
+            search(0);
         }
     });
 
