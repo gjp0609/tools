@@ -174,7 +174,7 @@
     function search(page) {
         let href = window.location.href;
         window.location.href = href.split('?q=')[0]
-            + '?q=' + searchBox.value
+            + '?q=' + encodeURI(searchBox.value)
             + '&start=' + page;
     }
 
