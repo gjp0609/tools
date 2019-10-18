@@ -37,7 +37,7 @@
         }).then(function (response) {
             if (response.status === 200) {
                 let href = location.href;
-                shortUrl.value = href.replace('page/url', 't/') + response.data;
+                shortUrl.value = href.substring(0, href.indexOf('page/url')) + 't/' + response.data;
             } else {
                 shortUrl.value = JSON.stringify(response);
             }
