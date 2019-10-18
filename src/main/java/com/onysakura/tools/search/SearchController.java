@@ -54,6 +54,7 @@ public class SearchController {
                     .GET()
                     .header("content-type", "application/json; charset=UTF-8")
                     .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36")
+                    .header("accept-language", "zh-CN,zh;q=0.9,en;q=0.8,ja;q=0.7,und;q=0.6")
                     .timeout(Duration.ofMillis(50000)).build();
             HttpResponse<InputStream> send = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
             Document document = Jsoup.parse(send.body(), "UTF-8", "https://www.google.com");
