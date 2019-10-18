@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>编码</title>
+    <script th:src="@{/js/md5.js}"></script>
+    <style>
+
+        @font-face {
+            font-family: "mononoki regular";
+            src: url("/fonts/mononoki-Regular.woff2") format("woff2"),
+            url("/fonts/mononoki-Regular.woff") format("woff"),
+            url("/fonts/mononoki-Regular.ttf") format("ttf");
+        }
+
+        * {
+            font-family: "mononoki regular", monospace;
+        }
+
+        .item {
+            margin: 20px;
+        }
+
+        .text_source, .text_result {
+            height: 100px;
+            width: 45%;
+            max-lines: 20;
+        }
+    </style>
+</head>
+<body>
+<div class="item">
+    <textarea class="text_source" id="url_encode_source"></textarea>
+    <textarea class="text_result" id="url_encode_result"></textarea>
+</div>
+<div class="item">
+    <textarea class="text_source" id="md5_source"></textarea>
+    <textarea class="text_result" id="md5_result"></textarea>
+</div>
+</body>
+<script>
+
+    { // url encode
+        let urlEncodeSource = document.getElementById('url_encode_source');
+        let urlEncodeResult = document.getElementById('url_encode_result');
+        urlEncodeSource.addEventListener('change', _ => {
+            urlEncodeResult.value = 'https://sitepay.mail.wo.cn/payment/wap/wxpay?data=' + encodeURIComponent(urlEncodeSource.value);
+        });
+        urlEncodeResult.addEventListener('change', _ => {
+            urlEncodeSource.value = decodeURIComponent(urlEncodeResult.value);
+        });
+    }
+
+    { // md5
+        let md5Source = document.getElementById('md5_source');
+        let md5Result = document.getElementById('md5_result');
+        md5Source.addEventListener('change', _ => {
+            md5Result.value = MD5(md5Source.value) + '\n\n' + MD5(md5Source.value).toLowerCase();
+        });
+    }
+
+</script>
+</html>

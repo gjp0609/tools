@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>短网址</title>
+    <script th:src="@{/js/axios.js}"></script>
+    <style>
+        @font-face {
+            font-family: "mononoki regular";
+            src: url("/fonts/mononoki-Regular.woff2") format("woff2"),
+            url("/fonts/mononoki-Regular.woff") format("woff"),
+            url("/fonts/mononoki-Regular.ttf") format("ttf");
+        }
+
+        * {
+            font-family: "mononoki regular", monospace;
+        }
+
+        textarea {
+            width: 80%;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+<label for="url">Source Url:</label><textarea id="url"></textarea>
+<br/>
+<label for="short-url">Target Url:</label><textarea id="short-url"></textarea>
+</body>
+<script>
+    let url = document.getElementById('url');
+    let shortUrl = document.getElementById('short-url');
+
+    url.addEventListener('change', _ => {
+        axios.post('/t', {
+            url: url.value
+        }).then(function (response) {
+            if (response.status === 200) {
+                let href = location.href;
+                shortUrl.value = href.replace('page/url', 't/') + response.data;
+            } else {
+                shortUrl.value = JSON.stringify(response);
+            }
+        }).catch(function (error) {
+            shortUrl.value = JSON.stringify(error);
+        });
+    });
+
+    shortUrl.addEventListener('change', _ => {
+        axios.get('/t/get/' + shortUrl.value, {}).then(function (response) {
+            if (response.status === 200) {
+                url.value = response.data;
+            } else {
+                url.value = JSON.stringify(response);
+            }
+        }).catch(function (error) {
+            url.value = JSON.stringify(error);
+        });
+    });
+
+</script>
+</html>
