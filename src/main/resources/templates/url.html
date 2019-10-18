@@ -47,7 +47,8 @@
     });
 
     shortUrl.addEventListener('change', _ => {
-        axios.get('/t/get/' + shortUrl.value, {}).then(function (response) {
+        let code = shortUrl.value.substring(shortUrl.value.lastIndexOf('/') + 1);
+        axios.get('/t/get/' + code, {}).then(function (response) {
             if (response.status === 200) {
                 url.value = response.data;
             } else {
