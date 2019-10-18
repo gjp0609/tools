@@ -19,23 +19,49 @@
 
         .item {
             margin: 20px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
         }
 
         .text_source, .text_result {
-            height: 100px;
-            width: 45%;
+            height: 90%;
+            width: 90%;
+            display: inline-block;
             max-lines: 20;
+        }
+
+        .text_left, .text_right {
+            width: 40%;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .text_center {
+            text-align: center;
+            width: 5rem;
+            line-height: 100px;
         }
     </style>
 </head>
 <body>
 <div class="item">
-    <textarea class="text_source" id="url_encode_source"></textarea>
-    <textarea class="text_result" id="url_encode_result"></textarea>
+    <div class="text_left">
+        <textarea class="text_source" id="url_encode_source"></textarea>
+    </div>
+    <div class="text_center">UrlEncode</div>
+    <div class="text_right">
+        <textarea class="text_result" id="url_encode_result"></textarea>
+    </div>
 </div>
 <div class="item">
-    <textarea class="text_source" id="md5_source"></textarea>
-    <textarea class="text_result" id="md5_result"></textarea>
+    <div class="text_left">
+        <textarea class="text_source" id="md5_source"></textarea>
+    </div>
+    <div class="text_center">MD5</div>
+    <div class="text_right">
+        <textarea class="text_result" id="md5_result"></textarea>
+    </div>
 </div>
 </body>
 <script>
