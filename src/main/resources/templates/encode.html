@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>编码</title>
-    <script th:src="@{/js/md5.js}"></script>
+    <script src="../static/js/md5.js" th:src="@{/js/md5.js}"></script>
     <style>
 
         @font-face {
@@ -14,12 +14,12 @@
         }
 
         * {
-            font-family: "mononoki regular", monospace;
+            font-family: "等距更纱黑体 SC", "mononoki regular", monospace;
         }
 
         .item {
             margin: 20px;
-            height: 100px;
+            height: 150px;
             display: flex;
             justify-content: center;
         }
@@ -56,6 +56,15 @@
 </div>
 <div class="item">
     <div class="text_left">
+        <textarea class="text_source" id="base64_source"></textarea>
+    </div>
+    <div class="text_center">Base64</div>
+    <div class="text_right">
+        <textarea class="text_result" id="base64_result"></textarea>
+    </div>
+</div>
+<div class="item">
+    <div class="text_left">
         <textarea class="text_source" id="md5_source"></textarea>
     </div>
     <div class="text_center">MD5</div>
@@ -70,10 +79,21 @@
         let urlEncodeSource = document.getElementById('url_encode_source');
         let urlEncodeResult = document.getElementById('url_encode_result');
         urlEncodeSource.addEventListener('change', _ => {
-            urlEncodeResult.value = 'https://sitepay.mail.wo.cn/payment/wap/wxpay?data=' + encodeURIComponent(urlEncodeSource.value);
+            urlEncodeResult.value = encodeURIComponent(urlEncodeSource.value);
         });
         urlEncodeResult.addEventListener('change', _ => {
             urlEncodeSource.value = decodeURIComponent(urlEncodeResult.value);
+        });
+    }
+
+    { // base64
+        let base64Source = document.getElementById('base64_source');
+        let base64Result = document.getElementById('base64_result');
+        base64Source.addEventListener('change', _ => {
+            base64Result.value = window.btoa(base64Source.value);
+        });
+        base64Result.addEventListener('change', _ => {
+            base64Source.value = window.atob(base64Result.value);
         });
     }
 
