@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>编码</title>
+    <script src="../static/jsoneditor/jsoneditor.min.js" th:src="@{/jsoneditor/jsoneditor.min.js}"></script>
+    <link href="../static/jsoneditor/jsoneditor.min.css" th:href="@{/jsoneditor/jsoneditor.min.css}"
+          rel="stylesheet" type="text/css"/>
+    <style>
+
+        @font-face {
+            font-family: "mononoki regular";
+            src: url("/fonts/mononoki-Regular.woff2") format("woff2"),
+            url("/fonts/mononoki-Regular.woff") format("woff"),
+            url("/fonts/mononoki-Regular.ttf") format("ttf");
+        }
+
+        * {
+            font-family: "等距更纱黑体 SC", "mononoki regular", monospace;
+        }
+
+        html, body {
+            height: 98%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main {
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            height: 99%;
+        }
+
+        .center {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+        }
+
+        .center-button {
+            margin: 30px 10px;
+        }
+
+        .center-button button {
+            height: 30px;
+            width: 30px;
+            font-size: 20px;
+        }
+
+        #json-editor-left,
+        #json-editor-right {
+            width: 48%;
+            height: 99%;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <div id="json-editor-left"></div>
+    <div class="center">
+        <div class="center-button">
+            <button onclick="toLeft()">◀</button>
+        </div>
+        <div class="center-button">
+            <button onclick="toRight()">▶</button>
+        </div>
+    </div>
+    <div id="json-editor-right"></div>
+</div>
+<script>
+    const editorLeft = new JSONEditor(document.getElementById('json-editor-left'), {
+        onChangeText: function (jsonString) {
+            localStorage.setItem('data', jsonString);
+        },
+        mode: 'code',
+        modes: ['code', 'form', 'text', 'tree', 'view', 'preview'],
+    });
+
+    const editorRight = new JSONEditor(document.getElementById('json-editor-right'), {
+        onChangeText: function (jsonString) {
+            localStorage.setItem('data', jsonString);
+        },
+        mode: 'tree',
+        modes: ['code', 'form', 'text', 'tree', 'view', 'preview'],
+    });
+    let data = localStorage.getItem('data');
+    editorLeft.updateText(data || '{}');
+    editorRight.updateText(data || '{}');
+
+    function toLeft() {
+        editorLeft.updateText(editorRight.getText());
+    }
+
+    function toRight() {
+        editorRight.updateText(editorLeft.getText());
+    }
+</script>
+</body>
+</html>
