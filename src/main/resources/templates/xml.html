@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>xml</title>
+    <style>
+
+        @font-face {
+            font-family: "mononoki regular";
+            src: url("/fonts/mononoki-Regular.woff2") format("woff2"),
+            url("/fonts/mononoki-Regular.woff") format("woff"),
+            url("/fonts/mononoki-Regular.ttf") format("ttf");
+        }
+
+        * {
+            font-family: "等距更纱黑体 SC", "mononoki regular", monospace;
+        }
+
+        html, body {
+            height: 98%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .item {
+            margin: 20px;
+            height: 99%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .text_source, .text_format, .text_result {
+            height: 90%;
+            width: 90%;
+            display: inline-block;
+            max-lines: 20;
+        }
+
+        .text_left, .text_center, .text_right {
+            width: 32%;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .text_right {
+            text-align: left;
+        }
+
+        .xml_item_0 {
+            color: #f39;
+        }
+
+        .xml_item_1 {
+            color: #93f;
+        }
+
+        .xml_item_2 {
+            color: #f93;
+        }
+
+        .xml_item_3 {
+            color: #39f;
+        }
+
+        .xml_item_4 {
+            color: #3f9;
+        }
+
+        .xml_item_text {
+            color: forestgreen;
+        }
+
+        .xml_space {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="item">
+    <div class="text_left">
+        <textarea class="text_source" id="xml_encode_source"></textarea>
+    </div>
+    <div class="text_center">
+        <textarea class="text_format" id="xml_encode_format"></textarea>
+    </div>
+    <div class="text_right">
+        <div class="text_result" id="xml_encode_result"></div>
+    </div>
+</div>
+</body>
+<script>
+
+    { // xml
+        let xmlEncodeSource = document.getElementById('xml_encode_source');
+        let xmlEncodeFormat = document.getElementById('xml_encode_format');
+        let xmlEncodeResult = document.getElementById('xml_encode_result');
+        xmlEncodeSource.addEventListener('blur', format);
+        xmlEncodeFormat.addEventListener('blur', _ => {
+            xmlEncodeSource.value = xmlEncodeFormat.value.replace(/\n/g, '').replace(/ /g, '');
+        });
+
+        function format() {
+            let value = xmlEncodeSource.value;
+            let split = value.split('<');
+            split = split.slice(1);
+            let all = [];
+            for (let item of split) {
+                item = '<' + item;
+                if (item.lastIndexOf('>') === item.length - 1) {
+                    all.push(item);
+                } else {
+                    let arr = item.split('>');
+                    all.push(arr[0] + '>');
+                    all.push(arr[1]);
+                }
+            }
+            let arr = [];
+            for (let item of all) {
+                if (item && item.trim() !== '' && item.trim() !== '\n') {
+                    arr.push(item);
+                }
+            }
+            let index = -1;
+            let arr2 = [];
+            let arr3 = [];
+            let boo = false;
+            for (let item of arr) {
+                let item2, item3;
+                item = item.replace('<', '&lt;');
+                item = item.replace('>', '&gt;');
+                if (item.indexOf('&lt;/') === 0) {
+                    index--;
+                    boo = true;
+                    item2 = `<div class="xml_item_${index}">my_blank_word${item}</div>`;
+                    item3 = `my_blank_word${item}\n`;
+                } else if (item.indexOf('&lt;') === 0) {
+                    if (!boo) {
+                        index++;
+                    }
+                    boo = false;
+                    item2 = `<div class="xml_item_${index}">my_blank_word${item}</div>`;
+                    item3 = `my_blank_word${item}\n`;
+                } else {
+                    index++;
+                    boo = false;
+                    item2 = `<div class="xml_item_text">my_blank_word${item}</div>`;
+                    item3 = `my_blank_word${item}\n`;
+                }
+                let space2 = '';
+                let space3 = '';
+                for (let i = 0; i < index; i++) {
+                    space2 += `<span class="xml_space"></span>`;
+                    space3 += `  `;
+                }
+                item2 = item2.replace('my_blank_word', space2);
+                item3 = item3.replace('my_blank_word', space3);
+                arr2.push(item2);
+                arr3.push(item3);
+            }
+            let str2 = '', str3 = '';
+            for (let item of arr2) {
+                str2 += item;
+            }
+            for (let item of arr3) {
+                str3 += item;
+            }
+            xmlEncodeResult.innerHTML = str2;
+            str3 = str3.replace(/&lt;/g, '<');
+            str3 = str3.replace(/&gt;/g, '>');
+            xmlEncodeFormat.value = str3;
+        }
+    }
+</script>
+</html>
