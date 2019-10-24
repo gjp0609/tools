@@ -43,7 +43,9 @@
         }
 
         .text_right {
+            height: 90%;
             text-align: left;
+            border: #a9a9a9 solid 1px;
         }
 
         .xml_item_text, .xml_item_0, .xml_item_1, .xml_item_2, .xml_item_3, .xml_item_4 {
@@ -85,6 +87,7 @@
     </style>
 </head>
 <body>
+<div th:replace="fragments/header :: header">&nbsp;</div>
 <div class="item">
     <div class="text_left">
         <textarea class="text_source" id="xml_encode_source"></textarea>

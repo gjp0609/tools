@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav th:fragment="header">
+    <ul style="display: inline-flex;list-style: none;justify-content: left">
+        <li style="margin: 0 10px;"><a href="../encode.html" th:href="@{/page/encode}">编码</a></li>
+        <li style="margin: 0 10px;"><a href="../url.html" th:href="@{/page/url}">短网址</a></li>
+        <li style="margin: 0 10px;"><a href="../json.html" th:href="@{/page/json}">json格式化</a></li>
+        <li style="margin: 0 10px;"><a href="../xml.html" th:href="@{/page/xml}">xml格式化</a></li>
+    </ul>
+</nav>
+</body>
+</html>
