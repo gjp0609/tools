@@ -46,6 +46,11 @@
             text-align: left;
         }
 
+        .xml_item_text, .xml_item_0, .xml_item_1, .xml_item_2, .xml_item_3, .xml_item_4 {
+            display: flex;
+            justify-content: left;
+        }
+
         .xml_item_0 {
             color: #f39;
         }
@@ -64,6 +69,10 @@
 
         .xml_item_4 {
             color: #3f9;
+        }
+
+        .xml_item_cdata {
+            color: #6cc;
         }
 
         .xml_item_text {
@@ -121,8 +130,7 @@
                 }
             }
             let index = -1;
-            let arr2 = [];
-            let arr3 = [];
+            let arr2 = [], arr3 = [];
             let boo = false;
             for (let item of arr) {
                 let item2, item3;
@@ -131,43 +139,51 @@
                 if (item.indexOf('&lt;/') === 0) {
                     index--;
                     boo = true;
-                    item2 = `<div class="xml_item_${index}">my_blank_word${item}</div>`;
-                    item3 = `my_blank_word${item}\n`;
+                    item2 = `my_blank_word${item}\n`;
+                    item3 = `<div class="xml_item_${index}">my_blank_word<span>${item}</span></div>`;
+                } else if (item.indexOf('&lt;![CDATA') === 0) {
+                    if (!boo) {
+                        index++;
+                    }
+                    boo = false;
+                    item2 = `my_blank_word${item}\n`;
+                    item3 = `<span class="xml_item_cdata">&lt;![CDATA[</span>${item.substring(12, item.length - 6)}<span class="xml_item_cdata">]]&gt;</span>`;
+                    item3 = `<div class="xml_item_text">my_blank_word<span>${item3}</span></div>`;
                 } else if (item.indexOf('&lt;') === 0) {
                     if (!boo) {
                         index++;
                     }
                     boo = false;
-                    item2 = `<div class="xml_item_${index}">my_blank_word${item}</div>`;
-                    item3 = `my_blank_word${item}\n`;
+                    item2 = `my_blank_word${item}\n`;
+                    item3 = `<div class="xml_item_${index}">my_blank_word<span>${item}</span></div>`;
                 } else {
                     index++;
                     boo = false;
-                    item2 = `<div class="xml_item_text">my_blank_word${item}</div>`;
-                    item3 = `my_blank_word${item}\n`;
+                    item2 = `my_blank_word${item}\n`;
+                    item3 = `<div class="xml_item_text">my_blank_word<span>${item}</span></div>`;
                 }
-                let space2 = '';
                 let space3 = '';
+                let space2 = '';
                 for (let i = 0; i < index; i++) {
-                    space2 += `<span class="xml_space"></span>`;
-                    space3 += `  `;
+                    space3 += `<span class="xml_space"></span>`;
+                    space2 += `  `;
                 }
                 item2 = item2.replace('my_blank_word', space2);
                 item3 = item3.replace('my_blank_word', space3);
-                arr2.push(item2);
                 arr3.push(item3);
+                arr2.push(item2);
             }
-            let str2 = '', str3 = '';
-            for (let item of arr2) {
-                str2 += item;
-            }
+            let str3 = '', str2 = '';
             for (let item of arr3) {
                 str3 += item;
             }
-            xmlEncodeResult.innerHTML = str2;
-            str3 = str3.replace(/&lt;/g, '<');
-            str3 = str3.replace(/&gt;/g, '>');
-            xmlEncodeFormat.value = str3;
+            for (let item of arr2) {
+                str2 += item;
+            }
+            xmlEncodeResult.innerHTML = str3;
+            str2 = str2.replace(/&lt;/g, '<');
+            str2 = str2.replace(/&gt;/g, '>');
+            xmlEncodeFormat.value = str2;
         }
     }
 </script>
