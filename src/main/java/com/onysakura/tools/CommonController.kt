@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/page")
-public class CommonController {
+class CommonController {
 
     @GetMapping("/{page}")
-    public String main(@PathVariable("page") String page) {
+    fun page(@PathVariable("page") page: String): String {
         return page.replace("-", "/");
     }
 }
