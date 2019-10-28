@@ -37,21 +37,30 @@
             max-lines: 20;
         }
 
-        .text_left, .text_right {
-            width: 48%;
-            text-align: center;
+        .text_left {
+            width: 59%;
+            text-align: left;
             margin: 0 auto;
         }
 
+        .text_left input {
+            margin: 3px 0;
+        }
+
+        .text_right {
+            width: 39%;
+        }
     </style>
 </head>
 <body>
 <div th:replace="fragments/header :: header">&nbsp;</div>
 <div class="item">
     <div class="text_left">
-        <input id="qr_width" value="128"/>
-        <input id="qr_height" value="128"/>
-        <input id="qr_level" value="2"/>
+        宽：<input id="qr_width" value="128"/>
+        <br/>
+        高：<input id="qr_height" value="128"/>
+        <br/>
+        质量：<input id="qr_level" value="2"/>
         <textarea class="text_source" id="text_encode_source"></textarea>
     </div>
     <div class="text_right">
@@ -66,40 +75,37 @@
     let qrWidth = document.getElementById('qr_width');
     let qrHeight = document.getElementById('qr_height');
     let qrLevel = document.getElementById('qr_level');
-    let level = QRCode.CorrectLevel.H;
-    switch (qrLevel.value) {
-        case '0':
-            level = QRCode.CorrectLevel.M;
-            break;
-        case '1':
-            level = QRCode.CorrectLevel.L;
-            break;
-        case '2':
-            level = QRCode.CorrectLevel.H;
-            break;
-        case '3':
-            level = QRCode.CorrectLevel.Q;
-            break;
-    }
-    let qrCode = new QRCode(textEncodeResult, {
-        text: "hello",
-        width: qrWidth.value,
-        height: qrHeight.value,
-        colorDark: "#000000",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.H
-    });
 
-    textEncodeSource.addEventListener('blur', _ => {
+    textEncodeSource.addEventListener('blur', updateCode);
+    qrWidth.addEventListener('blur', updateCode);
+    qrHeight.addEventListener('blur', updateCode);
+    qrLevel.addEventListener('blur', updateCode);
+
+    function updateCode() {
         textEncodeResult.innerHTML = '';
-        qrCode = new QRCode(textEncodeResult, {
-            text: "hello",
+        let level = QRCode.CorrectLevel.Q;
+        switch (qrLevel.value) {
+            case '1':
+                level = QRCode.CorrectLevel.L;
+                break;
+            case '2':
+                level = QRCode.CorrectLevel.M;
+                break;
+            case '3':
+                level = QRCode.CorrectLevel.Q;
+                break;
+            case '4':
+                level = QRCode.CorrectLevel.H;
+                break;
+        }
+        new QRCode(textEncodeResult, {
+            text: textEncodeSource.value,
             width: qrWidth.value,
             height: qrHeight.value,
             colorDark: "#000000",
             colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
+            correctLevel: level
         });
-    });
+    }
 </script>
 </html>
