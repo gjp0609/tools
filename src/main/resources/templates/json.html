@@ -3,36 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>JSON Editor</title>
+    <link rel="stylesheet" href="../static/css/bulma.css" th:href="@{/css/bulma.min.css}"/>
+    <link rel="stylesheet" href="../static/css/common.css" th:href="@{/css/common.min.css}"/>
+    <link rel="stylesheet" href="../static/jsoneditor/jsoneditor.min.css" th:href="@{/jsoneditor/jsoneditor.min.css}"/>
     <script src="../static/jsoneditor/jsoneditor.min.js" th:src="@{/jsoneditor/jsoneditor.min.js}"></script>
-    <link href="../static/jsoneditor/jsoneditor.min.css" th:href="@{/jsoneditor/jsoneditor.min.css}"
-          rel="stylesheet" type="text/css"/>
     <style>
 
-        @font-face {
-            font-family: "mononoki regular";
-            src: url("/fonts/mononoki-Regular.woff2") format("woff2"),
-            url("/fonts/mononoki-Regular.woff") format("woff"),
-            url("/fonts/mononoki-Regular.ttf") format("ttf");
-        }
-
-        * {
-            font-family: "等距更纱黑体 SC", "mononoki regular", monospace;
-        }
-
-        html, body {
-            height: 98%;
-            margin: 0;
-            padding: 0;
-        }
-
-        .main {
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            height: 90%;
+        .columns{
+            height: 96%;
         }
 
         .center {
+            width: 50px;
             margin-top: 20px;
             display: flex;
             flex-direction: column;
@@ -46,20 +28,20 @@
         .center-button button {
             height: 30px;
             width: 30px;
-            font-size: 20px;
         }
 
         #json-editor-left,
         #json-editor-right {
-            width: 48%;
             height: 99%;
         }
     </style>
 </head>
 <body>
-<div th:replace="fragments/header :: header">&nbsp;</div>
-<div class="main">
-    <div id="json-editor-left"></div>
+<div th:replace="fragments/header :: header">header</div>
+<div class="columns">
+    <div class="column">
+        <div id="json-editor-left"></div>
+    </div>
     <div class="center">
         <div class="center-button">
             <button onclick="toLeft()">◀</button>
@@ -68,7 +50,9 @@
             <button onclick="toRight()">▶</button>
         </div>
     </div>
-    <div id="json-editor-right"></div>
+    <div class="column">
+        <div id="json-editor-right"></div>
+    </div>
 </div>
 <script>
     const editorLeft = new JSONEditor(document.getElementById('json-editor-left'), {

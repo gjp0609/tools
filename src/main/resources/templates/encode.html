@@ -3,95 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>编码</title>
-    <script src="../static/js/md5.min.js" th:src="@{/js/md5.min.js}"></script>
-    <style>
-
-        @font-face {
-            font-family: "mononoki regular";
-            src: url("/fonts/mononoki-Regular.woff2") format("woff2"),
-            url("/fonts/mononoki-Regular.woff") format("woff"),
-            url("/fonts/mononoki-Regular.ttf") format("ttf");
-        }
-
-        * {
-            font-family: "等距更纱黑体 SC", "mononoki regular", monospace;
-        }
-
-        html, body {
-            height: 98%;
-            margin: 0;
-            padding: 0;
-        }
-
-        .main {
-            display: flex;
-            flex-direction: column;
-            justify-content: start;
-        }
-
-        .item {
-            margin: 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .text_source, .text_result {
-            height: 90%;
-            width: 90%;
-            display: inline-block;
-        }
-
-        .text_left, .text_right {
-            width: 40%;
-            text-align: center;
-            margin: 0 auto;
-        }
-
-        .text_center {
-            text-align: center;
-            width: 5rem;
-            line-height: 100px;
-        }
-    </style>
+    <link rel="stylesheet" href="../static/css/bulma.css" th:href="@{/css/bulma.min.css}"/>
+    <link rel="stylesheet" href="../static/css/common.css" th:href="@{/css/common.min.css}"/>
+    <script src="../static/js/md5.js" th:src="@{/js/md5.min.js}"></script>
 </head>
 <body>
-<div th:replace="fragments/header :: header">&nbsp;</div>
-<div class="main">
-
-    <div class="item">
-        <div class="text_left">
-            <textarea class="text_source" id="url_encode_source"></textarea>
-        </div>
-        <div class="text_center">UrlEncode</div>
-        <div class="text_right">
-            <textarea class="text_result" id="url_encode_result"></textarea>
-        </div>
-    </div>
-    <div class="item">
-        <div class="text_left">
-            <textarea class="text_source" id="base64_source"></textarea>
-        </div>
-        <div class="text_center">Base64</div>
-        <div class="text_right">
-            <textarea class="text_result" id="base64_result"></textarea>
-        </div>
-    </div>
-    <div class="item">
-        <div class="text_left">
-            <textarea class="text_source" id="md5_source"></textarea>
-        </div>
-        <div class="text_center">MD5</div>
-        <div class="text_right">
-            <textarea class="text_result" id="md5_result"></textarea>
-        </div>
-    </div>
-</div>
+<div th:replace="fragments/header :: header">header</div>
+<div id="content"></div>
 </body>
 <script>
 
+    let itemTemplate = `
+        <div class="columns">
+            <div class="column">
+                <textarea class="textarea" rows="8" id="{{id-source}}"></textarea>
+            </div>
+            <div class="column is-1">{{display-name}}</div>
+            <div class="column">
+                <textarea class="textarea" rows="8" id="{{id-result}}"></textarea>
+            </div>
+        </div>
+    `;
+
+    let methodArr = [
+        {name: 'UrlEncode', code: 'url-encode'},
+        {name: 'Base64', code: 'base64'},
+        {name: 'MD5', code: 'md5'}
+    ];
+
+    let contentInnerHTML = '';
+    for (let method of methodArr) {
+        contentInnerHTML += itemTemplate
+            .replace(/{{display-name}}/g, method.name)
+            .replace(/{{id-source}}/g, method.code + '-source')
+            .replace(/{{id-result}}/g, method.code + '-result');
+    }
+    document.getElementById('content').innerHTML = contentInnerHTML;
+
+
     { // url encode
-        let urlEncodeSource = document.getElementById('url_encode_source');
-        let urlEncodeResult = document.getElementById('url_encode_result');
+        let urlEncodeSource = document.getElementById('url-encode-source');
+        let urlEncodeResult = document.getElementById('url-encode-result');
         urlEncodeSource.addEventListener('change', _ => {
             urlEncodeResult.value = encodeURIComponent(urlEncodeSource.value);
         });
@@ -101,8 +53,8 @@
     }
 
     { // base64
-        let base64Source = document.getElementById('base64_source');
-        let base64Result = document.getElementById('base64_result');
+        let base64Source = document.getElementById('base64-source');
+        let base64Result = document.getElementById('base64-result');
         base64Source.addEventListener('change', _ => {
             base64Result.value = window.btoa(base64Source.value);
         });
@@ -112,8 +64,8 @@
     }
 
     { // md5
-        let md5Source = document.getElementById('md5_source');
-        let md5Result = document.getElementById('md5_result');
+        let md5Source = document.getElementById('md5-source');
+        let md5Result = document.getElementById('md5-result');
         md5Source.addEventListener('change', _ => {
             md5Result.value = MD5(md5Source.value) + '\n\n' + MD5(md5Source.value).toLowerCase();
         });

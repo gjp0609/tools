@@ -3,49 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>xml</title>
+    <link rel="stylesheet" href="../static/css/bulma.css" th:href="@{/css/bulma.min.css}"/>
+    <link rel="stylesheet" href="../static/css/common.css" th:href="@{/css/common.min.css}"/>
     <style>
 
-        @font-face {
-            font-family: "mononoki regular";
-            src: url("/fonts/mononoki-Regular.woff2") format("woff2"),
-            url("/fonts/mononoki-Regular.woff") format("woff"),
-            url("/fonts/mononoki-Regular.ttf") format("ttf");
+        .columns {
+            height: 95%;
         }
 
-        * {
-            font-family: "等距更纱黑体 SC", "mononoki regular", monospace;
+        .column, .textarea, .result {
+            height: 100%;
+            max-height: none !important;
         }
 
-        html, body {
-            height: 98%;
-            margin: 0;
-            padding: 0;
-        }
-
-        .item {
-            margin: 20px;
-            height: 90%;
-            display: flex;
-            justify-content: center;
-        }
-
-        .text_source, .text_format, .text_result {
-            height: 99%;
-            width: 90%;
-            display: inline-block;
-            max-lines: 20;
-        }
-
-        .text_left, .text_center, .text_right {
-            width: 32%;
-            text-align: center;
-            margin: 0 auto;
-        }
-
-        .text_right {
-            height: 99%;
-            text-align: left;
-            border: #a9a9a9 solid 1px;
+        .result {
+            border: #dbdbdb solid 1px;
+            border-radius: 5px;
         }
 
         .xml_item_text, .xml_item_0, .xml_item_1, .xml_item_2, .xml_item_3, .xml_item_4 {
@@ -87,16 +60,16 @@
     </style>
 </head>
 <body>
-<div th:replace="fragments/header :: header">&nbsp;</div>
-<div class="item">
-    <div class="text_left">
-        <textarea class="text_source" id="xml_encode_source"></textarea>
+<div th:replace="fragments/header :: header">header</div>
+<div class="columns">
+    <div class="column">
+        <textarea class="textarea" id="xml_encode_source"></textarea>
     </div>
-    <div class="text_center">
-        <textarea class="text_format" id="xml_encode_format"></textarea>
+    <div class="column">
+        <textarea class="textarea" id="xml_encode_format"></textarea>
     </div>
-    <div class="text_right">
-        <div class="text_result" id="xml_encode_result"></div>
+    <div class="column">
+        <div class="result" id="xml_encode_result"></div>
     </div>
 </div>
 </body>

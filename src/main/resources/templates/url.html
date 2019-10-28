@@ -3,37 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>短网址</title>
+    <link rel="stylesheet" href="../static/css/bulma.css" th:href="@{/css/bulma.min.css}"/>
+    <link rel="stylesheet" href="../static/css/common.css" th:href="@{/css/common.min.css}"/>
     <script src="../static/js/axios.min.js" th:src="@{/js/axios.min.js}"></script>
-    <style>
-        @font-face {
-            font-family: "mononoki regular";
-            src: url("/fonts/mononoki-Regular.woff2") format("woff2"),
-            url("/fonts/mononoki-Regular.woff") format("woff"),
-            url("/fonts/mononoki-Regular.ttf") format("ttf");
-        }
-
-        * {
-            font-family: "等距更纱黑体 SC", "mononoki regular", monospace;
-        }
-
-        html, body {
-            height: 98%;
-            margin: 0;
-            padding: 0;
-        }
-
-        textarea {
-            width: 80%;
-            height: 200px;
-        }
-    </style>
 </head>
 <body>
-<div th:replace="fragments/header :: header">&nbsp;</div>
-<label for="url">Source Url:</label><textarea id="url"></textarea>
-<br/>
-<label for="short-url">Target Url:</label><textarea id="short-url"></textarea>
-</body>
+<div th:replace="fragments/header :: header">header</div>
+<div class="columns">
+    <div class="column">
+        <textarea class="textarea" rows="20" id="url" placeholder="此处输入网址"></textarea>
+    </div>
+    <div class="column">
+        <textarea class="textarea" rows="1" id="short-url" placeholder="此处为转换后的短网址"></textarea>
+    </div>
+</div>
 <script>
     let url = document.getElementById('url');
     let shortUrl = document.getElementById('short-url');

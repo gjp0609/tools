@@ -3,19 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>QrCode</title>
+    <link rel="stylesheet" href="../static/css/bulma.css" th:href="@{/css/bulma.min.css}"/>
+    <link rel="stylesheet" href="../static/css/common.css" th:href="@{/css/common.min.css}"/>
     <script src="../static/js/qrcode.min.js" th:src="@{/js/qrcode.min.js}"></script>
     <style>
-
-        @font-face {
-            font-family: "mononoki regular";
-            src: url("/fonts/mononoki-Regular.woff2") format("woff2"),
-            url("/fonts/mononoki-Regular.woff") format("woff"),
-            url("/fonts/mononoki-Regular.ttf") format("ttf");
-        }
-
-        * {
-            font-family: "等距更纱黑体 SC", "mononoki regular", monospace;
-        }
 
         html, body {
             height: 98%;
@@ -53,7 +44,7 @@
     </style>
 </head>
 <body>
-<div th:replace="fragments/header :: header">&nbsp;</div>
+<div th:replace="fragments/header :: header">header</div>
 <div class="item">
     <div class="text_left">
         宽：<input id="qr_width" value="128"/>
