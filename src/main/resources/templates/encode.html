@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../static/css/bulma.css" th:href="@{/css/bulma.min.css}"/>
     <link rel="stylesheet" href="../static/css/common.css" th:href="@{/css/common.min.css}"/>
     <script src="../static/js/md5.js" th:src="@{/js/md5.min.js}"></script>
+    <script src="../static/js/base64.js" th:src="@{/js/base64.min.js}"></script>
 </head>
 <body>
 <div th:replace="fragments/header :: header">header</div>
@@ -57,10 +58,10 @@
         let base64Source = document.getElementById('base64-source');
         let base64Result = document.getElementById('base64-result');
         base64Source.addEventListener('blur', _ => {
-            base64Result.value = window.btoa(base64Source.value);
+            base64Result.value = Base64.encode(base64Source.value);
         });
         base64Result.addEventListener('blur', _ => {
-            base64Source.value = window.atob(base64Result.value);
+            base64Source.value = Base64.decode(base64Result.value);
         });
     }
 
