@@ -87,7 +87,7 @@
             let str = '';
             for (let item of arr) {
                 let unescapeStr = unescape('%' + item);
-                if (unescapeStr.length > 2) {
+                if (unescapeStr.length > 2 && unescapeStr.indexOf('%') === 0) {
                     let zero = '';
                     for (let i = 0; i < 6 - unescapeStr.length; i++) {
                         zero += '0';
