@@ -27,28 +27,89 @@
             justify-content: left;
         }
 
-        .xml_item_0 {color: #f39;}
-        .xml_item_1 {color: #39f;}
-        .xml_item_2 {color: #3f9;}
-        .xml_item_3 {color: #f33;}
-        .xml_item_4 {color: #a3c;}
-        .xml_item_5 {color: #f5f;}
-        .xml_item_6 {color: #a25;}
-        .xml_item_7 {color: #fd3;}
-        .xml_item_8 {color: #ea3;}
-        .xml_item_9 {color: #993;}
-        .xml_item_10 {color: #f39;}
-        .xml_item_11 {color: #39f;}
-        .xml_item_12 {color: #3f9;}
-        .xml_item_13 {color: #f33;}
-        .xml_item_14 {color: #a3c;}
-        .xml_item_15 {color: #f5f;}
-        .xml_item_16 {color: #a25;}
-        .xml_item_17 {color: #fd3;}
-        .xml_item_18 {color: #ea3;}
-        .xml_item_19 {color: #993;}
+        .xml_item_0 {
+            color: #f39;
+        }
 
-        .xml_item_cdata {color: #6cc;}
+        .xml_item_1 {
+            color: #39f;
+        }
+
+        .xml_item_2 {
+            color: #3f9;
+        }
+
+        .xml_item_3 {
+            color: #f33;
+        }
+
+        .xml_item_4 {
+            color: #a3c;
+        }
+
+        .xml_item_5 {
+            color: #f5f;
+        }
+
+        .xml_item_6 {
+            color: #a25;
+        }
+
+        .xml_item_7 {
+            color: #fd3;
+        }
+
+        .xml_item_8 {
+            color: #ea3;
+        }
+
+        .xml_item_9 {
+            color: #993;
+        }
+
+        .xml_item_10 {
+            color: #f39;
+        }
+
+        .xml_item_11 {
+            color: #39f;
+        }
+
+        .xml_item_12 {
+            color: #3f9;
+        }
+
+        .xml_item_13 {
+            color: #f33;
+        }
+
+        .xml_item_14 {
+            color: #a3c;
+        }
+
+        .xml_item_15 {
+            color: #f5f;
+        }
+
+        .xml_item_16 {
+            color: #a25;
+        }
+
+        .xml_item_17 {
+            color: #fd3;
+        }
+
+        .xml_item_18 {
+            color: #ea3;
+        }
+
+        .xml_item_19 {
+            color: #993;
+        }
+
+        .xml_item_cdata {
+            color: #6cc;
+        }
 
         .xml_item_text {
             color: forestgreen;
@@ -91,6 +152,9 @@
 
         function format() {
             let value = xmlEncodeSource.value;
+            value = value.replace(/<!\[CDATA\[[\s\S]*?]]>/g, str => {
+                return `BEGIN_CDATA${encodeURIComponent(str)}END_CDATA`;
+            });
             let split = value.split('<');
             split = split.slice(1);
             let all = [];
@@ -116,6 +180,9 @@
             let isText = true; // 文本行
             for (let item of arr) {
                 let item2, item3;
+                item = item.replace(/BEGIN_CDATA.*?END_CDATA/g, str => {
+                    return decodeURIComponent(str.replace('BEGIN_CDATA', '').replace('END_CDATA', ''));
+                });
                 item = item.replace('<', '&lt;');
                 item = item.replace('>', '&gt;');
                 if (item.indexOf('&lt;?') === 0 && item.lastIndexOf('?&gt;') === item.length - 5) { // 声明行
@@ -138,7 +205,7 @@
                     if (!isEnd) {
                         index++;
                     }
-                    isEnd = false;
+                    isEnd = true;
                     isText = true;
                     item2 = `my_blank_word${item}\n`;
                     item3 = `<span class="xml_item_cdata">&lt;![CDATA[</span>${item.substring(12, item.length - 6)}<span class="xml_item_cdata">]]&gt;</span>`;
