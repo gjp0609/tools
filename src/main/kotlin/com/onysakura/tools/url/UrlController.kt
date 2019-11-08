@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse
 
 
 @Controller
-@RequestMapping
+@RequestMapping("")
 class UrlController(private val urlRepository: UrlRepository) {
 
     private val codeLength = 5
@@ -33,7 +33,7 @@ class UrlController(private val urlRepository: UrlRepository) {
         }
     }
 
-    @PostMapping
+    @PostMapping("/t")
     @ResponseBody
     fun setCode(@RequestBody map: HashMap<String, String>): String {
         val url = map["url"] ?: return ""
