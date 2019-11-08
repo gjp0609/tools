@@ -37,7 +37,7 @@
         }).then(function (response) {
             if (response.status === 200) {
                 shortUrl.value = `http://tools.onysakura.com/t/${response.data}`;
-                shortUrlText.value = `http://tools.onysakura.com/t/text/${response.data}`;
+                shortUrlText.value = `http://tools.onysakura.com/text/${response.data}`;
             } else {
                 shortUrl.value = JSON.stringify(response);
             }
