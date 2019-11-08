@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 import javax.servlet.http.HttpServletResponse
 
-
 @Controller
 @RequestMapping("")
 class UrlController(private val urlRepository: UrlRepository) {
@@ -17,6 +16,16 @@ class UrlController(private val urlRepository: UrlRepository) {
         val urlEntityOptional = urlRepository.findById(code)
         if (urlEntityOptional.isPresent) {
             response.sendRedirect(urlEntityOptional.get().url)
+        } else {
+            response.writer.println("Url Not Found !")
+        }
+    }
+
+    @GetMapping("/text/{code}")
+    fun text(@PathVariable("code") code: String, response: HttpServletResponse) {
+        val urlEntityOptional = urlRepository.findById(code)
+        if (urlEntityOptional.isPresent) {
+            response.writer.println(urlEntityOptional.get().url)
         } else {
             response.writer.println("Url Not Found !")
         }
