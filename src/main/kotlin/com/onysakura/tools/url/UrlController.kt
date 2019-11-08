@@ -31,17 +31,6 @@ class UrlController(private val urlRepository: UrlRepository) {
         }
     }
 
-    @GetMapping("/text/{code}")
-    @ResponseBody
-    operator fun get(@PathVariable("code") code: String): String {
-        val urlEntityOptional = urlRepository.findById(code)
-        return if (urlEntityOptional.isPresent) {
-            urlEntityOptional.get().url
-        } else {
-            "Url Not Found !"
-        }
-    }
-
     @PostMapping("/t")
     @ResponseBody
     fun setCode(@RequestBody map: HashMap<String, String>): String {
