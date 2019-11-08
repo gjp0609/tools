@@ -9,7 +9,7 @@
     <script src="../static/jsoneditor/jsoneditor.min.js" th:src="@{/jsoneditor/jsoneditor.min.js}"></script>
     <style>
 
-        .columns{
+        .columns {
             height: 96%;
         }
 
@@ -62,6 +62,7 @@
         <div id="json-editor-right"></div>
     </div>
 </div>
+</body>
 <script>
     const editorLeft = new JSONEditor(document.getElementById('json-editor-left'), {
         onChangeText: function (jsonString) {
@@ -90,5 +91,4 @@
         editorRight.updateText(editorLeft.getText());
     }
 </script>
-</body>
 </html>
