@@ -34,8 +34,7 @@
             url: url.value
         }).then(function (response) {
             if (response.status === 200) {
-                let href = location.href;
-                shortUrl.value = href.substring(0, href.indexOf('page/url')) + 't/' + response.data;
+                shortUrl.value = `http://tools.onysakura.com/t/${response.data}`;
             } else {
                 shortUrl.value = JSON.stringify(response);
             }

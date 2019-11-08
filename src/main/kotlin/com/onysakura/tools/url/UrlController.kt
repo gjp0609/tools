@@ -23,6 +23,16 @@ class UrlController(private val urlRepository: UrlRepository) {
     }
 
     @GetMapping("/get/{code}")
+    fun getText(@PathVariable("code") code: String, response: HttpServletResponse) {
+        val urlEntityOptional = urlRepository.findById(code)
+        if (urlEntityOptional.isPresent) {
+            response.writer.println(urlEntityOptional.get().url)
+        } else {
+            response.writer.println("Text Not Found !")
+        }
+    }
+
+    @GetMapping("/get/{code}")
     @ResponseBody
     operator fun get(@PathVariable("code") code: String): String {
         val urlEntityOptional = urlRepository.findById(code)
