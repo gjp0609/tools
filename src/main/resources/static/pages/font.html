@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Font</title>
+    <link rel="stylesheet" href="../css/bulma.min.css" th:href="@{/css/bulma.min.css}"/>
+    <link rel="stylesheet" href="../css/common.min.css" th:href="@{/css/common.min.css}"/>
+</head>
+<body>
+<div class="box">
+    <div class="box">
+        <input id="text" class="input" value="The quick brown fox jumps over the lazy dog"/>
+    </div>
+    <div class="columns">
+        <div class="select">
+            <select id="weight-select"></select>
+        </div>
+        <div>
+            <input id="font-size" class="input" value="10" placeholder="font size"/>
+        </div>
+    </div>
+</div>
+<span id="show" class="box"></span>
+</body>
+<script>
+    let fontWeight = [
+        {weight: 100, name: 'Thin'},
+        {weight: 200, name: 'Extra Light (Ultra Light)'},
+        {weight: 300, name: 'Light'},
+        {weight: 400, name: 'Regular (Normal、Book、Roman)'},
+        {weight: 500, name: 'Medium'},
+        {weight: 600, name: 'Semi Bold (Demi Bold)'},
+        {weight: 700, name: 'Bold'},
+        {weight: 800, name: 'Extra Bold (Ultra Bold)'},
+        {weight: 900, name: 'Black (Heavy)'},
+    ];
+
+    let show = document.getElementById('show');
+    let text = document.getElementById('text');
+    let weightSelect = document.getElementById('weight-select');
+    let fontSize = document.getElementById('font-size');
+    show.innerText = text.value;
+    for (let item of fontWeight) {
+        let option = document.createElement('option');
+        option.label = `${item.weight}: ${item.name}`;
+        option.value = item.weight;
+        weightSelect.insertAdjacentElement('beforeend', option);
+    }
+
+    text.addEventListener('keyup', _ => {
+        show.innerText = text.value;
+    });
+    text.addEventListener('blur', _ => {
+        show.innerText = text.value;
+    });
+    show.style.fontWeight = weightSelect.value + 'px';
+    weightSelect.addEventListener('change', _ => {
+        show.style.fontWeight = weightSelect.value;
+    });
+    fontSize.addEventListener('keyup', e => {
+        if (e.key === 'ArrowUp') {
+            fontSize.value++;
+        }
+        if (e.key === 'ArrowDown') {
+            fontSize.value--;
+        }
+        show.style.fontSize = fontSize.value + 'px';
+    });
+</script>
+</html>
