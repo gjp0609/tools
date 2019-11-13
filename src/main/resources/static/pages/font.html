@@ -4,23 +4,45 @@
     <meta charset="UTF-8">
     <title>Font</title>
     <link rel="stylesheet" href="../css/bulma.min.css" th:href="@{/css/bulma.min.css}"/>
-<!--    <link rel="stylesheet" href="../css/common.min.css" th:href="@{/css/common.min.css}"/>-->
+    <style>
+        #show {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .show-list {
+            margin: 2px;
+        }
+    </style>
 </head>
 <body>
 <div class="box">
     <div class="box">
         <input id="text" class="input" value="The quick brown fox jumps over the lazy dog"/>
     </div>
-    <div class="columns">
-        <div class="select">
-            <select id="weight-select"></select>
-        </div>
-        <div>
-            <input id="font-size" class="input" value="10" placeholder="font size"/>
+    <div class="box">
+        <div class="columns">
+            <div class="select">
+                <select id="font-select">
+                    <option value="serif">serif</option>
+                    <option value="sans-serif">sans-serif</option>
+                    <option value="monospace">monospace</option>
+                    <option value="cursive">cursive</option>
+                    <option value="fantasy">fantasy</option>
+                    <option value="'mononoki'">mononoki</option>
+                    <option value="'微软雅黑'">微软雅黑</option>
+                    <option value="'思源宋体'">思源宋体</option>
+                    <option value="'思源黑体'">思源黑体</option>
+                </select>
+            </div>
+            &emsp;
+            <div>
+                <input id="font-size" class="input" value="10" placeholder="font size"/>
+            </div>
         </div>
     </div>
+    <p id="show" class="box"></p>
 </div>
-<span id="show" class="box"></span>
 </body>
 <script>
     let fontWeight = [
@@ -37,26 +59,23 @@
 
     let show = document.getElementById('show');
     let text = document.getElementById('text');
-    let weightSelect = document.getElementById('weight-select');
     let fontSize = document.getElementById('font-size');
-    show.innerText = text.value;
+    let fontSelect = document.getElementById('font-select');
     for (let item of fontWeight) {
-        let option = document.createElement('option');
-        option.label = `${item.weight}: ${item.name}`;
-        option.value = item.weight;
-        weightSelect.insertAdjacentElement('beforeend', option);
+        let span = document.createElement('span');
+        span.innerText = `${item.weight}: ${text.value}`;
+        span.className = 'show-list';
+        span.setAttribute('weight', item.weight);
+        span.style.fontWeight = item.weight + 'px';
+        show.insertAdjacentElement('beforeend', span);
     }
 
-    text.addEventListener('keyup', _ => {
-        show.innerText = text.value;
-    });
-    text.addEventListener('blur', _ => {
-        show.innerText = text.value;
-    });
-    show.style.fontWeight = weightSelect.value + 'px';
-    weightSelect.addEventListener('change', _ => {
-        show.style.fontWeight = weightSelect.value;
-    });
+    updateShow();
+
+    text.addEventListener('blur', updateShow);
+    text.addEventListener('keyup', updateShow);
+    fontSelect.addEventListener('change', updateShow);
+
     fontSize.addEventListener('keyup', e => {
         if (e.key === 'ArrowUp') {
             fontSize.value++;
@@ -64,7 +83,16 @@
         if (e.key === 'ArrowDown') {
             fontSize.value--;
         }
-        show.style.fontSize = fontSize.value + 'px';
+        updateShow();
     });
+
+    function updateShow() {
+        let items = document.getElementsByClassName('show-list');
+        for (let item of items) {
+            item.style.fontWeight = item.getAttribute('weight');
+            item.style.fontSize = fontSize.value + 'px';
+            item.style.fontFamily = fontSelect.value;
+        }
+    }
 </script>
 </html>
