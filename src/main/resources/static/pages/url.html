@@ -23,7 +23,8 @@
     </div>
     <div class="column">
         <textarea class="textarea" rows="1" id="short-url" placeholder="此处为转换后的短网址"></textarea>
-        <textarea class="textarea" style="margin-top: 20px" rows="1" id="short-url-text" placeholder="此处为转换后的查看网址"></textarea>
+        <textarea class="textarea" style="margin-top: 20px" rows="1" id="short-url-text"
+                  placeholder="此处为转换后的查看网址"></textarea>
     </div>
 </div>
 </body>
@@ -31,14 +32,15 @@
     let url = document.getElementById('url');
     let shortUrl = document.getElementById('short-url');
     let shortUrlText = document.getElementById('short-url-text');
+    let href = location.href.split('?')[0].replace('/pages/url.html', '');
 
     url.addEventListener('change', _ => {
         axios.post('/t', {
             url: url.value
         }).then(function (response) {
             if (response.status === 200) {
-                shortUrl.value = `http://tools.onysakura.com/t/${response.data}`;
-                shortUrlText.value = `http://tools.onysakura.com/text/${response.data}`;
+                shortUrl.value = `${href}/t/${response.data}`;
+                shortUrlText.value = `${href}/text/${response.data}`;
             } else {
                 shortUrl.value = JSON.stringify(response);
             }
@@ -59,6 +61,5 @@
             url.value = JSON.stringify(error);
         });
     });
-
 </script>
 </html>

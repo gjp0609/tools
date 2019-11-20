@@ -1,7 +1,9 @@
 package com.onysakura.tools.url
 
 import org.springframework.stereotype.Controller
+import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.servlet.ModelAndView
 import java.util.*
 import javax.servlet.http.HttpServletResponse
 
@@ -22,13 +24,15 @@ class UrlController(private val urlRepository: UrlRepository) {
     }
 
     @GetMapping("/text/{code}")
-    fun text(@PathVariable("code") code: String, response: HttpServletResponse) {
+    fun text(@PathVariable("code") code: String, model: ModelMap): String {
         val urlEntityOptional = urlRepository.findById(code)
+        var text = "Not Found !"
         if (urlEntityOptional.isPresent) {
-            response.writer.println(urlEntityOptional.get().url)
-        } else {
-            response.writer.println("Url Not Found !")
+            text = urlEntityOptional.get().url
         }
+        model.addAttribute("code", code)
+        model.addAttribute("text", text)
+        return "urlText"
     }
 
     @PostMapping("/t")
