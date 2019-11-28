@@ -2,25 +2,42 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title th:text="#{title}">GitHub开源编辑器Atom</title>
+    <title th:text="${title}">GitHub开源编辑器Atom</title>
     <style>
-        :root {
-            --full-width: 1080;
-            --image-width: 600;
-        }
 
         p {
-            font-size: 10px;
+            font-family: "思源宋体", "等距更纱黑体 SC", "mononoki regular", sans-serif;
+            font-size: 40px;
+            text-indent: 2em;
         }
 
         img {
-            width: 200px;
-            margin-left: calc(var(--full-width) * 1px);
+            max-width: 800px;
+            max-height: 600px;
+        }
+
+        #kindle_context {
+            /*height: 1234px;*/
+            /*overflow: scroll*/
+        }
+
+        #kindle_bar {
+            width: 100px;
+            height: 100px;
+            border-radius: 100px;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: black;
+            text-align: center;
+            line-height: 100px;
+            font-size: 60px;
+            color: white;
         }
     </style>
 </head>
-<body>
-<div th:utext="#{text}">
+<body onload="onLoad();">
+<div id="kindle_context" th:utext="${text}">
     <div class="post_content" id="paragraph">
         <p>11月27日下午消息，在2019WISE大会上，蜻蜓FM创始人兼CEO张强在演讲中宣布，经过一年的耕耘，蜻蜓FM全场景生态月活跃用户数达到1.3亿，全年增长近30%，智能设备单日收听总时长达2500万小时。</p>
         <p><img src="https://n.sinaimg.cn/tech/transform/116/w550h366/20191127/b2db-iixntzz6758439.jpg" class="lazy"
@@ -31,7 +48,37 @@
             “我们认为未来AIoT时代——万物互联时代对音频是一个巨大的机会，音频的渗透率将会有一个非常大的提升。”他表示，现在音频的整体渗透率比视频、文字低了不少，大概是在30%左右，后续随着5G的来临会出现很多新的终端，很多硬件终端都会被接入物联网。在新的这些终端上，人机交互会发生一些新的变化，比如语音交互会越来越被普及，而音频的机会就会大过在视觉交互情况下的机会，“这是我们对音频在未来时代的判断”。</p>
         <p>张强提到，在AIoT时代，对于一个具体用户来说，我们怎样把TA的诉求同硬件、场景和内容匹配起来？这就是蜻蜓FM音频全场景生态要解决的。</p>
         <p>他透露，蜻蜓现在已经和全国差不多600家企业、硬件或者AI等等厂商进行合作，已经有9000万台智能设备植入蜻蜓的内容。</p>
+        <p>▲蜻蜓FM创始人兼CEO张强</p>
+        <p>张强表示，万物互联的时代，音频面临着巨大的机会，更加精细的场景划分推动音频的渗透和发展，而如何做好音频内容与场景的匹配，也是一项挑战。</p>
+        <p>
+            “我们认为未来AIoT时代——万物互联时代对音频是一个巨大的机会，音频的渗透率将会有一个非常大的提升。”他表示，现在音频的整体渗透率比视频、文字低了不少，大概是在30%左右，后续随着5G的来临会出现很多新的终端，很多硬件终端都会被接入物联网。在新的这些终端上，人机交互会发生一些新的变化，比如语音交互会越来越被普及，而音频的机会就会大过在视觉交互情况下的机会，“这是我们对音频在未来时代的判断”。</p>
+        <p>张强提到，在AIoT时代，对于一个具体用户来说，我们怎样把TA的诉求同硬件、场景和内容匹配起来？这就是蜻蜓FM音频全场景生态要解决的。</p>
+        <p>他透露，蜻蜓现在已经和全国差不多600家企业、硬件或者AI等等厂商进行合作，已经有9000万台智能设备植入蜻蜓的内容。</p>
+        <p>▲蜻蜓FM创始人兼CEO张强</p>
+        <p>张强表示，万物互联的时代，音频面临着巨大的机会，更加精细的场景划分推动音频的渗透和发展，而如何做好音频内容与场景的匹配，也是一项挑战。</p>
+        <p>
+            “我们认为未来AIoT时代——万物互联时代对音频是一个巨大的机会，音频的渗透率将会有一个非常大的提升。”他表示，现在音频的整体渗透率比视频、文字低了不少，大概是在30%左右，后续随着5G的来临会出现很多新的终端，很多硬件终端都会被接入物联网。在新的这些终端上，人机交互会发生一些新的变化，比如语音交互会越来越被普及，而音频的机会就会大过在视觉交互情况下的机会，“这是我们对音频在未来时代的判断”。</p>
+        <p>张强提到，在AIoT时代，对于一个具体用户来说，我们怎样把TA的诉求同硬件、场景和内容匹配起来？这就是蜻蜓FM音频全场景生态要解决的。</p>
+        <p>他透露，蜻蜓现在已经和全国差不多600家企业、硬件或者AI等等厂商进行合作，已经有9000万台智能设备植入蜻蜓的内容。</p>
     </div>
 </div>
+<div id="kindle_bar">◈</div>
 </body>
+<script>
+    var kindle_context = document.getElementById('kindle_context');
+    var button = document.getElementById('kindle_bar');
+    button.addEventListener('click', function () {
+        var Height = document.documentElement.clientHeight;//取得浏览器页面可视区域的宽度
+        var Width = document.documentElement.clientWidth;//取得浏览器页面可视区域的宽度
+        var gao1 = button.offsetHeight;//获取div块的高度值
+        var gao2 = button.offsetWidth;//获取div块的宽度值
+        var Sgao1 = (Height - gao1) / 2 + "px";
+        var Sgao2 = (Width - gao2) / 2 + "px";
+        alert(Height + '---' + Width + '---' + gao1 + '---' + gao2 + '---' + Sgao1 + '---' + Sgao2);
+        button.style.top = Sgao1;
+        button.style.left = Sgao2;
+    });
+    // setInterval(function () {
+    // }, 1000)
+</script>
 </html>
