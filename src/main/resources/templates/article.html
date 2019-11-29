@@ -1,9 +1,8 @@
-<!DOCTYPE html>
+<!DOCTYPE html public "-//W3C//DTD HTML 4.01 Transitional//EN" >
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <meta charset="UTF-8">
     <title th:text="${title}">GitHub开源编辑器Atom</title>
-    <style>
+    <style type="text/css">
 
         p {
             font-family: "思源宋体", "等距更纱黑体 SC", "mononoki regular", sans-serif;
@@ -67,18 +66,16 @@
 <script>
     var kindle_context = document.getElementById('kindle_context');
     var button = document.getElementById('kindle_bar');
-    button.addEventListener('click', function () {
-        var Height = document.documentElement.clientHeight;//取得浏览器页面可视区域的宽度
-        var Width = document.documentElement.clientWidth;//取得浏览器页面可视区域的宽度
-        var gao1 = button.offsetHeight;//获取div块的高度值
-        var gao2 = button.offsetWidth;//获取div块的宽度值
-        var Sgao1 = (Height - gao1) / 2 + "px";
-        var Sgao2 = (Width - gao2) / 2 + "px";
-        alert(Height + '---' + Width + '---' + gao1 + '---' + gao2 + '---' + Sgao1 + '---' + Sgao2);
-        button.style.top = Sgao1;
-        button.style.left = Sgao2;
-    });
-    // setInterval(function () {
-    // }, 1000)
+    // button.addEventListener('click', function () {
+    //     var Height = document.documentElement.clientHeight;//取得浏览器页面可视区域的宽度
+    //     var Width = document.documentElement.clientWidth;//取得浏览器页面可视区域的宽度
+    //     var gao1 = button.offsetHeight;//获取div块的高度值
+    //     var gao2 = button.offsetWidth;//获取div块的宽度值
+    //     var Sgao1 = (Height - gao1) / 2 + "px";
+    //     var Sgao2 = (Width - gao2) / 2 + "px";
+    //     alert(Height + '---' + Width + '---' + gao1 + '---' + gao2 + '---' + Sgao1 + '---' + Sgao2);
+    //     button.style.top = Sgao1;
+    //     button.style.left = Sgao2;
+    // });
 </script>
 </html>
