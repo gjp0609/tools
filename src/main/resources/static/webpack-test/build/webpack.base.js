@@ -1,13 +1,13 @@
 const webpack = require('webpack');
-const path = require("path");
+const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HappyPack = require('happypack');
 const os = require('os');
-const happyThreadPool = HappyPack.ThreadPool({size: os.cpus().length});
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
@@ -29,14 +29,14 @@ module.exports = {
                     },
                     'css-loader',
                     'postcss-loader',
-                    'sass-loader',
-                ],
+                    'sass-loader'
+                ]
             },
             {
                 test: /\.(eot|ttf|woff|woff2)$/,
                 loader: 'file-loader',
                 options: {
-                    name: "fonts/[hash].[ext]",
+                    name: 'fonts/[hash].[ext]'
                 }
             },
             {
@@ -53,7 +53,7 @@ module.exports = {
                         loader: 'file-loader',
                         options: {
                             limit: 5000,
-                            name: "imgs/[hash].[ext]",
+                            name: 'imgs/[hash].[ext]'
                         }
                     },
                     {
@@ -65,17 +65,17 @@ module.exports = {
                                 quality: 65
                             },
                             optipng: {
-                                enabled: false,
+                                enabled: false
                             },
                             pngquant: {
                                 quality: '65-90',
                                 speed: 4
                             },
                             gifsicle: {
-                                interlaced: false,
+                                interlaced: false
                             }
-                        },
-                    },
+                        }
+                    }
                 ]
             }
         ]
@@ -84,28 +84,28 @@ module.exports = {
         new webpack.HashedModuleIdsPlugin(),
         new VueLoaderPlugin(),
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, '../index.html'),
+            template: path.resolve(__dirname, '../index.html')
         }),
         require('autoprefixer'),
         new CleanWebpackPlugin({}),
         new MiniCssExtractPlugin({
-            filename: "css/[name].[hash].css",
+            filename: 'css/[name].[hash].css',
             chunkFilename: 'css/[id].[hash].css'
         }),
         new HappyPack({
             //用id来标识 happypack处理类文件
-            id: "happyBabel",
+            id: 'happyBabel',
             //如何处理 用法和loader 的配置一样
             loaders: [
                 {
-                    loader: "babel-loader?cacheDirectory=true"
+                    loader: 'babel-loader?cacheDirectory=true'
                 }
             ],
             //共享进程池
             threadPool: happyThreadPool,
             //允许 HappyPack 输出日志
             verbose: true
-        }),
+        })
     ],
     optimization: {
         // 分离chunks
@@ -113,11 +113,11 @@ module.exports = {
             chunks: 'all',
             cacheGroups: {
                 vendor: {
-                    name: "vendor",
+                    name: 'vendor',
                     test: /[\\/]node_modules[\\/]/,
                     priority: 10,
-                    chunks: "initial" // 只打包初始时依赖的第三方
-                },
+                    chunks: 'initial' // 只打包初始时依赖的第三方
+                }
             }
         },
         minimize: true,
@@ -127,5 +127,5 @@ module.exports = {
             // 压缩css
             new OptimizeCSSAssetsPlugin({})
         ]
-    },
+    }
 };
