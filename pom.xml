@@ -17,6 +17,7 @@
     <properties>
         <java.version>11</java.version>
         <kotlin.version>1.3.60</kotlin.version>
+        <guava.version>28.1-jre</guava.version>
     </properties>
 
     <dependencies>
@@ -57,6 +58,11 @@
             <version>${kotlin.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-test</artifactId>
             <version>${kotlin.version}</version>
@@ -78,7 +84,7 @@
                 <executions>
                     <execution>
                         <id>compile</id>
-                        <phase>compile</phase>
+                        <phase>process-sources</phase>
                         <goals>
                             <goal>compile</goal>
                         </goals>
