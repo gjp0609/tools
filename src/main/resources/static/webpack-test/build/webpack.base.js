@@ -33,8 +33,11 @@ module.exports = {
                 ],
             },
             {
-                test: /\.(eot|woff|ttf)$/,
-                loader: 'file-loader'
+                test: /\.(eot|ttf|woff|woff2)$/,
+                loader: 'file-loader',
+                options: {
+                    name: "fonts/[hash].[ext]",
+                }
             },
             {
                 test: /\.js$/,
