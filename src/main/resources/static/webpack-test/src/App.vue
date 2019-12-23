@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'App',
     data() {
@@ -15,7 +17,15 @@ export default {
     },
     methods: {
         asd() {
-            alert(123);
+            alert(123111);
+            axios
+                .get('http://httpbin.org/get?param=test')
+                .then((resp) => {
+                    console.log(resp);
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
         }
     }
 };

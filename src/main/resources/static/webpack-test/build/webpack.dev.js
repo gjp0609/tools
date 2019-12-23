@@ -13,5 +13,5 @@ module.exports = merge(common, {
         path: path.resolve(__dirname, '../dist')
     },
     module: {},
-    mode: 'development',
+    mode: 'development'
 });
