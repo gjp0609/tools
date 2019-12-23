@@ -1,6 +1,6 @@
 module.exports = {
     // 一行最多 150 字符
-    printWidth: 150,
+    printWidth: 80,
     // 使用 4 个空格缩进
     tabWidth: 4,
     // 不使用缩进符，而使用空格
@@ -9,8 +9,8 @@ module.exports = {
     semi: true,
     // 使用单引号
     singleQuote: true,
-    // 对象的 key 仅在必要时用引号
-    quoteProps: 'as-needed',
+    // 如果对象中至少有一个属性需要引号，则引用所有属性
+    quoteProps: 'consistent',
     // jsx 不使用单引号，而使用双引号
     jsxSingleQuote: false,
     // 末尾不需要逗号
@@ -32,6 +32,7 @@ module.exports = {
     proseWrap: 'preserve',
     // 根据显示样式决定 html 要不要折行
     htmlWhitespaceSensitivity: 'css',
+    vueIndentScriptAndStyle: true,
     // 换行符使用 lf
     endOfLine: 'lf'
 };

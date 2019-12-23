@@ -6,35 +6,35 @@
 </template>
 
 <script>
-import axios from 'axios';
+    import axios from 'axios';
 
-export default {
-    name: 'App',
-    data() {
-        return {
-            test: 1
-        };
-    },
-    methods: {
-        asd() {
-            alert(123111);
-            axios
-                .get('http://httpbin.org/get?param=test')
-                .then((resp) => {
-                    console.log(resp);
-                })
-                .catch((e) => {
-                    console.log(e);
-                });
+    export default {
+        name: 'App',
+        data() {
+            return {
+                test: 1
+            };
+        },
+        methods: {
+            asd() {
+                alert(123111);
+                axios
+                    .get('http://httpbin.org/get?param=test')
+                    .then((resp) => {
+                        console.log(resp);
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
+            }
         }
-    }
-};
+    };
 </script>
 
 <style lang="scss" scoped>
-.index {
-    span {
-        color: #00c4a7;
+    .index {
+        span {
+            color: #00c4a7;
+        }
     }
-}
 </style>
