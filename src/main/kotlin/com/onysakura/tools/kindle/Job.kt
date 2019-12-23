@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets
 @RequestMapping
 class Job(private val articleRepository: ArticleRepository) {
 
-    @Scheduled(cron = "0 * * * * ?")
+//    @Scheduled(cron = "0 * * * * ?")
     fun job123() {
         it(1)
     }

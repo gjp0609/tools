@@ -3,10 +3,22 @@ const merge = require('webpack-merge');
 const path = require('path');
 
 module.exports = merge(common, {
-    devtool: 'inline-source-map',
+    devtool: 'eval',
     devServer: {
         contentBase: '../dist',
-        port: 8089
+        compress: true,
+        clientLogLevel: 'none',
+        host: '127.0.0.1',
+        port: 8089,
+        proxy: {
+            '/tools': {
+                target: 'http://127.0.0.1:80',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/tools': '/'
+                }
+            }
+        }
     },
     output: {
         filename: 'js/[name].[hash].js', // 每次保存 hash 都变化
