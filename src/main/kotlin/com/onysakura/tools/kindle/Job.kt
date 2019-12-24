@@ -1,83 +1,85 @@
 package com.onysakura.tools.kindle
 
-import org.jsoup.Jsoup
+import com.google.gson.Gson
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.format.datetime.DateFormatter
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.RequestMapping
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
+import java.net.URI
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
+import java.time.Duration
+import java.util.*
 
 @Component
 @RequestMapping
 class Job(private val articleRepository: ArticleRepository) {
+    val logger: Logger = LoggerFactory.getLogger(Job::class.java)
 
-//    @Scheduled(cron = "0 * * * * ?")
-    fun job123() {
-        it(1)
+    @Scheduled(cron = "23 52 0/6 * * ?")
+    fun job() {
+        logger.info("job start")
+        mit(System.currentTimeMillis())
     }
 
-    fun it(startIndex: Int) {
-        val url = "https://www.ithome.com"
-        var path = "/list/"
-        if (startIndex != 1) {
-            path += "list_$startIndex.html"
-        }
-        println(url + path)
-        val articleList = mutableListOf<Article>()
-        val document = Jsoup.connect(url + path)
+    fun mit(startTime: Long) {
+        val url = "https://m.ithome.com/api/news/newslistpageget?Tag=&ot=$startTime&page=0"
+        val formatter = DateFormatter()
+        formatter.setPattern("yyyy-MM-dd HH:mm:ss")
+        val datePrint = formatter.print(Date(startTime), Locale.CHINA)
+        logger.info("mit: $datePrint")
+        val client = HttpClient
+                .newBuilder()
+                .connectTimeout(Duration.ofMillis(5000))
+                .followRedirects(HttpClient.Redirect.NORMAL)
+                .build()
+        val uri = URI.create(url)
+        val request = HttpRequest.newBuilder()
+                .uri(uri)
+                .GET()
+                .header("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1")
                 .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3")
-                .header("Accept-Encoding", "ggzip, deflate, br")
-                .header(URLEncoder.encode(":path", StandardCharsets.UTF_8), path)
-                .header(URLEncoder.encode(":authority", StandardCharsets.UTF_8), "www.ithome.com")
-                .header(URLEncoder.encode(":method", StandardCharsets.UTF_8), "GET")
-                .header(URLEncoder.encode(":scheme", StandardCharsets.UTF_8), "https")
-                .header("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8,ja;q=0.7,und;q=0.6")
-                .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36")
-                .timeout(5000)
-                .get()
-        val aList = document.select(".post_list").select("ul").select("li").select(">a")
-        var repeatCount = 0
-        for (a in aList) {
-            val href = a.attr("href")
-            if (href != null && !href.contains("lapin")) {
-                val start = "0/"
-                var urlTemp = href.substring(href.lastIndexOf(start))
-                urlTemp = urlTemp.substring(start.length, urlTemp.lastIndexOf("."))
-                val id = "ithome" + urlTemp.replace("/", "")
-                if (articleRepository.existsById(id)) {
-                    repeatCount++
-                    continue
+                .header("Upgrade-Insecure-Requests", "1")
+                .timeout(Duration.ofMillis(50000))
+                .build()
+        val send = client.send(request, HttpResponse.BodyHandlers.ofString())
+        val map = Gson().fromJson<Map<String, Any>>(send.body(), Map::class.java)
+        if (map["Success"] as Double == 1.0) {
+            val list = map["Result"] as Collection<*>
+            val articleList = mutableListOf<Article>()
+            var minDate = Date()
+            var repeatCount = 0
+            list.forEach {
+                it as Map<*, *>
+                if (!it.toString().contains("TipName=广告")) {
+                    val id = (it["newsid"] as Double).toInt().toString()
+                    if (articleRepository.existsById(id)) {
+                        repeatCount++
+                    } else {
+                        val article = Article()
+                        article.id = id
+                        article.title = it["title"] as String
+                        article.url = it["WapNewsUrl"] as String
+                        val orderDate = it["orderdate"] as String
+                        formatter.setPattern("yyyy-MM-dd'T'HH:mm:ss")
+                        val parse = formatter.parse(orderDate.substring(0, 19), Locale.CHINA)
+                        if (minDate.after(parse)) {
+                            minDate = parse
+                        }
+                        articleList.add(article)
+                    }
                 }
-                val article = Article()
-                article.id = id
-                article.title = a.text()
-                article.url = href
-                articleList.add(article)
+            }
+            articleRepository.saveAll(articleList)
+            if (repeatCount < 5 && System.currentTimeMillis() - startTime < 1000 * 60 * 60 * 24) {
+                Thread.sleep(10000)
+                mit(minDate.time)
+            } else {
+                logger.info("mit: Done!")
             }
         }
-        println(articleList.size)
-        articleRepository.saveAll(articleList)
-        if (repeatCount < 5 && startIndex < 10) {
-            Thread.sleep(10000)
-            it(startIndex + 1)
-        } else {
-            println("Done!")
-        }
     }
-}
-
-fun main() {
-    val url = "https://www.ithome.com/0/459/505.htm"
-    val document = Jsoup.connect(url )
-            .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3")
-            .header("Accept-Encoding", "ggzip, deflate, br")
-//            .header(URLEncoder.encode(":path", StandardCharsets.UTF_8), "")
-            .header(URLEncoder.encode(":authority", StandardCharsets.UTF_8), "www.ithome.com")
-            .header(URLEncoder.encode(":method", StandardCharsets.UTF_8), "GET")
-            .header(URLEncoder.encode(":scheme", StandardCharsets.UTF_8), "https")
-            .header("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8,ja;q=0.7,und;q=0.6")
-            .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36")
-            .timeout(5000)
-            .get()
-    println(document.select(".content").select(">.post_content"))
 }

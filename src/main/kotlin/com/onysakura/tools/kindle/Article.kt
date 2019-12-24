@@ -11,6 +11,11 @@ class Article {
     var url: String = ""
     @Column(length = 1024, columnDefinition = "varchar(1024) COMMENT '标题'")
     var title: String = ""
-    @Column(length = 1, columnDefinition = "tinyint(1) COMMENT '标题'")
+    @Column(length = 1, columnDefinition = "tinyint(1) COMMENT '状态'")
     var status: Boolean = false
+
+    override fun toString(): String {
+        return "Article(id='$id', url='$url', title='$title', status=$status)"
+    }
+
 }
