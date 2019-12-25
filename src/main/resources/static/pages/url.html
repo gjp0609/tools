@@ -32,7 +32,7 @@
     let url = document.getElementById('url');
     let shortUrl = document.getElementById('short-url');
     let shortUrlText = document.getElementById('short-url-text');
-    let href = location.href.split('/tools')[0];
+    let href = location.href.split('/tools/')[0];
 
     url.addEventListener('change', _ => {
         axios.post('/tools/t', {
