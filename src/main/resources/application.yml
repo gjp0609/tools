@@ -1,5 +1,4 @@
 server:
-  port: 9000
   compression:
     enabled: true
     min-response-size: 1KB
