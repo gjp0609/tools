@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse
 @RequestMapping("")
 class UrlController(private val urlRepository: UrlRepository) {
 
-    private val codeLength = 5
+    private val codeLength = 4
 
     @GetMapping("/t/{code}")
     fun redirect(@PathVariable("code") code: String, response: HttpServletResponse) {
@@ -24,15 +24,14 @@ class UrlController(private val urlRepository: UrlRepository) {
     }
 
     @GetMapping("/text/{code}")
-    fun text(@PathVariable("code") code: String, model: ModelMap): String {
+    @ResponseBody
+    fun text(@PathVariable("code") code: String): String {
         val urlEntityOptional = urlRepository.findById(code)
         var text = "Not Found !"
         if (urlEntityOptional.isPresent) {
             text = urlEntityOptional.get().url
         }
-        model.addAttribute("code", code)
-        model.addAttribute("text", text)
-        return "urlText"
+        return text
     }
 
     @PostMapping("/t")
