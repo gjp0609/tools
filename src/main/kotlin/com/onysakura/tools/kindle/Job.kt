@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.format.datetime.DateFormatter
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
-import org.springframework.web.bind.annotation.RequestMapping
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -15,11 +14,10 @@ import java.time.Duration
 import java.util.*
 
 @Component
-@RequestMapping
 class Job(private val articleRepository: ArticleRepository) {
     val logger: Logger = LoggerFactory.getLogger(Job::class.java)
 
-    @Scheduled(cron = "23 52 0/6 * * ?")
+//    @Scheduled(cron = "23 52 0/6 * * ?")
     fun job() {
         logger.info("job start")
         mit(System.currentTimeMillis())
