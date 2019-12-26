@@ -32,15 +32,15 @@
     let url = document.getElementById('url');
     let shortUrl = document.getElementById('short-url');
     let shortUrlText = document.getElementById('short-url-text');
-    let href = location.href.split('/tools/')[0];
+    let href = location.href.split('/pages')[0];
 
     url.addEventListener('change', _ => {
-        axios.post('/tools/t', {
+        axios.post('/t', {
             url: url.value
         }).then(function (response) {
             if (response.status === 200) {
-                shortUrl.value = `${href}/tools/t/${response.data}`;
-                shortUrlText.value = `${href}/tools/text/${response.data}`;
+                shortUrl.value = `${href}/t/${response.data}`;
+                shortUrlText.value = `${href}/text/${response.data}`;
             } else {
                 shortUrl.value = JSON.stringify(response);
             }
@@ -51,7 +51,7 @@
 
     shortUrl.addEventListener('change', _ => {
         let code = shortUrl.value.substring(shortUrl.value.lastIndexOf('/') + 1);
-        axios.get('/tools/text/' + code, {}).then(function (response) {
+        axios.get('/text/' + code, {}).then(function (response) {
             if (response.status === 200) {
                 url.value = response.data;
             } else {
