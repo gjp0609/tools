@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/axios.min.js"></script>
+    <script src="../mods/vue/vue.2.6.11.min.js"></script>
+    <script src="../mods/element-ui.2.13.0/element-ui.min.js"></script>
+    <link rel="stylesheet" href="../mods/element-ui.2.13.0/element-ui.css"/>
+</head>
+<body>
+<div id="app">
+    <el-button type="primary" @click="showAdd">Add</el-button>
+    <el-table :data="dataList">
+        <el-table-column prop="id" label="id"></el-table-column>
+        <el-table-column prop="title" label="title"></el-table-column>
+        <el-table-column prop="time" label="time"></el-table-column>
+    </el-table>
+    <el-dialog title="Add Or Edit" :visible.sync="dialog.visible">
+        <el-input v-model="dialog.title" placeholder="title"></el-input>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialog.visible=false">Cancel</el-button>
+            <el-button type="primary" @click="save()">Ok</el-button>
+        </div>
+    </el-dialog>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                dataList: [],
+                dialog: {
+                    title: '',
+                    visible: false
+                }
+            }
+        },
+        mounted() {
+            console.log('init start');
+            this.flow();
+            console.log('init finished');
+        },
+        methods: {
+            async flow() {
+                let _this = this;
+                console.log('flush');
+                let evtSource = new EventSource("/tools/flow/get?s=qwe");
+                evtSource.onmessage = function (e) {
+                    // console.log(e);
+                    let data = JSON.parse(e.data);
+                    let exist = false;
+                    for (let item of _this.dataList) {
+                        if (data.id === item.id) {
+                            item = data.id;
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if (!exist) {
+                        _this.dataList.push(data);
+                    }
+                };
+                evtSource.onerror = function (e) {
+                    console.log('error', e);
+                };
+            },
+            showAdd() {
+                this.dialog.title = '';
+                this.dialog.visible = true;
+            },
+            save() {
+                axios.get(`/tools/flow/save?s=${this.dialog.title}`).then(resp => {
+                    console.log(resp);
+                    this.dialog.visible = false;
+                }).catch(e => {
+                    console.log(e);
+                    this.dialog.visible = false;
+                });
+            }
+        }
+    });
+
+</script>
+</body>
+</html>

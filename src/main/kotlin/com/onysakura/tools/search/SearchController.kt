@@ -17,7 +17,7 @@ import java.time.Duration
 import java.util.*
 
 @Controller
-@RequestMapping
+@RequestMapping("/s")
 class SearchController {
 
     companion object {
@@ -32,12 +32,13 @@ class SearchController {
     }
 
     @GetMapping
-    fun search(mv: ModelAndView, q: String, @RequestParam(required = false, defaultValue = "0") start: Int): ModelAndView {
-        val map = searchApi(q, start)
-        mv.addObject("ad", "asd")
-        mv.addObject("timeUsage", map["timeUsage"])
-        mv.addObject("resultList", map["resultList"])
-        mv.addObject("searchText", q)
+    fun search(mv: ModelAndView, @RequestParam(required = false, defaultValue = "") q: String, @RequestParam(required = false, defaultValue = "0") start: Int): ModelAndView {
+        if (!StringUtils.isEmpty(q)) {
+            val map = searchApi(q, start)
+            mv.addObject("timeUsage", map["timeUsage"])
+            mv.addObject("resultList", map["resultList"])
+            mv.addObject("searchText", q)
+        }
         mv.viewName = "search"
         return mv
     }

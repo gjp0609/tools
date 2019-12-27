@@ -7,7 +7,7 @@
 
 * {
     font-family: "等距更纱黑体 SC", "mononoki regular", monospace !important;
-    text-shadow: 0 0 1px #666 !important;
+    text-shadow: 0 0 0.5px #666 !important;
 }
 
 html {
