@@ -8,7 +8,6 @@ import reactor.core.publisher.Mono
 import java.time.Duration
 import java.util.*
 
-
 @RestController
 @RequestMapping("/flow")
 class FlowController(private val dataRepository: FluxDataRepository) {
@@ -21,7 +20,6 @@ class FlowController(private val dataRepository: FluxDataRepository) {
         data.title = s
         return dataRepository.save(data)
     }
-
 
     @GetMapping("/get")
     fun get(): Flux<Data> {
