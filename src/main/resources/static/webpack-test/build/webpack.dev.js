@@ -11,11 +11,11 @@ module.exports = merge(common, {
         host: '127.0.0.1',
         port: 8089,
         proxy: {
-            '/tools': {
+            '/': {
                 target: 'http://127.0.0.1:80',
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/tools': '/'
+                    '^/': '/'
                 }
             }
         }

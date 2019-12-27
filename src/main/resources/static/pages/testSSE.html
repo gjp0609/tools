@@ -45,7 +45,7 @@
             async flow() {
                 let _this = this;
                 console.log('flush');
-                let evtSource = new EventSource("/tools/flow/get?s=qwe");
+                let evtSource = new EventSource("/flow/get?s=qwe");
                 evtSource.onmessage = function (e) {
                     // console.log(e);
                     let data = JSON.parse(e.data);
@@ -70,7 +70,7 @@
                 this.dialog.visible = true;
             },
             save() {
-                axios.get(`/tools/flow/save?s=${this.dialog.title}`).then(resp => {
+                axios.get(`/flow/save?s=${this.dialog.title}`).then(resp => {
                     console.log(resp);
                     this.dialog.visible = false;
                 }).catch(e => {

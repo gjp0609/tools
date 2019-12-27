@@ -27,7 +27,7 @@
                         console.log(e);
                     });
                 axios
-                    .get('/tools/test/get?s=123')
+                    .get('/test/get?s=123')
                     .then((resp) => {
                         console.log(resp);
                     })
