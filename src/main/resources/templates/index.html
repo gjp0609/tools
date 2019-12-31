@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>分享记录</title>
     <style>
+        @font-face {
+            font-family: "mononoki regular";
+            src: url("/fonts/mononoki-Regular.woff2") format("woff2"),
+            url("/fonts/mononoki-Regular.woff") format("woff"),
+            url("/fonts/mononoki-Regular.ttf") format("ttf");
+        }
+
         body {
+            padding: 0;
+            margin: 0;
             display: flex;
             flex-direction: column;
             justify-content: space-evenly;
@@ -28,9 +37,11 @@
             justify-content: space-between;
         }
 
-        .title, .option {
+        #time {
             line-height: 50px;
             display: inline-block;
+            font-family: "等距更纱黑体 SC", "mononoki regular", monospace;
+            margin-right: 10px;
         }
 
         .title {
@@ -51,6 +62,55 @@
             margin-top: 60px;
         }
 
+        .img-top {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .links {
+            display: inline-block;
+            vertical-align: top;
+            width: 180px;
+            height: 337px;
+        }
+
+        .links a {
+            text-decoration: none;
+        }
+
+        .links a div {
+            text-align: right;
+            height: 12.5%;
+            line-height: 56px;
+            font-family: "等距更纱黑体 SC", "mononoki regular", monospace;
+            transition-duration: 100ms;
+        }
+
+        .links a div:hover {
+            font-size: 18px;
+            transition-duration: 200ms;
+        }
+
+        .img-bottom img {
+            height: 150px;
+        }
+
+        .img-bottom img:nth-child(2) {
+            margin: 10px 36px 0;
+        }
+
+        .poet {
+            font-family: "华文楷体", "楷体", cursive;
+            font-size: 18px;
+            width: 600px;
+        }
+
+        .poet .author {
+            font-size: 16px;
+            text-align: right;
+            font-family: "仿宋", "华文仿宋", serif;
+        }
+
         footer div {
             text-align: center;
             padding: 5px;
@@ -60,23 +120,52 @@
 <body>
 <header>
     <div class="header">
-        <div class="title">Title</div>
-        <div class="option">6666</div>
+        <div class="title">OnySakura</div>
+        <div id="time"></div>
     </div>
 </header>
 <div class="main content">
     <div class="img">
-        <div>
-            <div style="display: inline-block">
-                <img width="600px" src="https://api.dujin.org/bing/1920.php"/>
+        <div class="img-top">
+            <div>
+                <img width="600px" title="必应每日图片" src="https://api.dujin.org/bing/1920.php"/>
             </div>
-            <div style="display: inline-block;width: 100px">
-                2333 as d d d d a s d ads2333 as d d d d a s d ads2333 as d d d d a s d ads2333 as d d d d a s d ads2333
-                as d d d d a s d ads
+            <div class="poet" title="全唐诗/全宋词">
+                <p class="paragraph" th:text="${paragraph}">親老無官養，家貧在外多。</p>
+                <p class="author" th:text="${author+' - '+title}">岑參 - 閿鄉送上官秀才歸關西別業</p>
             </div>
         </div>
-        <img src=""/>
-        <img src=""/>
+        <div class="links">
+            <a href="https://cn.bing.com/">
+                <div>Bing</div>
+            </a>
+            <a href="https://www.sogo.com/">
+                <div>Sogo</div>
+            </a>
+            <a href="https://www.github.com/">
+                <div>Github</div>
+            </a>
+            <a href="https://developer.mozilla.org/zh-CN/">
+                <div>MDN web docs</div>
+            </a>
+            <a href="https://www.ibm.com/developerworks/cn/">
+                <div>IBM Developer</div>
+            </a>
+            <a href="https://stackoverflow.com/">
+                <div>Stack Overflow</div>
+            </a>
+            <a href="https://cn.bing.com/">
+                <div>bing</div>
+            </a>
+            <a href="https://cn.bing.com/">
+                <div>bing</div>
+            </a>
+        </div>
+    </div>
+    <div class="img-bottom">
+        <img th:src="@{/imgs/index/2.jpg}" src="../static/imgs/index/2.jpg"/>
+        <img th:src="@{/imgs/index/1.jpg}" src="../static/imgs/index/1.jpg"/>
+        <img th:src="@{/imgs/index/3.jpg}" src="../static/imgs/index/3.jpg"/>
     </div>
     <div class="text">
         ..........
@@ -84,11 +173,31 @@
 </div>
 <footer class="main">
     <div>
-        onysakura.com &nbsp; &nbsp;&nbsp;&nbsp; <a href="http://beian.miit.gov.cn">京ICP备19012557号-1</a>
+        onysakura.com&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+            href="http://beian.miit.gov.cn">京ICP备19012557号-1</a>
     </div>
     <div>
         Copyright © 2018 - 2019 All Rights Reserved
     </div>
 </footer>
+<script>
+    let timeSpan = document.getElementById(`time`);
+    timeSpan.innerHTML = getTime();
+    setInterval(function () {
+        timeSpan.innerHTML = getTime();
+    }, 1000);
+
+    function joinZero(num) {
+        return (Array(2).join("0") + num).slice(-2);
+    }
+
+    function getTime() {
+        let date = new Date();
+        return `
+            ${date.getFullYear()}-${joinZero(date.getMonth() + 1)}-${joinZero(date.getDate())}&nbsp;
+            ${joinZero(date.getHours())}:${joinZero(date.getMinutes())}:${joinZero(date.getSeconds())}
+        `;
+    }
+</script>
 </body>
 </html>
