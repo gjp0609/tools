@@ -49,10 +49,6 @@
 
         }
 
-        .option {
-            font-size: 20px;
-        }
-
         .main {
             width: 800px;
             margin: 0 auto;
@@ -182,7 +178,7 @@
     </div>
 </footer>
 <script>
-    let timeSpan = document.getElementById(`time`);
+    var timeSpan = document.getElementById('time');
     timeSpan.innerHTML = getTime();
     setInterval(function () {
         timeSpan.innerHTML = getTime();
@@ -193,11 +189,18 @@
     }
 
     function getTime() {
-        let date = new Date();
-        return `
-            ${date.getFullYear()}-${joinZero(date.getMonth() + 1)}-${joinZero(date.getDate())}&nbsp;
-            ${joinZero(date.getHours())}:${joinZero(date.getMinutes())}:${joinZero(date.getSeconds())}
-        `;
+        var date = new Date();
+        return date.getFullYear() +
+            '-' +
+            joinZero(date.getMonth() + 1) +
+            '-' +
+            joinZero(date.getDate()) +
+            '&nbsp;' +
+            joinZero(date.getHours()) +
+            ':' +
+            joinZero(date.getMinutes()) +
+            ':' +
+            joinZero(date.getSeconds());
     }
 </script>
 </body>
