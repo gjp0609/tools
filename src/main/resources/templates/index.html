@@ -193,8 +193,8 @@
     /* 鼠标点击文字特效 */
     var a_idx = 0;
     document.body.addEventListener('click', function (e) {
-        // var a = new Array("❤富强❤","❤民主❤","❤文明❤","❤和谐❤","❤自由❤","❤平等❤","❤公正❤","❤法治❤","❤爱国❤","❤敬业❤","❤诚信❤","❤友善❤");
-        var a = ["富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善"];
+        var a = ["❤富强❤", "❤民主❤", "❤文明❤", "❤和谐❤", "❤自由❤", "❤平等❤", "❤公正❤", "❤法治❤", "❤爱国❤", "❤敬业❤", "❤诚信❤", "❤友善❤"];
+        // var a = ["富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善"];
         var span = document.createElement('span');
         span.className = 'span';
         span.innerHTML = '<span>' + a[a_idx] + '</span>';
@@ -202,7 +202,7 @@
         a_idx = (a_idx + 1) % a.length;
         var x = e.pageX,
             y = e.pageY;
-        span.style.zIndex = 999999999999999;
+        span.style.zIndex = '999999999999999';
         span.style.top = (y - 20) + 'px';
         span.style.left = x + 'px';
         span.style.position = 'absolute';
@@ -214,6 +214,7 @@
             var spanList = document.getElementsByClassName('span');
             var lastSpan = spanList[spanList.length - 1];
             lastSpan.style.top = (y - 180) + 'px';
+            lastSpan.style.left = (x + (Math.random() * 50 - 25)) + 'px';
             lastSpan.style.opacity = '0';
             lastSpan.style.transitionDuration = '1500ms';
         }, 0);
