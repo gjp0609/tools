@@ -95,18 +95,6 @@
             margin: 10px 36px 0;
         }
 
-        .poet {
-            font-family: "华文楷体", "楷体", cursive;
-            font-size: 18px;
-            width: 600px;
-        }
-
-        .poet .author {
-            font-size: 16px;
-            text-align: right;
-            font-family: "仿宋", "华文仿宋", serif;
-        }
-
         footer div {
             text-align: center;
             padding: 5px;
@@ -126,9 +114,8 @@
             <div>
                 <img width="600px" title="必应每日图片" src="https://api.dujin.org/bing/1920.php"/>
             </div>
-            <div class="poet" title="全唐诗/全宋词">
-                <p class="paragraph" th:text="${paragraph}">親老無官養，家貧在外多。</p>
-                <p class="author" th:text="${author+' - '+title}">岑參 - 閿鄉送上官秀才歸關西別業</p>
+            <div>
+
             </div>
         </div>
         <div class="links">
@@ -202,6 +189,38 @@
             ':' +
             joinZero(date.getSeconds());
     }
+
+    /* 鼠标点击文字特效 */
+    var a_idx = 0;
+    document.body.addEventListener('click', function (e) {
+        // var a = new Array("❤富强❤","❤民主❤","❤文明❤","❤和谐❤","❤自由❤","❤平等❤","❤公正❤","❤法治❤","❤爱国❤","❤敬业❤","❤诚信❤","❤友善❤");
+        var a = ["富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善"];
+        var span = document.createElement('span');
+        span.className = 'span';
+        span.innerHTML = '<span>' + a[a_idx] + '</span>';
+        console.log(a[a_idx]);
+        a_idx = (a_idx + 1) % a.length;
+        var x = e.pageX,
+            y = e.pageY;
+        span.style.zIndex = 999999999999999;
+        span.style.top = (y - 20) + 'px';
+        span.style.left = x + 'px';
+        span.style.position = 'absolute';
+        span.style.fontWeight = 'bold';
+        span.style.color = "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")";
+        span.style.opacity = '1';
+        document.body.appendChild(span);
+        setTimeout(function () {
+            var spanList = document.getElementsByClassName('span');
+            var lastSpan = spanList[spanList.length - 1];
+            lastSpan.style.top = (y - 180) + 'px';
+            lastSpan.style.opacity = '0';
+            lastSpan.style.transitionDuration = '1500ms';
+        }, 0);
+        setTimeout(function () {
+            span.remove();
+        }, 1500);
+    });
 </script>
 </body>
 </html>
