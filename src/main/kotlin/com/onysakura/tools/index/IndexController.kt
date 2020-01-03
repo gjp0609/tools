@@ -16,7 +16,7 @@ class IndexController {
 
     @GetMapping("/{target}")
     fun page(@PathVariable("target") target: String): String {
-        return target
+        return "forward:/pages/$target.html"
     }
 
 }
