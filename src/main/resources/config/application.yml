@@ -5,6 +5,8 @@ server:
   servlet:
     context-path:
 spring:
+  profiles:
+    active: @profile.active@
   data:
     mongodb:
       host: 127.0.0.1
