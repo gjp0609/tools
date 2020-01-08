@@ -5,11 +5,12 @@
     <title>JSON Editor</title>
     <link rel="stylesheet" href="../css/bulma.min.css" th:href="@{/css/bulma.min.css}"/>
     <link rel="stylesheet" href="../css/common.min.css" th:href="@{/css/common.min.css}"/>
-    <link rel="stylesheet" href="../mods/jsoneditor/jsoneditor.min.css" th:href="@{/mods/jsoneditor/jsoneditor.min.css}"/>
+    <link rel="stylesheet" href="../mods/jsoneditor/jsoneditor.min.css"
+          th:href="@{/mods/jsoneditor/jsoneditor.min.css}"/>
     <script src="../mods/jsoneditor/jsoneditor.min.js" th:src="@{/mods/jsoneditor/jsoneditor.min.js}"></script>
     <style>
 
-        .columns{
+        .columns {
             height: 96%;
         }
 
@@ -37,13 +38,15 @@
     </style>
 </head>
 <body>
-<div class="columns">
-    <div class="column" style="text-align: center"><a href="encode">编码转换</a></div>
-    <div class="column" style="text-align: center"><a href="url">短网址</a></div>
-    <div class="column" style="text-align: center"><a href="json">JSON格式化</a></div>
-    <div class="column" style="text-align: center"><a href="xml">XML格式化</a></div>
-    <div class="column" style="text-align: center"><a href="qrcode">二维码</a></div>
-</div>
+<header>
+    <div class="columns">
+        <div class="column" style="text-align: center"><a href="encode">编码转换</a></div>
+        <div class="column" style="text-align: center"><a href="url">短网址</a></div>
+        <div class="column" style="text-align: center"><a href="json">JSON格式化</a></div>
+        <div class="column" style="text-align: center"><a href="xml">XML格式化</a></div>
+        <div class="column" style="text-align: center"><a href="qrcode">二维码</a></div>
+    </div>
+</header>
 <div class="columns">
     <div class="column">
         <div id="json-editor-left"></div>
