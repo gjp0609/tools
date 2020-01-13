@@ -62,7 +62,7 @@ class WechatController {
         return mutableMap
     }
 
-    @Scheduled(fixedRate = 1000 * 60 * 60 * 2) // 2 hours
+//    @Scheduled(fixedRate = 1000 * 60 * 60 * 2) // 2 hours
     fun getTokenAndTicketJob() {
         val client = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofMillis(5000))
