@@ -1,0 +1,19 @@
+### receiveMessageHandler
+POST me/wechat/
+Content-Type: text/xml
+
+<xml>
+    <ToUserName><![CDATA[gh_44ac0dd56021]]></ToUserName>
+    <FromUserName><![CDATA[onaabxNXL5xgb5bEgtjOesv2f4wI]]></FromUserName>
+    <CreateTime>1579512879</CreateTime>
+    <MsgType><![CDATA[text]]></MsgType>
+    <Content><![CDATA[你好]]></Content>
+</xml>
+
+### sendTemplate
+GET me/wechat/sendTemplate?text=123
+
+### sendMessage
+GET me/wechat/sendMessage?text=321
+
+###
