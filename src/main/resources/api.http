@@ -1,6 +1,6 @@
 ### receiveMessageHandler
 POST me/wechat/
-Content-Type: text/xml
+Content-Type: text/xml;charset=utf-8
 
 <xml>
     <ToUserName><![CDATA[gh_44ac0dd56021]]></ToUserName>
@@ -15,5 +15,11 @@ GET me/wechat/sendTemplate?text=123
 
 ### sendMessage
 GET me/wechat/sendMessage?text=321
+
+### echostr
+GET me/wechat/?echostr=乱码
+
+### url
+GET me/s/api?q=java
 
 ###

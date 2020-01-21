@@ -6,6 +6,7 @@ import org.springframework.util.StringUtils
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.ModelAndView
 import java.net.URI
 import java.net.URLEncoder
@@ -44,6 +45,7 @@ class SearchController {
     }
 
     @GetMapping("/api")
+    @ResponseBody
     fun searchApi(q: String, @RequestParam(required = false, defaultValue = "0") start: Int): HashMap<String, Any> {
         val timeMillis = System.currentTimeMillis()
         val map = HashMap<String, Any>()

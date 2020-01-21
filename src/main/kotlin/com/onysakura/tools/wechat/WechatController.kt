@@ -31,7 +31,7 @@ class WechatController {
 
     @PostMapping(value = ["/"], consumes = ["text/xml", "application/xml", "application/json"])
     fun message(@RequestBody requestMap: MutableMap<String, Any>, response: HttpServletResponse) {
-        println("Event----->$requestMap")
+        println("Message----->$requestMap")
         when (requestMap["MsgType"]) {
             "event" -> {
                 val event = requestMap["Event"] as String
@@ -54,6 +54,7 @@ class WechatController {
                 xmlMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 xmlMapper.propertyNamingStrategy = PropertyNamingStrategy.UPPER_CAMEL_CASE
                 response.characterEncoding = StandardCharsets.UTF_8.toString()
+                response.contentType = "text/plain; charset=UTF-8"
                 response.writer.println(xmlMapper.writerWithDefaultPrettyPrinter().withRootName("xml").writeValueAsString(responseMap))
             }
         }
