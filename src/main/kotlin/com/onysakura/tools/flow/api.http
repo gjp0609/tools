@@ -1,7 +1,0 @@
-### save
-GET http://127.0.0.1/flow/save?s=qwe
-
-###
-GET http://127.0.0.1/flow/get
-
-###

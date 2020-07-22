@@ -1,10 +1,10 @@
 package com.onysakura.tools.kindle
 
-import com.google.gson.Gson
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.format.datetime.DateFormatter
-import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import java.net.URI
 import java.net.http.HttpClient
@@ -17,7 +17,7 @@ import java.util.*
 class Job(private val articleRepository: ArticleRepository) {
     val logger: Logger = LoggerFactory.getLogger(Job::class.java)
 
-//    @Scheduled(cron = "23 52 0/6 * * ?")
+    //    @Scheduled(cron = "23 52 0/6 * * ?")
     fun job() {
         logger.info("job start")
         mit(System.currentTimeMillis())
@@ -44,8 +44,9 @@ class Job(private val articleRepository: ArticleRepository) {
                 .timeout(Duration.ofMillis(50000))
                 .build()
         val send = client.send(request, HttpResponse.BodyHandlers.ofString())
-        val map = Gson().fromJson<Map<String, Any>>(send.body(), Map::class.java)
-        if (map["Success"] as Double == 1.0) {
+        val mapAdapter = Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(Map::class.java)
+        val map = mapAdapter.fromJson(send.body())
+        if (map?.get("Success") as Double == 1.0) {
             val list = map["Result"] as Collection<*>
             val articleList = mutableListOf<Article>()
             var minDate = Date()

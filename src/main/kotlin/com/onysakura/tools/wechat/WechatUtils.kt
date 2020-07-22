@@ -1,6 +1,8 @@
 package com.onysakura.tools.wechat
 
-import com.google.gson.Gson
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import java.net.URI
@@ -111,6 +113,7 @@ open class WechatUtils {
 
     @Scheduled(fixedRate = 1000 * 60 * 60 * 2) // 2 hours
     fun getTokenAndTicketJob() {
+        val mutableMapAdapter = Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(MutableMap::class.java)
         kotlin.run {
             val uri = URI.create(ACCESS_TOKEN_URL.replace("APPID", APP_ID).replace("APPSECRET", APP_SECRET))
             val request = HttpRequest.newBuilder()
@@ -120,7 +123,7 @@ open class WechatUtils {
                     .build()
             val response = client.send(request, HttpResponse.BodyHandlers.ofString()).body()
             println(response)
-            ACCESS_TOKEN_AND_TICKET["access_token"] = Gson().fromJson<MutableMap<String, Any>>(response, MutableMap::class.java)["access_token"] as String
+            ACCESS_TOKEN_AND_TICKET["access_token"] = mutableMapAdapter.fromJson(response)?.get("access_token") as String
         }
         kotlin.run {
             val uri = URI.create(JS_API_TICKET_URL.replace("ACCESS_TOKEN", ACCESS_TOKEN_AND_TICKET["access_token"] as String))
@@ -131,7 +134,7 @@ open class WechatUtils {
                     .build()
             val response = client.send(request, HttpResponse.BodyHandlers.ofString()).body()
             println(response)
-            ACCESS_TOKEN_AND_TICKET["jsapi_ticket"] = Gson().fromJson<MutableMap<String, Any>>(response, MutableMap::class.java)["ticket"] as String
+            ACCESS_TOKEN_AND_TICKET["jsapi_ticket"] = mutableMapAdapter.fromJson(response)?.get("ticket") as String
         }
     }
 }
