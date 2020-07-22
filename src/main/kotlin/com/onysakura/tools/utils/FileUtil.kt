@@ -54,13 +54,5 @@ open class FileUtil {
             inputChannel.close()
             fis.close()
         }
-
-        @JvmStatic
-        fun main(args: Array<String>) {
-            val list = "a.b.c.d.asd".split(".")
-            println(list)
-            val slice = list.slice(IntRange(0, list.size - 2))
-            println(slice.joinToString("."))
-        }
     }
 }
