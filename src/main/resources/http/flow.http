@@ -1,0 +1,7 @@
+### save
+GET {{url}}/flow/save?s=qwe
+
+### flow
+GET {{url}}/flow/get
+
+###

@@ -24,3 +24,7 @@ spring:
   thymeleaf:
     cache: false
     prefix: classpath:templates/
+
+custom:
+  features-enable:
+    wechat: false

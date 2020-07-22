@@ -1,2 +1,6 @@
 server:
-  port: 80
+  port: 23456
+
+custom:
+  features-enable:
+    wechat: false

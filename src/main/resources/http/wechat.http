@@ -1,5 +1,5 @@
 ### receiveMessageHandler
-POST me/wechat/
+POST {{url}}/wechat/
 Content-Type: text/xml;charset=utf-8
 
 <xml>
@@ -11,15 +11,12 @@ Content-Type: text/xml;charset=utf-8
 </xml>
 
 ### sendTemplate
-GET me/wechat/sendTemplate?text=123
+GET {{url}}/wechat/sendTemplate?text=123
 
 ### sendMessage
-GET me/wechat/sendMessage?text=321
+GET {{url}}/wechat/sendMessage?text=321
 
 ### echostr
-GET me/wechat/?echostr=乱码
-
-### url
-GET me/s/api?q=java
+GET {{url}}/wechat/?echostr=乱码
 
 ###

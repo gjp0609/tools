@@ -10,6 +10,7 @@ import java.net.http.HttpResponse
 import java.time.Duration
 import javax.servlet.http.HttpServletRequest
 
+@ConditionalOnProperty("custom.features-enable.wechat")
 @Component
 open class WechatUtils {
 
