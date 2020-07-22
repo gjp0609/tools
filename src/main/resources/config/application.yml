@@ -28,3 +28,4 @@ spring:
 custom:
   features-enable:
     wechat: false
+    kindle: false
