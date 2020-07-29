@@ -6,7 +6,7 @@ server:
     context-path:
 spring:
   profiles:
-    active: @profile.active@
+    active: '@profile.active@'
   jpa:
     hibernate:
       ddl-auto: update
