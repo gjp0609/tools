@@ -7,16 +7,6 @@ server:
 spring:
   profiles:
     active: @profile.active@
-  data:
-    mongodb:
-      host: 127.0.0.1
-      port: 27017
-      database: data
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/tools?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
-    username: me
-    password: 123456
   jpa:
     hibernate:
       ddl-auto: update

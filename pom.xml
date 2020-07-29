@@ -50,6 +50,14 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
+        </dependency>
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
@@ -102,16 +110,6 @@
             <properties>
                 <profile.active>dev</profile.active>
             </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-webflux</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
-                </dependency>
-            </dependencies>
         </profile>
         <profile>
             <id>server</id>
@@ -121,16 +119,6 @@
             <properties>
                 <profile.active>server</profile.active>
             </properties>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/kotlin/</directory>
-                        <excludes>
-                            <exclude>com/onysakura/tools/flow</exclude>
-                        </excludes>
-                    </resource>
-                </resources>
-            </build>
         </profile>
     </profiles>
 
