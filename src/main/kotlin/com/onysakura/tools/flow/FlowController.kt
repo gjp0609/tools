@@ -1,5 +1,6 @@
 package com.onysakura.tools.flow
 
+import org.springframework.context.annotation.Profile
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -8,6 +9,7 @@ import reactor.core.publisher.Mono
 import java.time.Duration
 import java.util.*
 
+@Profile("dev")
 @RestController
 @RequestMapping("/flow")
 class FlowController(private val dataRepository: FluxDataRepository) {
