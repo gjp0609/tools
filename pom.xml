@@ -174,7 +174,7 @@
         </plugins>
         <resources>
             <resource>
-                <directory>src/main/resources/</directory>
+                <directory>src/main/resources</directory>
                 <excludes>
                     <exclude>config/application-*.yml</exclude>
                 </excludes>
