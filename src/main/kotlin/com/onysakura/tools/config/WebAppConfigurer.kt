@@ -13,6 +13,7 @@ open class WebAppConfigurer : WebMvcConfigurer {
     @ExceptionHandler(value = [Exception::class])
     @ResponseBody
     fun configureContentNegotiation(e: Exception): String {
+        e.printStackTrace()
         return "Error: " + e.message
     }
 }

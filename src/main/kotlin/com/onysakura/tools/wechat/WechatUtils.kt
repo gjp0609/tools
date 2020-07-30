@@ -5,6 +5,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
+import java.lang.RuntimeException
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -33,6 +34,9 @@ open class WechatUtils {
                 .build()!!
 
         fun sendMessage(text: String): String {
+            if (ACCESS_TOKEN_AND_TICKET["access_token"] == null){
+                throw RuntimeException("no access_token")
+            }
             val uri = URI.create(MESSAGE_SEND_URL.replace("ACCESS_TOKEN", ACCESS_TOKEN_AND_TICKET["access_token"] as String))
             val request = HttpRequest.newBuilder()
                     .POST(HttpRequest.BodyPublishers.ofString("""
@@ -52,6 +56,9 @@ open class WechatUtils {
         }
 
         fun sendTemplate(text: String): String {
+            if (ACCESS_TOKEN_AND_TICKET["access_token"] == null){
+                throw RuntimeException("no access_token")
+            }
             val uri = URI.create(TEMPLATE_SEND_URL.replace("ACCESS_TOKEN", ACCESS_TOKEN_AND_TICKET["access_token"] as String))
             val request = HttpRequest.newBuilder()
                     .POST(HttpRequest.BodyPublishers.ofString("""
