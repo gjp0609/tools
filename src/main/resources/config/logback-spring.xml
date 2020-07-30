@@ -4,7 +4,7 @@
     <springProfile name="dev">
         <property name="logPath" value="/Files/yj/logs"/>
     </springProfile>
-    <springProfile name="online">
+    <springProfile name="server">
         <property name="logPath" value="/root/logs"/>
     </springProfile>
     <property name="applicationName" value="${spring.application.name}"/>
