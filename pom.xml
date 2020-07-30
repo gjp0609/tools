@@ -180,6 +180,7 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
+                    <include>config/application.yml</include>
                     <include>config/application-${profile.active}.yml</include>
                 </includes>
             </resource>
