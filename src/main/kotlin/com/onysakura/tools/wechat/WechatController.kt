@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
+import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.*
 import java.nio.charset.StandardCharsets
 import javax.servlet.http.HttpServletResponse
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse
 @RestController
 @RequestMapping("/wechat")
 class WechatController {
+    val log = LoggerFactory.getLogger(WechatController::class.java)
 
     @GetMapping(value = ["/"])
     fun urlAuth(echostr: String): String {
@@ -31,11 +33,11 @@ class WechatController {
 
     @PostMapping(value = ["/"], consumes = ["text/xml", "application/xml", "application/json"])
     fun message(@RequestBody requestMap: MutableMap<String, Any>, response: HttpServletResponse) {
-        println("Message----->$requestMap")
+        log.info("Wechat Message -> $requestMap")
         when (requestMap["MsgType"]) {
             "event" -> {
                 val event = requestMap["Event"] as String
-                println("Event: $event")
+                log.info("Wechat Event: $event")
             }
             "text" -> {
                 val responseMap = mutableMapOf<String, Any>()

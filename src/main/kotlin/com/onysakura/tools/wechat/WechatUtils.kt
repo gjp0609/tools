@@ -2,10 +2,10 @@ package com.onysakura.tools.wechat
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
-import java.lang.RuntimeException
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest
 @ConditionalOnProperty("custom.features-enable.wechat")
 @Component
 open class WechatUtils {
+
+    val log = LoggerFactory.getLogger(WechatUtils::class.java)
 
     companion object {
         const val AUTH_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECTURI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect"
@@ -34,7 +36,7 @@ open class WechatUtils {
                 .build()!!
 
         fun sendMessage(text: String): String {
-            if (ACCESS_TOKEN_AND_TICKET["access_token"] == null){
+            if (ACCESS_TOKEN_AND_TICKET["access_token"] == null) {
                 throw RuntimeException("no access_token")
             }
             val uri = URI.create(MESSAGE_SEND_URL.replace("ACCESS_TOKEN", ACCESS_TOKEN_AND_TICKET["access_token"] as String))
@@ -56,7 +58,7 @@ open class WechatUtils {
         }
 
         fun sendTemplate(text: String): String {
-            if (ACCESS_TOKEN_AND_TICKET["access_token"] == null){
+            if (ACCESS_TOKEN_AND_TICKET["access_token"] == null) {
                 throw RuntimeException("no access_token")
             }
             val uri = URI.create(TEMPLATE_SEND_URL.replace("ACCESS_TOKEN", ACCESS_TOKEN_AND_TICKET["access_token"] as String))
@@ -128,9 +130,13 @@ open class WechatUtils {
                     .uri(uri)
                     .timeout(Duration.ofMillis(50000))
                     .build()
-            val response = client.send(request, HttpResponse.BodyHandlers.ofString()).body()
-            println(response)
-            ACCESS_TOKEN_AND_TICKET["access_token"] = mutableMapAdapter.fromJson(response)?.get("access_token") as String
+            try {
+                val response = client.send(request, HttpResponse.BodyHandlers.ofString()).body()
+                log.info(response)
+                ACCESS_TOKEN_AND_TICKET["access_token"] = mutableMapAdapter.fromJson(response)?.get("access_token") as String
+            } catch (e: Exception) {
+                log.warn("get access_token error", e)
+            }
         }
         kotlin.run {
             val uri = URI.create(JS_API_TICKET_URL.replace("ACCESS_TOKEN", ACCESS_TOKEN_AND_TICKET["access_token"] as String))
@@ -139,9 +145,13 @@ open class WechatUtils {
                     .uri(uri)
                     .timeout(Duration.ofMillis(50000))
                     .build()
-            val response = client.send(request, HttpResponse.BodyHandlers.ofString()).body()
-            println(response)
-            ACCESS_TOKEN_AND_TICKET["jsapi_ticket"] = mutableMapAdapter.fromJson(response)?.get("ticket") as String
+            try {
+                val response = client.send(request, HttpResponse.BodyHandlers.ofString()).body()
+                log.info(response)
+                ACCESS_TOKEN_AND_TICKET["jsapi_ticket"] = mutableMapAdapter.fromJson(response)?.get("ticket") as String
+            } catch (e: Exception) {
+                log.warn("get access_token error", e)
+            }
         }
     }
 }

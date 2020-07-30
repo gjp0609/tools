@@ -5,6 +5,8 @@ server:
   servlet:
     context-path:
 spring:
+  application:
+    name: Online Tools
   profiles:
     active: @profile.active@
   jpa:
@@ -14,6 +16,8 @@ spring:
   thymeleaf:
     cache: false
     prefix: classpath:templates/
+logging:
+  config: classpath:config/logback-spring.xml
 
 custom:
   features-enable:
