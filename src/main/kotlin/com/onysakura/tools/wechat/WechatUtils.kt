@@ -25,7 +25,7 @@ open class WechatUtils {
         const val TEMPLATE_SEND_URL = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN"
         const val APP_ID = "wx6840b5bb18a51971"
         const val APP_SECRET = "79e3e8ee8432652c63d011b7b209c58d"
-        const val ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET"
+        const val ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APP_ID&secret=APP_SECRET"
         const val JS_API_TICKET_URL = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi"
         const val TEXT_TEMPLATE = "6GPHNlSx8RV7oRDad5o7YxAR8eAOk0HBykn7NUO9ja8"
         const val OPEN_ID = "onaabxNXL5xgb5bEgtjOesv2f4wI"
@@ -124,7 +124,7 @@ open class WechatUtils {
     fun getTokenAndTicketJob() {
         val mutableMapAdapter = Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(MutableMap::class.java)
         kotlin.run {
-            val uri = URI.create(ACCESS_TOKEN_URL.replace("APPID", APP_ID).replace("APPSECRET", APP_SECRET))
+            val uri = URI.create(ACCESS_TOKEN_URL.replace("APP_ID", APP_ID).replace("APP_SECRET", APP_SECRET))
             val request = HttpRequest.newBuilder()
                     .GET()
                     .uri(uri)
@@ -139,18 +139,22 @@ open class WechatUtils {
             }
         }
         kotlin.run {
-            val uri = URI.create(JS_API_TICKET_URL.replace("ACCESS_TOKEN", ACCESS_TOKEN_AND_TICKET["access_token"] as String))
-            val request = HttpRequest.newBuilder()
-                    .GET()
-                    .uri(uri)
-                    .timeout(Duration.ofMillis(50000))
-                    .build()
             try {
+                val accessToken = ACCESS_TOKEN_AND_TICKET["access_token"]
+                if (ACCESS_TOKEN_AND_TICKET["access_token"] == null) {
+                    throw RuntimeException("no access_token")
+                }
+                val uri = URI.create(JS_API_TICKET_URL.replace("ACCESS_TOKEN", accessToken as String))
+                val request = HttpRequest.newBuilder()
+                        .GET()
+                        .uri(uri)
+                        .timeout(Duration.ofMillis(50000))
+                        .build()
                 val response = client.send(request, HttpResponse.BodyHandlers.ofString()).body()
                 log.info(response)
                 ACCESS_TOKEN_AND_TICKET["jsapi_ticket"] = mutableMapAdapter.fromJson(response)?.get("ticket") as String
             } catch (e: Exception) {
-                log.warn("get access_token error", e)
+                log.warn("get jsapi_ticket error", e)
             }
         }
     }
