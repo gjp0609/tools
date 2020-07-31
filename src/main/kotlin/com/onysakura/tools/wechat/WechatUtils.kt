@@ -30,10 +30,6 @@ open class WechatUtils {
         const val TEXT_TEMPLATE = "6GPHNlSx8RV7oRDad5o7YxAR8eAOk0HBykn7NUO9ja8"
         const val OPEN_ID = "onaabxNXL5xgb5bEgtjOesv2f4wI"
         val ACCESS_TOKEN_AND_TICKET = mutableMapOf<String, String>()
-        val client = HttpClient.newBuilder()
-                .connectTimeout(Duration.ofMillis(5000))
-                .followRedirects(HttpClient.Redirect.NORMAL)
-                .build()!!
 
         fun sendMessage(text: String): String {
             if (ACCESS_TOKEN_AND_TICKET["access_token"] == null) {
@@ -53,6 +49,10 @@ open class WechatUtils {
                     """.trimIndent()))
                     .uri(uri)
                     .timeout(Duration.ofMillis(50000))
+                    .build()
+            val client = HttpClient.newBuilder()
+                    .connectTimeout(Duration.ofMillis(50000))
+                    .followRedirects(HttpClient.Redirect.NORMAL)
                     .build()
             return client.send(request, HttpResponse.BodyHandlers.ofString()).body()
         }
@@ -77,6 +77,10 @@ open class WechatUtils {
                     """.trimIndent()))
                     .uri(uri)
                     .timeout(Duration.ofMillis(50000))
+                    .build()
+            val client = HttpClient.newBuilder()
+                    .connectTimeout(Duration.ofMillis(50000))
+                    .followRedirects(HttpClient.Redirect.NORMAL)
                     .build()
             return client.send(request, HttpResponse.BodyHandlers.ofString()).body()
         }
@@ -132,6 +136,10 @@ open class WechatUtils {
                     .timeout(Duration.ofMillis(50000))
                     .build()
             try {
+                val client = HttpClient.newBuilder()
+                        .connectTimeout(Duration.ofMillis(50000))
+                        .followRedirects(HttpClient.Redirect.NORMAL)
+                        .build()
                 val response = client.send(request, HttpResponse.BodyHandlers.ofString()).body()
                 log.info(response)
                 ACCESS_TOKEN_AND_TICKET["access_token"] = mutableMapAdapter.fromJson(response)?.get("access_token") as String
@@ -151,6 +159,10 @@ open class WechatUtils {
                         .GET()
                         .uri(uri)
                         .timeout(Duration.ofMillis(50000))
+                        .build()
+                val client = HttpClient.newBuilder()
+                        .connectTimeout(Duration.ofMillis(50000))
+                        .followRedirects(HttpClient.Redirect.NORMAL)
                         .build()
                 val response = client.send(request, HttpResponse.BodyHandlers.ofString()).body()
                 log.info(response)
