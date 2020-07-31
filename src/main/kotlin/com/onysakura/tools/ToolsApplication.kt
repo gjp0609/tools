@@ -11,7 +11,6 @@ import java.net.URL
 open class ToolsApplication
 
 fun main(args: Array<String>) {
-    runApplication<ToolsApplication>(*args)
 
     val url = URL("https://www.baidu.com/")
 
@@ -26,4 +25,6 @@ fun main(args: Array<String>) {
             }
         }
     }
+
+    runApplication<ToolsApplication>(*args)
 }
