@@ -127,8 +127,10 @@ open class WechatUtils {
     @Scheduled(fixedRate = 1000 * 60 * 60 * 2) // 2 hours
     fun getTokenAndTicketJob() {
         val mutableMapAdapter = Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(MutableMap::class.java)
+        log.debug("test1: {}", URI.create("http://httpbin.org/get?param=test").toURL().readText())
         kotlin.run {
             try {
+                log.debug("test2: {}", URI.create("http://httpbin.org/get?param=test").toURL().readText())
                 val uri = URI.create(ACCESS_TOKEN_URL.replace("APP_ID", APP_ID).replace("APP_SECRET", APP_SECRET))
                 log.debug("get access_token uri: $uri")
                 val response = uri.toURL().readText()
