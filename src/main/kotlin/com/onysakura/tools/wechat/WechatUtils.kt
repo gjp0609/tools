@@ -1,5 +1,6 @@
 package com.onysakura.tools.wechat
 
+import com.onysakura.tools.GetTest
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.slf4j.LoggerFactory
@@ -127,6 +128,7 @@ open class WechatUtils {
     @Scheduled(fixedRate = 1000 * 60) // 2 hours
     fun getTokenAndTicketJob() {
         val mutableMapAdapter = Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(MutableMap::class.java)
+        GetTest.get("http://httpbin.org/get?param=test")
         try {
             val uri = URI.create("http://httpbin.org/get?param=test")
             val request = HttpRequest.newBuilder()
