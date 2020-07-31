@@ -1,6 +1,5 @@
 package com.onysakura.tools.test
 
-import com.onysakura.tools.GetTest
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -18,6 +17,6 @@ class TestController {
 
     @GetMapping("/get")
     fun get() {
-        GetTest.get("http://httpbin.org/get?param=test")
+
     }
 }
