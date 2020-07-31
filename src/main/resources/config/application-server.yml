@@ -1,5 +1,5 @@
 server:
-  port: 9001
+  port: 29001
 spring:
   autoconfigure:
     exclude:
@@ -18,5 +18,5 @@ spring:
 # custom config
 custom:
   features-enable:
-    wechat: true
-    kindle: true
+    wechat: false
+    kindle: false
