@@ -27,4 +27,16 @@ fun main(args: Array<String>) {
     }
 
     runApplication<ToolsApplication>(*args)
+
+    with(url.openConnection() as HttpURLConnection) {
+        requestMethod = "GET"
+
+        println("\nSent 'GET' request to URL : $url; Response Code : $responseCode")
+
+        inputStream.bufferedReader().use {
+            it.lines().forEach { line ->
+                println(line)
+            }
+        }
+    }
 }
