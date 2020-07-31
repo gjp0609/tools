@@ -124,7 +124,7 @@ open class WechatUtils {
         }
     }
 
-    @Scheduled(fixedRate = 1000 * 60) // 2 hours
+    @Scheduled(cron = "0 0 0/2 * * ?") // 2 hours
     fun getTokenAndTicketJob() {
         val mutableMapAdapter = Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(MutableMap::class.java)
         try {
