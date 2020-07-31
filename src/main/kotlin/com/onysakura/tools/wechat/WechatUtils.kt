@@ -127,7 +127,33 @@ open class WechatUtils {
     @Scheduled(fixedRate = 1000 * 60 * 60 * 2) // 2 hours
     fun getTokenAndTicketJob() {
         val mutableMapAdapter = Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(MutableMap::class.java)
-        log.debug("test1: {}", URI.create("http://httpbin.org/get?param=test").toURL().readText())
+        kotlin.run {
+            try {
+                val uri = URI.create("http://httpbin.org/get?param=test")
+                val request = HttpRequest.newBuilder()
+                        .GET()
+                        .uri(uri)
+                        .timeout(Duration.ofMillis(50000))
+                        .build()
+                val client = HttpClient.newBuilder()
+                        .connectTimeout(Duration.ofMillis(50000))
+                        .followRedirects(HttpClient.Redirect.NORMAL)
+                        .build()
+                log.debug("test1: {}", client.send(request, HttpResponse.BodyHandlers.ofString()).body())
+            } catch (e: Exception) {
+                log.warn("test error", e)
+            }
+        }
+        kotlin.run {
+            try {
+                val uri = URI.create("http://httpbin.org/get?param=test")
+                val request = HttpRequest.newBuilder().GET().uri(uri).timeout(Duration.ofMillis(500000)).build()
+                val client = HttpClient.newBuilder().connectTimeout(Duration.ofMillis(500000)).build()
+                log.debug("test1: {}", client.send(request, HttpResponse.BodyHandlers.ofString()).body())
+            } catch (e: Exception) {
+                log.warn("test error", e)
+            }
+        }
         kotlin.run {
             try {
                 log.debug("test2: {}", URI.create("http://httpbin.org/get?param=test").toURL().readText())
