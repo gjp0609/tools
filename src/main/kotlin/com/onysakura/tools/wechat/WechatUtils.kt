@@ -128,20 +128,11 @@ open class WechatUtils {
     fun getTokenAndTicketJob() {
         val mutableMapAdapter = Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(MutableMap::class.java)
         kotlin.run {
-            val uri = URI.create(ACCESS_TOKEN_URL.replace("APP_ID", APP_ID).replace("APP_SECRET", APP_SECRET))
-            log.debug("get access_token uri: $uri")
-            val request = HttpRequest.newBuilder()
-                    .GET()
-                    .uri(uri)
-                    .timeout(Duration.ofMillis(50000))
-                    .build()
             try {
-                val client = HttpClient.newBuilder()
-                        .connectTimeout(Duration.ofMillis(50000))
-                        .followRedirects(HttpClient.Redirect.NORMAL)
-                        .build()
-                val response = client.send(request, HttpResponse.BodyHandlers.ofString()).body()
-                log.info(response)
+                val uri = URI.create(ACCESS_TOKEN_URL.replace("APP_ID", APP_ID).replace("APP_SECRET", APP_SECRET))
+                log.debug("get access_token uri: $uri")
+                val response = uri.toURL().readText()
+                log.info("response: $response")
                 ACCESS_TOKEN_AND_TICKET["access_token"] = mutableMapAdapter.fromJson(response)?.get("access_token") as String
             } catch (e: Exception) {
                 log.warn("get access_token error", e)
@@ -155,17 +146,8 @@ open class WechatUtils {
                 }
                 val uri = URI.create(JS_API_TICKET_URL.replace("ACCESS_TOKEN", accessToken as String))
                 log.debug("get jsapi_ticket uri: $uri")
-                val request = HttpRequest.newBuilder()
-                        .GET()
-                        .uri(uri)
-                        .timeout(Duration.ofMillis(50000))
-                        .build()
-                val client = HttpClient.newBuilder()
-                        .connectTimeout(Duration.ofMillis(50000))
-                        .followRedirects(HttpClient.Redirect.NORMAL)
-                        .build()
-                val response = client.send(request, HttpResponse.BodyHandlers.ofString()).body()
-                log.info(response)
+                val response = uri.toURL().readText()
+                log.info("response: $response")
                 ACCESS_TOKEN_AND_TICKET["jsapi_ticket"] = mutableMapAdapter.fromJson(response)?.get("ticket") as String
             } catch (e: Exception) {
                 log.warn("get jsapi_ticket error", e)
