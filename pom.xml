@@ -20,6 +20,7 @@
         <guava.version>28.1-jre</guava.version>
         <moshi.version>1.9.3</moshi.version>
         <jsoup.version>1.13.1</jsoup.version>
+        <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
     </properties>
 
     <dependencies>
@@ -143,6 +144,7 @@
                         <configuration>
                             <sourceDirs>
                                 <source>src/main/kotlin</source>
+                                <source>src/main/java</source>
                             </sourceDirs>
                         </configuration>
                     </execution>
