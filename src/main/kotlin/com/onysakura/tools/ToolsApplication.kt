@@ -10,4 +10,6 @@ open class ToolsApplication
 
 fun main(args: Array<String>) {
     runApplication<ToolsApplication>(*args)
+
+    GetTest.get("http://httpbin.org/get?param=test")
 }
