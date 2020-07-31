@@ -125,6 +125,7 @@ open class WechatUtils {
         val mutableMapAdapter = Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(MutableMap::class.java)
         kotlin.run {
             val uri = URI.create(ACCESS_TOKEN_URL.replace("APP_ID", APP_ID).replace("APP_SECRET", APP_SECRET))
+            log.debug("get access_token uri: $uri")
             val request = HttpRequest.newBuilder()
                     .GET()
                     .uri(uri)
@@ -145,6 +146,7 @@ open class WechatUtils {
                     throw RuntimeException("no access_token")
                 }
                 val uri = URI.create(JS_API_TICKET_URL.replace("ACCESS_TOKEN", accessToken as String))
+                log.debug("get jsapi_ticket uri: $uri")
                 val request = HttpRequest.newBuilder()
                         .GET()
                         .uri(uri)
