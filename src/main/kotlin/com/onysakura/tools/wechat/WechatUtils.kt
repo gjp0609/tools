@@ -124,62 +124,55 @@ open class WechatUtils {
         }
     }
 
-    @Scheduled(fixedRate = 1000 * 60 * 60 * 2) // 2 hours
+    @Scheduled(fixedRate = 1000 * 60) // 2 hours
     fun getTokenAndTicketJob() {
         val mutableMapAdapter = Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(MutableMap::class.java)
-        kotlin.run {
-            try {
-                val uri = URI.create("http://httpbin.org/get?param=test")
-                val request = HttpRequest.newBuilder()
-                        .GET()
-                        .uri(uri)
-                        .timeout(Duration.ofMillis(50000))
-                        .build()
-                val client = HttpClient.newBuilder()
-                        .connectTimeout(Duration.ofMillis(50000))
-                        .followRedirects(HttpClient.Redirect.NORMAL)
-                        .build()
-                log.debug("test1: {}", client.send(request, HttpResponse.BodyHandlers.ofString()).body())
-            } catch (e: Exception) {
-                log.warn("test error", e)
-            }
+        try {
+            val uri = URI.create("http://httpbin.org/get?param=test")
+            val request = HttpRequest.newBuilder()
+                    .GET()
+                    .uri(uri)
+                    .timeout(Duration.ofMillis(50000))
+                    .build()
+            val client = HttpClient.newBuilder()
+                    .connectTimeout(Duration.ofMillis(50000))
+                    .followRedirects(HttpClient.Redirect.NORMAL)
+                    .build()
+            log.debug("test1: {}", client.send(request, HttpResponse.BodyHandlers.ofString()).body())
+        } catch (e: Exception) {
+            log.warn("test error", e)
         }
-        kotlin.run {
-            try {
-                val uri = URI.create("http://httpbin.org/get?param=test")
-                val request = HttpRequest.newBuilder().GET().uri(uri).timeout(Duration.ofMillis(500000)).build()
-                val client = HttpClient.newBuilder().connectTimeout(Duration.ofMillis(500000)).build()
-                log.debug("test1: {}", client.send(request, HttpResponse.BodyHandlers.ofString()).body())
-            } catch (e: Exception) {
-                log.warn("test error", e)
-            }
+        try {
+            Thread.sleep(10000)
+            val uri = URI.create("http://httpbin.org/get?param=test")
+            val request = HttpRequest.newBuilder().GET().uri(uri).timeout(Duration.ofMillis(500000)).build()
+            val client = HttpClient.newBuilder().connectTimeout(Duration.ofMillis(500000)).build()
+            log.debug("test1: {}", client.send(request, HttpResponse.BodyHandlers.ofString()).body())
+        } catch (e: Exception) {
+            log.warn("test error", e)
         }
-        kotlin.run {
-            try {
-                log.debug("test2: {}", URI.create("http://httpbin.org/get?param=test").toURL().readText())
-                val uri = URI.create(ACCESS_TOKEN_URL.replace("APP_ID", APP_ID).replace("APP_SECRET", APP_SECRET))
-                log.debug("get access_token uri: $uri")
-                val response = uri.toURL().readText()
-                log.info("response: $response")
-                ACCESS_TOKEN_AND_TICKET["access_token"] = mutableMapAdapter.fromJson(response)?.get("access_token") as String
-            } catch (e: Exception) {
-                log.warn("get access_token error", e)
-            }
+        try {
+            log.debug("test2: {}", URI.create("http://httpbin.org/get?param=test").toURL().readText())
+            val uri = URI.create(ACCESS_TOKEN_URL.replace("APP_ID", APP_ID).replace("APP_SECRET", APP_SECRET))
+            log.debug("get access_token uri: $uri")
+            val response = uri.toURL().readText()
+            log.info("response: $response")
+            ACCESS_TOKEN_AND_TICKET["access_token"] = mutableMapAdapter.fromJson(response)?.get("access_token") as String
+        } catch (e: Exception) {
+            log.warn("get access_token error", e)
         }
-        kotlin.run {
-            try {
-                val accessToken = ACCESS_TOKEN_AND_TICKET["access_token"]
-                if (ACCESS_TOKEN_AND_TICKET["access_token"] == null) {
-                    throw RuntimeException("no access_token")
-                }
-                val uri = URI.create(JS_API_TICKET_URL.replace("ACCESS_TOKEN", accessToken as String))
-                log.debug("get jsapi_ticket uri: $uri")
-                val response = uri.toURL().readText()
-                log.info("response: $response")
-                ACCESS_TOKEN_AND_TICKET["jsapi_ticket"] = mutableMapAdapter.fromJson(response)?.get("ticket") as String
-            } catch (e: Exception) {
-                log.warn("get jsapi_ticket error", e)
+        try {
+            val accessToken = ACCESS_TOKEN_AND_TICKET["access_token"]
+            if (ACCESS_TOKEN_AND_TICKET["access_token"] == null) {
+                throw RuntimeException("no access_token")
             }
+            val uri = URI.create(JS_API_TICKET_URL.replace("ACCESS_TOKEN", accessToken as String))
+            log.debug("get jsapi_ticket uri: $uri")
+            val response = uri.toURL().readText()
+            log.info("response: $response")
+            ACCESS_TOKEN_AND_TICKET["jsapi_ticket"] = mutableMapAdapter.fromJson(response)?.get("ticket") as String
+        } catch (e: Exception) {
+            log.warn("get jsapi_ticket error", e)
         }
     }
 }
