@@ -1,9 +1,6 @@
 package com.onysakura.tools.test
 
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @CrossOrigin(origins = ["onysakura.com", "https://onysakura.xyz"])
@@ -11,8 +8,9 @@ import org.springframework.web.bind.annotation.RestController
 class TestController {
 
     @GetMapping("/echo")
-    fun test(s: String): String {
-        return s
+    fun test(@RequestBody map: MutableMap<String, String>): String {
+        println(map)
+        return "s"
     }
 
     @GetMapping("/get")
