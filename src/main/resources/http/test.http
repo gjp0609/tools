@@ -1,0 +1,17 @@
+
+### sdfea
+GET {{url}}/test/echo
+Content-Type: application/json
+
+{
+  "a": "asfd"
+}
+
+
+### sdfea
+POST {{url}}/test/echo
+Content-Type: application/json
+
+{
+  "a": "asfd"
+}
