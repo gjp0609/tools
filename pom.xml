@@ -135,7 +135,7 @@
                         </goals>
                         <configuration>
                             <sourceDirs>
-<!--                                <source>src/main/kotlin</source>-->
+                                <source>src/main/kotlin</source>
                                 <source>src/main/java</source>
                             </sourceDirs>
                         </configuration>
