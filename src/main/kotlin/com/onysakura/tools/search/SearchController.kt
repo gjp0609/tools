@@ -21,16 +21,16 @@ import java.util.*
 @RequestMapping("/s")
 class SearchController {
 
-    companion object {
-        init {
-            val proxyHost = "127.0.0.1"
-            val proxyPort = "1080"
-            System.setProperty("http.proxyHost", proxyHost)
-            System.setProperty("http.proxyPort", proxyPort)
-            System.setProperty("https.proxyHost", proxyHost)
-            System.setProperty("https.proxyPort", proxyPort)
-        }
-    }
+//    companion object {
+//        init {
+//            val proxyHost = "127.0.0.1"
+//            val proxyPort = "1080"
+//            System.setProperty("http.proxyHost", proxyHost)
+//            System.setProperty("http.proxyPort", proxyPort)
+//            System.setProperty("https.proxyHost", proxyHost)
+//            System.setProperty("https.proxyPort", proxyPort)
+//        }
+//    }
 
     @GetMapping
     fun search(mv: ModelAndView, @RequestParam(required = false, defaultValue = "") q: String, @RequestParam(required = false, defaultValue = "0") start: Int): ModelAndView {
