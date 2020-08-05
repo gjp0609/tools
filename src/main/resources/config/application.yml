@@ -6,7 +6,7 @@ server:
     context-path:
 spring:
   application:
-    name: Online Tools
+    name: online-tools
   profiles:
     active: @profile.active@
   jpa:

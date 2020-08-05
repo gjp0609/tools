@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration debug="false" scan="false">
-    <springProperty scop="context" name="spring.application.name" source="spring.application.name" defaultValue="tools"/>
+    <springProperty scop="context" name="spring.application.name" source="spring.application.name"
+                    defaultValue="tools"/>
     <springProfile name="dev">
         <property name="logPath" value="/Files/yj/logs"/>
     </springProfile>
@@ -25,7 +26,8 @@
         </rollingPolicy>
         <!-- 格式化 -->
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger.%M - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%4.4t] %highlight(%5level) [%50.50c{50} %3.5L] - %highlight(%m) %n
+            </pattern>
         </encoder>
     </appender>
 

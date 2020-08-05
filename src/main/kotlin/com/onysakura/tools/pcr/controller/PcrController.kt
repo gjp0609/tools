@@ -1,8 +1,10 @@
 package com.onysakura.tools.pcr.controller
 
 import com.onysakura.tools.pcr.model.Activity
+import com.onysakura.tools.pcr.model.Axis
 import com.onysakura.tools.pcr.model.Princess
 import com.onysakura.tools.pcr.repository.ActivityRepository
+import com.onysakura.tools.pcr.repository.AxisRepository
 import com.onysakura.tools.pcr.repository.PrincessRepository
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -11,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
-@CrossOrigin(origins = ["onysakura.com", "https://onysakura.xyz"])
+@CrossOrigin(origins = ["onysakura.com", "*.onysakura.com", "https://onysakura.xyz"])
 @RestController
 @RequestMapping("/pcr")
 open class PcrController(
         private val princessRepository: PrincessRepository,
+        private val axisRepository: AxisRepository,
         private val activityRepository: ActivityRepository) {
 
     val log = LoggerFactory.getLogger(PcrController::class.java)
@@ -45,5 +48,12 @@ open class PcrController(
         } else {
             return null
         }
+    }
+
+    @GetMapping("/axis")
+    fun axisList(): MutableList<Axis> {
+        val list = axisRepository.findAll()
+        log.info("list: $list")
+        return list
     }
 }
