@@ -6,3 +6,9 @@ GET {{url}}/pcr/activity
 
 ### current activity
 GET {{url}}/pcr/activity/current
+
+### boss list
+GET {{url}}/pcr/boss?activityId=3
+
+### axis list
+GET {{url}}/pcr/axis?activityId=3&bossId=1

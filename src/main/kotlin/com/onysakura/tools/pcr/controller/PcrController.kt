@@ -2,11 +2,14 @@ package com.onysakura.tools.pcr.controller
 
 import com.onysakura.tools.pcr.model.Activity
 import com.onysakura.tools.pcr.model.Axis
+import com.onysakura.tools.pcr.model.Boss
 import com.onysakura.tools.pcr.model.Princess
 import com.onysakura.tools.pcr.repository.ActivityRepository
 import com.onysakura.tools.pcr.repository.AxisRepository
+import com.onysakura.tools.pcr.repository.BossRepository
 import com.onysakura.tools.pcr.repository.PrincessRepository
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Sort
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -19,6 +22,7 @@ import java.util.*
 open class PcrController(
         private val princessRepository: PrincessRepository,
         private val axisRepository: AxisRepository,
+        private val bossRepository: BossRepository,
         private val activityRepository: ActivityRepository) {
 
     val log = LoggerFactory.getLogger(PcrController::class.java)
@@ -39,20 +43,28 @@ open class PcrController(
 
 
     @GetMapping("/activity/current")
-    fun currentActivity(): Activity? {
+    fun currentActivity(): Long {
         val now = Date()
         val list = activityRepository.findAllByBeginDateBeforeAndEndDateAfter(now, now)
         log.info("list: $list")
         if (list.size > 0) {
-            return list[0]
+            return list[0].id
         } else {
-            return null
+            return 0L
         }
     }
 
+
+    @GetMapping("/boss")
+    fun bossList(activityId: Long): MutableList<Boss> {
+        val list = bossRepository.findAllByActivityId(activityId)
+        log.info("boss list: $list")
+        return list
+    }
+
     @GetMapping("/axis")
-    fun axisList(): MutableList<Axis> {
-        val list = axisRepository.findAll()
+    fun axisList(activityId: Long, bossId: Long): MutableList<Axis> {
+        val list: MutableList<Axis> = axisRepository.findAll(Sort.by(Sort.Order.desc("createTime")))
         log.info("list: $list")
         return list
     }

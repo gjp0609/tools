@@ -15,7 +15,7 @@ class Princess {
 
     @Column(columnDefinition = "int(1)")
     @Enumerated(EnumType.ORDINAL)
-    var type: Constants.Type = Constants.Type.S
+    var type: Constants.Type = Constants.Type.REAR
 
     @Column(columnDefinition = "int(10)")
     var priority: Int = Int.MAX_VALUE

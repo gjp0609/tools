@@ -13,8 +13,6 @@ import java.net.http.HttpResponse
 import java.time.Duration
 import javax.servlet.http.HttpServletRequest
 
-@ConditionalOnProperty("custom.features-enable.wechat")
-@Component
 open class WechatUtils {
 
     val log = LoggerFactory.getLogger(WechatUtils::class.java)
@@ -23,8 +21,8 @@ open class WechatUtils {
         const val AUTH_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECTURI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect"
         const val MESSAGE_SEND_URL = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=ACCESS_TOKEN"
         const val TEMPLATE_SEND_URL = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN"
-        const val APP_ID = "wx6840b5bb18a51971"
-        const val APP_SECRET = "79e3e8ee8432652c63d011b7b209c58d"
+        const val APP_ID = "wx4aa60646de67cffe"
+        const val APP_SECRET = "716d8cc8ded194174ecac759ba7fa6a9"
         const val ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APP_ID&secret=APP_SECRET"
         const val JS_API_TICKET_URL = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi"
         const val TEXT_TEMPLATE = "6GPHNlSx8RV7oRDad5o7YxAR8eAOk0HBykn7NUO9ja8"
@@ -124,31 +122,4 @@ open class WechatUtils {
         }
     }
 
-    @Scheduled(cron = "0 0 0/2 * * ?") // 2 hours
-    fun getTokenAndTicketJob() {
-        val mutableMapAdapter = Moshi.Builder().add(KotlinJsonAdapterFactory()).build().adapter(MutableMap::class.java)
-        try {
-            log.debug("test2: {}", URI.create("http://httpbin.org/get?param=test").toURL().readText())
-            val uri = URI.create(ACCESS_TOKEN_URL.replace("APP_ID", APP_ID).replace("APP_SECRET", APP_SECRET))
-            log.debug("get access_token uri: $uri")
-            val response = uri.toURL().readText()
-            log.info("response: $response")
-            ACCESS_TOKEN_AND_TICKET["access_token"] = mutableMapAdapter.fromJson(response)?.get("access_token") as String
-        } catch (e: Exception) {
-            log.warn("get access_token error", e)
-        }
-        try {
-            val accessToken = ACCESS_TOKEN_AND_TICKET["access_token"]
-            if (ACCESS_TOKEN_AND_TICKET["access_token"] == null) {
-                throw RuntimeException("no access_token")
-            }
-            val uri = URI.create(JS_API_TICKET_URL.replace("ACCESS_TOKEN", accessToken as String))
-            log.debug("get jsapi_ticket uri: $uri")
-            val response = uri.toURL().readText()
-            log.info("response: $response")
-            ACCESS_TOKEN_AND_TICKET["jsapi_ticket"] = mutableMapAdapter.fromJson(response)?.get("ticket") as String
-        } catch (e: Exception) {
-            log.warn("get jsapi_ticket error", e)
-        }
-    }
 }

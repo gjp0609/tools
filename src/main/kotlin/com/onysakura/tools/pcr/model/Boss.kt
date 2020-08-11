@@ -1,11 +1,10 @@
 package com.onysakura.tools.pcr.model
 
-import java.util.*
 import javax.persistence.*
 
 @Entity
-@Table(name = "pcr_activity")
-class Activity {
+@Table(name = "pcr_boss")
+class Boss {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "int(20)")
@@ -14,9 +13,12 @@ class Activity {
     @Column(columnDefinition = "varchar(20)")
     var name: String = ""
 
-    @Column(columnDefinition = "datetime")
-    var beginDate: Date = Date()
+    @Column(columnDefinition = "int(10)")
+    var round: Int = 1
 
-    @Column(columnDefinition = "datetime")
-    var endDate: Date = Date()
+    @Column(columnDefinition = "int(20)")
+    var activityId: Long = 0L
+
+    @Column(columnDefinition = "int(1)")
+    var isFurious: Boolean = false
 }
