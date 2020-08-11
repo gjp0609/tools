@@ -16,6 +16,8 @@ spring:
   thymeleaf:
     cache: false
     prefix: classpath:templates/
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
 logging:
   config: classpath:config/logback-spring.xml
 

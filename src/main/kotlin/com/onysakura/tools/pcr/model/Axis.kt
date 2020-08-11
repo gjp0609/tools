@@ -20,6 +20,9 @@ class Axis {
     @Column(columnDefinition = "varchar(100)")
     var imgPath: String = ""
 
+    @Column(columnDefinition = "varchar(100)")
+    var princessList: String = ""
+
     @Column(columnDefinition = "text")
     var remark: String = ""
 
