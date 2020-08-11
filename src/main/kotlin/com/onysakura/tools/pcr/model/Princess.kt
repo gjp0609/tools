@@ -20,10 +20,12 @@ class Princess {
     @Column(columnDefinition = "int(10)")
     var priority: Int = Int.MAX_VALUE
 
-    @Column(columnDefinition = "text")
-    var img: String = ""
-//
-//    @Column(columnDefinition = "int(1)")
-//    @Enumerated(EnumType.ORDINAL)
-//    var stars: Constants.Stars = Constants.Stars.ONE
+    @Column(columnDefinition = "int(100)")
+    var img1: String = ""
+
+    @Column(columnDefinition = "int(100)")
+    var img3: String = ""
+
+    @Column(columnDefinition = "int(100)")
+    var img6: String = ""
 }
