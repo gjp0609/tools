@@ -72,7 +72,7 @@ open class PcrController(
     }
 
     @PostMapping(value = ["/upload"], produces = ["multipart/form-data"])
-    fun upload(@RequestParam("filee") file: MultipartFile) {
+    fun upload(@RequestParam("file") file: MultipartFile) {
         log.info("add axis: $file")
         val f = File(uploadPath + "/pcr/axis/" + file.originalFilename)
         file.inputStream.transferTo(f.outputStream())
