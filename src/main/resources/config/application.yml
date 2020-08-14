@@ -18,6 +18,10 @@ spring:
     prefix: classpath:templates/
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
 logging:
   config: classpath:config/logback-spring.xml
 

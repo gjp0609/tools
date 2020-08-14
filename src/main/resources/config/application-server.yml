@@ -1,5 +1,7 @@
 server:
   port: 9000
+  tomcat:
+    basedir: /root/tmp
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -9,6 +11,7 @@ spring:
 
 # custom config
 custom:
+  uploadPath: /root/images
   features-enable:
     wechat: false
     kindle: false

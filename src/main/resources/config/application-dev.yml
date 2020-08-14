@@ -1,19 +1,17 @@
 server:
   port: 23456
+  tomcat:
+    basedir: /Files/yj/temp
 spring:
-  data:
-    mongodb:
-      host: 127.0.0.1
-      port: 27017
-      database: data
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/tools?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+    url: jdbc:mysql://140.143.236.131:3306/tools?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
     username: me
     password: 123456
 
 # custom config
 custom:
+  uploadPath: /Files/yj/temp
   features-enable:
     wechat: false
     kindle: false

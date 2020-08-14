@@ -28,4 +28,8 @@ class Axis {
 
     @Column(columnDefinition = "datetime")
     var createTime: Date = Date()
+
+    override fun toString(): String {
+        return "Axis(id=$id, bossId=$bossId, damageAmount=$damageAmount, imgPath='$imgPath', princessList='$princessList', remark='$remark', createTime=$createTime)"
+    }
 }

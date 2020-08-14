@@ -9,11 +9,11 @@ import com.onysakura.tools.pcr.repository.AxisRepository
 import com.onysakura.tools.pcr.repository.BossRepository
 import com.onysakura.tools.pcr.repository.PrincessRepository
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.Sort
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
+import java.io.File
 import java.util.*
 
 @CrossOrigin(origins = ["onysakura.com", "*.onysakura.com", "https://onysakura.xyz"])
@@ -26,6 +26,9 @@ open class PcrController(
         private val activityRepository: ActivityRepository) {
 
     val log = LoggerFactory.getLogger(PcrController::class.java)
+
+    @Value(value = "\${custom.uploadPath}")
+    private val uploadPath: String = ""
 
     @GetMapping("/princess")
     fun princessList(): MutableList<Princess> {
@@ -54,7 +57,6 @@ open class PcrController(
         }
     }
 
-
     @GetMapping("/boss")
     fun bossList(activityId: Long): MutableList<Boss> {
         val list = bossRepository.findAllByActivityId(activityId)
@@ -67,5 +69,18 @@ open class PcrController(
         val list: MutableList<Axis> = axisRepository.findAll(Sort.by(Sort.Order.desc("createTime")))
         log.info("list: $list")
         return list
+    }
+
+    @PostMapping(value = ["/upload"], produces = ["multipart/form-data"])
+    fun upload(@RequestParam("filee") file: MultipartFile) {
+        log.info("add axis: $file")
+        val f = File(uploadPath + "/pcr/axis/" + file.originalFilename)
+        file.inputStream.transferTo(f.outputStream())
+    }
+
+    @PutMapping("/axis")
+    fun addAxis(@RequestBody axis: Axis) {
+        log.info("add axis: $axis")
+        axisRepository.save(axis)
     }
 }
