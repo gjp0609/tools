@@ -14,7 +14,7 @@ open class FilterConfig {
         val registration = FilterRegistrationBean<Filter>()
         registration.filter = HttpServletWrapperFilter()
         registration.addUrlPatterns("/*")
-        registration.setName("LogCostFilter")
+        registration.setName("LogFilter")
         registration.order = 1
         return registration
     }

@@ -35,7 +35,6 @@ class LogInterceptor : HandlerInterceptor {
     override fun afterCompletion(request: HttpServletRequest, response: HttpServletResponse, handler: Any, ex: java.lang.Exception?) {
         var str = "[${request.session.id}]：${request.requestURI} response, status: ${response.status}"
         if (response is BodyReaderHttpServletResponseWrapper) {
-            println(1)
             val responseData = String(response.getResponseData())
             if (!responseData.isBlank()) {
                 str += ", body:\n$responseData"

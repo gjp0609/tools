@@ -8,6 +8,7 @@ import com.onysakura.tools.pcr.repository.ActivityRepository
 import com.onysakura.tools.pcr.repository.AxisRepository
 import com.onysakura.tools.pcr.repository.BossRepository
 import com.onysakura.tools.pcr.repository.PrincessRepository
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.Sort
@@ -25,7 +26,7 @@ open class PcrController(
         private val bossRepository: BossRepository,
         private val activityRepository: ActivityRepository) {
 
-    val log = LoggerFactory.getLogger(PcrController::class.java)
+    val log: Logger = LoggerFactory.getLogger(PcrController::class.java)
 
     @Value(value = "\${custom.uploadPath}")
     private val uploadPath: String = ""
