@@ -2,6 +2,7 @@ package com.onysakura.tools.interceptor
 
 import com.onysakura.tools.filter.BodyReaderHttpServletRequestWrapper
 import com.onysakura.tools.filter.BodyReaderHttpServletResponseWrapper
+import com.onysakura.tools.wechat.WechatUtils
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -21,6 +22,12 @@ class LogInterceptor : HandlerInterceptor {
         var str = "[${request.session.id}]：${request.requestURI} request"
         if (request.parameterMap.isNotEmpty()) {
             str += ", params: ${mapAdapter.toJson(request.parameterMap)}"
+        }
+        try {
+            val ip: String = WechatUtils.getIp(request)
+            str += ", ip: $ip"
+        } catch (e: Exception) {
+
         }
         if (request is BodyReaderHttpServletRequestWrapper) {
             val body: String? = request.getBody()
