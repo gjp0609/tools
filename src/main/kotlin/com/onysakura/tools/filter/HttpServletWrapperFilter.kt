@@ -12,12 +12,14 @@ class HttpServletWrapperFilter : Filter {
         var requestWrapper: ServletRequest? = null
         var responseWrapper: BodyReaderHttpServletResponseWrapper? = null
         if (request is HttpServletRequest) {
-            if (request.contentType.contains("multipart/form-data")) {
-                val multipartResolver = CommonsMultipartResolver()
-                val multipartRequest: MultipartHttpServletRequest = multipartResolver.resolveMultipart(request)
-                requestWrapper = multipartRequest
-            } else if (arrayOf("POST", "PUT").contains(request.method)) {
-                requestWrapper = BodyReaderHttpServletRequestWrapper(request)
+            if (arrayOf("POST", "PUT").contains(request.method)) {
+                if (request.contentType.contains("multipart/form-data")) {
+                    val multipartResolver = CommonsMultipartResolver()
+                    val multipartRequest: MultipartHttpServletRequest = multipartResolver.resolveMultipart(request)
+                    requestWrapper = multipartRequest
+                } else {
+                    requestWrapper = BodyReaderHttpServletRequestWrapper(request)
+                }
             }
         }
         if (response is HttpServletResponse) {

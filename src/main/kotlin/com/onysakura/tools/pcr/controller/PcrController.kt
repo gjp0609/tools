@@ -1,5 +1,6 @@
 package com.onysakura.tools.pcr.controller
 
+import com.onysakura.tools.miniprogram.MiniProgramUtils
 import com.onysakura.tools.pcr.model.Activity
 import com.onysakura.tools.pcr.model.Axis
 import com.onysakura.tools.pcr.model.Boss
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
 import java.util.*
+import javax.servlet.http.HttpServletRequest
 
 @CrossOrigin(origins = ["onysakura.com", "*.onysakura.com", "https://onysakura.xyz"])
 @RestController
@@ -30,8 +32,24 @@ open class PcrController(
 
     val log: Logger = LoggerFactory.getLogger(PcrController::class.java)
 
+    companion object {
+        fun isNotLogin(request: HttpServletRequest): Boolean {
+            return request.session.getAttribute("sessionKey") == null
+        }
+    }
+
     @Value(value = "\${custom.uploadPath}")
     private val uploadPath: String = ""
+
+    @GetMapping("/login")
+    fun login(code: String, request: HttpServletRequest) {
+        log.info("code: $code")
+        val session: String = MiniProgramUtils.codeToSession(code)
+        log.info("session: $session")
+        if (!session.isBlank()) {
+            request.session.setAttribute("sessionKey", session)
+        }
+    }
 
     @GetMapping("/princess")
     fun princessList(): MutableList<Princess> {
@@ -75,7 +93,10 @@ open class PcrController(
     }
 
     @PostMapping(value = ["/upload"], produces = ["multipart/form-data"])
-    fun upload(@RequestParam("file") file: MultipartFile): String {
+    fun upload(@RequestParam("file") file: MultipartFile, request: HttpServletRequest): String {
+        if (isNotLogin(request)) {
+            return "Login"
+        }
         log.info("add axis: $file")
         val dir = File("$uploadPath/pcr/axis/")
         if (!dir.exists()) {
@@ -88,7 +109,10 @@ open class PcrController(
     }
 
     @PutMapping("/axis")
-    fun addAxis(@RequestBody axis: Axis) {
+    fun addAxis(@RequestBody axis: Axis, request: HttpServletRequest) {
+        if (isNotLogin(request)) {
+            return
+        }
         log.info("add axis: $axis")
         axisRepository.save(axis)
     }
