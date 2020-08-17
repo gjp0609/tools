@@ -6,7 +6,7 @@ class StringUtils {
 
     companion object {
         val random: Random.Default = Random.Default
-        val seed = "" +
+        const val seed: String = "" +
                 "01234567890" +
                 "abcdefg" +
                 "hijklmn" +
@@ -14,9 +14,9 @@ class StringUtils {
                 "uvwxyz"
 
         fun randomStr(length: Int): String {
-            val int = random.nextInt(seed.length)
             val stringBuilder = StringBuilder()
             for (i: Int in 0..length) {
+                val int: Int = random.nextInt(seed.length)
                 stringBuilder.append(seed[int])
             }
             return stringBuilder.toString()

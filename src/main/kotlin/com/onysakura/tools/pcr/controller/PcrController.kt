@@ -81,7 +81,8 @@ open class PcrController(
         if (!dir.exists()) {
             dir.mkdirs()
         }
-        val name: String = DateUtils.nowStr() + "-" + StringUtils.randomStr(4)
+        val originalFilename: String = file.originalFilename ?: "null.jpg"
+        val name: String = DateUtils.nowStr() + "-" + StringUtils.randomStr(4) + originalFilename.substring(originalFilename.lastIndexOf("."))
         file.inputStream.transferTo(File("$uploadPath/pcr/axis/$name").outputStream())
         return name
     }
