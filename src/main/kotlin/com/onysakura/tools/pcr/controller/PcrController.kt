@@ -8,6 +8,8 @@ import com.onysakura.tools.pcr.repository.ActivityRepository
 import com.onysakura.tools.pcr.repository.AxisRepository
 import com.onysakura.tools.pcr.repository.BossRepository
 import com.onysakura.tools.pcr.repository.PrincessRepository
+import com.onysakura.tools.utils.DateUtils
+import com.onysakura.tools.utils.StringUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -73,10 +75,15 @@ open class PcrController(
     }
 
     @PostMapping(value = ["/upload"], produces = ["multipart/form-data"])
-    fun upload(@RequestParam("file") file: MultipartFile) {
+    fun upload(@RequestParam("file") file: MultipartFile): String {
         log.info("add axis: $file")
-        val f = File(uploadPath + "/pcr/axis/" + file.originalFilename)
-        file.inputStream.transferTo(f.outputStream())
+        val dir = File("$uploadPath/pcr/axis/")
+        if (!dir.exists()) {
+            dir.mkdirs()
+        }
+        val name: String = DateUtils.nowStr() + "-" + StringUtils.randomStr(4)
+        file.inputStream.transferTo(File("$uploadPath/pcr/axis/$name").outputStream())
+        return name
     }
 
     @PutMapping("/axis")

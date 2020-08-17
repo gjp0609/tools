@@ -10,9 +10,17 @@ class DateUtils {
         val YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss"
         val YYYYMMDDHHMMSS = "yyyyMMddHHmmss"
 
-        fun format(date: Date?, patten: String?): String? {
+        fun format(date: Date, patten: String): String {
             val format = SimpleDateFormat(patten)
             return format.format(date)
+        }
+
+        fun now(): Date {
+            return Date()
+        }
+
+        fun nowStr(): String {
+            return format(now(), YYYYMMDDHHMMSS)
         }
     }
 }
