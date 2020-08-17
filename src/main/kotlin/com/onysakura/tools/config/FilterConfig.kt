@@ -13,7 +13,7 @@ open class FilterConfig {
     open fun httpServletRequestWrapperFilter(): FilterRegistrationBean<Filter> {
         val registration = FilterRegistrationBean<Filter>()
         registration.filter = HttpServletWrapperFilter()
-        registration.addUrlPatterns("/*")
+        registration.addUrlPatterns("/pcr/*")
         registration.setName("LogFilter")
         registration.order = 1
         return registration

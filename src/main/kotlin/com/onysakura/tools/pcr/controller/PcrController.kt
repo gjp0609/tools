@@ -42,13 +42,15 @@ open class PcrController(
     private val uploadPath: String = ""
 
     @GetMapping("/login")
-    fun login(code: String, request: HttpServletRequest) {
+    fun login(code: String, request: HttpServletRequest): String {
         log.info("code: $code")
         val session: String = MiniProgramUtils.codeToSession(code)
         log.info("session: $session")
         if (!session.isBlank()) {
             request.session.setAttribute("sessionKey", session)
+            return request.session.id
         }
+        return ""
     }
 
     @GetMapping("/princess")
