@@ -8,6 +8,9 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/tools?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
     username: me
     password: 123456
+  servlet:
+    multipart:
+      location: /root/tmp
 
 # custom config
 custom:
