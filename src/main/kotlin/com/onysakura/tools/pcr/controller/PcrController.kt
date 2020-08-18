@@ -5,16 +5,14 @@ import com.onysakura.tools.pcr.model.Activity
 import com.onysakura.tools.pcr.model.Axis
 import com.onysakura.tools.pcr.model.Boss
 import com.onysakura.tools.pcr.model.Princess
-import com.onysakura.tools.pcr.repository.ActivityRepository
-import com.onysakura.tools.pcr.repository.AxisRepository
-import com.onysakura.tools.pcr.repository.BossRepository
-import com.onysakura.tools.pcr.repository.PrincessRepository
+import com.onysakura.tools.pcr.repository.*
 import com.onysakura.tools.utils.DateUtils
+import com.onysakura.tools.utils.JsonUtils
 import com.onysakura.tools.utils.StringUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.data.domain.Sort
+import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
@@ -27,6 +25,7 @@ import javax.servlet.http.HttpServletRequest
 open class PcrController(
         private val princessRepository: PrincessRepository,
         private val axisRepository: AxisRepository,
+        private val jdbcTemplate: JdbcTemplate,
         private val bossRepository: BossRepository,
         private val activityRepository: ActivityRepository) {
 
@@ -88,10 +87,39 @@ open class PcrController(
     }
 
     @GetMapping("/axis")
-    fun axisList(activityId: Long, bossId: Long): MutableList<Axis> {
-        val list: MutableList<Axis> = axisRepository.findAll(Sort.by(Sort.Order.desc("createTime")))
+    fun axisList(
+            @RequestParam(value = "activityId", required = false, defaultValue = "0") activityId: Long,
+            @RequestParam(value = "bossId", required = false, defaultValue = "0") bossId: Long,
+            @RequestParam(value = "princessList", required = false, defaultValue = "") princessList: String,
+            @RequestParam(value = "invertSelection", required = false, defaultValue = "false") invertSelection: Boolean
+    ): List<Axis> {
+        var sql = "select a.* from pcr_axis a left join pcr_boss b on a.boss_id = b.id where status in (0,1) "
+        if (activityId != 0L) {
+            sql += "and b.activity_id = $activityId "
+        }
+        if (bossId != 0L) {
+            sql += "and a.boss_id = $bossId "
+        }
+        if (princessList.isNotBlank()) {
+            val list: MutableList<*>? = JsonUtils.mutableListAdapter.fromJson(princessList)
+            list?.forEach {
+                sql += "and ${if (invertSelection) "not" else ""} find_in_set('$it', a.princess_str) "
+            }
+        }
+        sql += ";"
+        log.info("sql: $sql")
+        val list: MutableList<Axis> = jdbcTemplate.query(sql, JdbcRowMapperWrapper(Axis::class.java))
         log.info("list: $list")
         return list
+    }
+
+    @PutMapping("/axis")
+    fun addAxis(@RequestBody axis: Axis, request: HttpServletRequest) {
+        if (isNotLogin(request)) {
+            return
+        }
+        log.info("add axis: $axis")
+        axisRepository.save(axis)
     }
 
     @PostMapping(value = ["/upload"], produces = ["multipart/form-data"])
@@ -108,14 +136,5 @@ open class PcrController(
         val name: String = DateUtils.nowStr() + "-" + StringUtils.randomStr(4) + originalFilename.substring(originalFilename.lastIndexOf("."))
         file.inputStream.transferTo(File("$uploadPath/pcr/axis/$name").outputStream())
         return name
-    }
-
-    @PutMapping("/axis")
-    fun addAxis(@RequestBody axis: Axis, request: HttpServletRequest) {
-        if (isNotLogin(request)) {
-            return
-        }
-        log.info("add axis: $axis")
-        axisRepository.save(axis)
     }
 }

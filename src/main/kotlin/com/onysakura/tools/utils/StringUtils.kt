@@ -21,5 +21,44 @@ class StringUtils {
             }
             return stringBuilder.toString()
         }
+
+        /**
+         * 驼峰转下划线
+         */
+        fun humpToUnderline(para: String): String? {
+            val sb = StringBuilder(para)
+            var temp = 0
+            if (!para.contains("_")) {
+                for (i: Int in para.indices) {
+                    if (Character.isUpperCase(para[i])) {
+                        sb.insert(i + temp, "_")
+                        temp += 1
+                    }
+                }
+            }
+            return sb.toString().toUpperCase()
+        }
+
+        /**
+         * 下划线转驼峰
+         */
+        fun underlineToHump(para: String): String? {
+            val result = StringBuilder()
+            val a: Array<String> = para.split("_").toTypedArray()
+            for (s: String in a) {
+                if (!para.contains("_")) {
+                    result.append(s.substring(0, 1).toUpperCase())
+                    result.append(s.substring(1).toLowerCase())
+                    continue
+                }
+                if (result.isEmpty()) {
+                    result.append(s.toLowerCase())
+                } else {
+                    result.append(s.substring(0, 1).toUpperCase())
+                    result.append(s.substring(1).toLowerCase())
+                }
+            }
+            return result.toString()
+        }
     }
 }

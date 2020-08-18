@@ -5,6 +5,10 @@ class Constants {
         FRONT, MIDDLE, REAR
     }
 
+    enum class Status {
+        INIT, OK,
+    }
+
     companion object {
         init {
 

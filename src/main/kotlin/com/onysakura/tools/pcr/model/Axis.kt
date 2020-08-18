@@ -23,8 +23,15 @@ class Axis {
     @Column(columnDefinition = "varchar(100)")
     var princessList: String = ""
 
+    @Column(columnDefinition = "varchar(100)")
+    var princessStr: String = ""
+
     @Column(columnDefinition = "text")
     var remark: String = ""
+
+    @Column(columnDefinition = "int(3)")
+    @Enumerated(EnumType.ORDINAL)
+    var status: Constants.Status = Constants.Status.INIT
 
     @Column(columnDefinition = "datetime")
     var createTime: Date = Date()

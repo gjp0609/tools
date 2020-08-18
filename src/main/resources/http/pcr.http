@@ -1,3 +1,6 @@
+### login
+GET {{url}}/pcr/login?code=041garFa1Qpisz0klpGa10C7O43garFa
+
 ###
 GET {{url}}/pcr/princess
 
@@ -11,4 +14,25 @@ GET {{url}}/pcr/activity/current
 GET {{url}}/pcr/boss?activityId=3
 
 ### axis list
-GET {{url}}/pcr/axis?activityId=3&bossId=1
+GET {{url}}/pcr/axis?activityId=&bossId=
+
+### axis list
+PUT {{url}}/pcr/axis
+Content-Type: application/json
+
+{
+  "bossId": 123,
+  "damageAmount": "",
+  "imgPath": "",
+  "princessList": "[{\"id\":4,\"star\":5}]"
+}
+
+### uplaod
+POST {{url}}/pcr/upload?file=123
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="Snipaste_2019-12-09_15-44-35.png"
+
+< /Files/yj/Snipaste_2019-12-09_15-44-35.png
+--WebAppBoundary--
