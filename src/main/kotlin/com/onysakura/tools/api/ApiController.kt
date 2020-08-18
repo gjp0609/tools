@@ -2,6 +2,7 @@ package com.onysakura.tools.api
 
 import com.onysakura.tools.utils.StringUtils
 import org.springframework.web.bind.annotation.*
+import java.util.*
 import javax.servlet.http.HttpServletResponse
 
 @CrossOrigin(origins = ["https://pages.onysakura.com", "https://onysakura.fun"])
@@ -11,6 +12,10 @@ open class ApiController(private val repository: ApiRepository) {
 
     @PutMapping
     fun put(@RequestBody content: String): String {
+        val optionalApi: Optional<Api> = repository.findFirstByContent(content)
+        if (optionalApi.isPresent){
+            return optionalApi.get().code
+        }
         var randomStr: String = StringUtils.randomStr(4)
         var count = 0
         while (repository.existsById(randomStr)) {
