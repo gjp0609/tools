@@ -8,14 +8,12 @@ class StringUtils {
         val random: Random.Default = Random.Default
         const val seed: String = "" +
                 "01234567890" +
-                "abcdefg" +
-                "hijklmn" +
-                "opgrst" +
-                "uvwxyz"
+                "abcdefghijklmnopqrstuvwxyz" +
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
         fun randomStr(length: Int): String {
             val stringBuilder = StringBuilder()
-            for (i: Int in 0..length) {
+            for (i: Int in 1..length) {
                 val int: Int = random.nextInt(seed.length)
                 stringBuilder.append(seed[int])
             }

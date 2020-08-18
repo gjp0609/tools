@@ -5,20 +5,15 @@ import javax.persistence.Entity
 import javax.persistence.Id
 
 @Entity
-class Api() {
+class Api {
     @Id
-    @Column(length = 10, columnDefinition = "varchar(10) COMMENT '编码'")
+    @Column(columnDefinition = "varchar(10)")
     var code: String = ""
 
-    @Column(length = 1024, columnDefinition = "varchar(1024) COMMENT '原始地址'")
-    var url: String = ""
-
-    constructor(code: String, url: String) : this() {
-        this.code = code
-        this.url = url
-    }
+    @Column(columnDefinition = "text")
+    var content: String = ""
 
     override fun toString(): String {
-        return "UrlEntity(code='$code', url='$url')"
+        return "UrlEntity(code='$code', content='$content')"
     }
 }

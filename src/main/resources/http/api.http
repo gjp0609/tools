@@ -1,0 +1,8 @@
+### get
+GET {{url}}/api/634J
+
+### add
+PUT {{url}}/api
+Content-Type: text/plain
+
+asdasdasd
