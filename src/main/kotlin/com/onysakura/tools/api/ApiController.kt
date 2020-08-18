@@ -4,7 +4,7 @@ import com.onysakura.tools.utils.StringUtils
 import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletResponse
 
-@CrossOrigin(origins = ["onysakura.com", "*.onysakura.com", "https://onysakura.xyz"])
+@CrossOrigin(origins = ["onysakura.com", "*.onysakura.com", "https://onysakura.fun"])
 @RestController
 @RequestMapping("/api")
 open class ApiController(private val repository: ApiRepository) {
