@@ -19,7 +19,7 @@ import java.io.File
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 
-@CrossOrigin(origins = ["onysakura.com", "*.onysakura.com", "https://onysakura.fun"])
+@CrossOrigin(origins = ["onysakura.com", "pages.onysakura.com", "https://onysakura.fun"])
 @RestController
 @RequestMapping("/pcr")
 open class PcrController(
