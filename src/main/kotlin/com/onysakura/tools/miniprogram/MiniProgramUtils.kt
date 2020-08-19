@@ -1,5 +1,6 @@
 package com.onysakura.tools.miniprogram
 
+import com.onysakura.tools.common.ServiceException
 import com.onysakura.tools.utils.JsonUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -25,13 +26,15 @@ class MiniProgramUtils {
             if (!StringUtils.isEmpty(resp)) {
                 val json: Map<*, *>? = JsonUtils.mapAdapter.fromJson(resp)
                 if (!json.isNullOrEmpty()) {
-                    val sessionKey: String? = json["session_key"] as String
-                    if (!sessionKey.isNullOrBlank()) {
-                        return sessionKey
+                    if (json.containsKey("session_key")) {
+                        val sessionKey: String? = json["session_key"] as String
+                        if (!sessionKey.isNullOrBlank()) {
+                            return sessionKey
+                        }
                     }
                 }
             }
-            return ""
+            throw ServiceException("get sessionKey error: $resp")
         }
     }
 }
