@@ -39,6 +39,13 @@
         </root>
     </springProfile>
 
+    <springProfile name="test">
+        <root level="info">
+            <appender-ref ref="file"/>
+            <appender-ref ref="console"/>
+        </root>
+    </springProfile>
+
     <springProfile name="server">
         <root level="info">
             <appender-ref ref="file"/>
