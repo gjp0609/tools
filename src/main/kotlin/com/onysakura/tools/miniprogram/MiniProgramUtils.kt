@@ -11,8 +11,8 @@ class MiniProgramUtils {
 
     companion object {
         val log: Logger = LoggerFactory.getLogger(MiniProgramUtils::class.java)
-        const val APP_ID = ""
-        const val APP_SECRET = ""
+        const val APP_ID = "APP_ID_TO_REPLACE"
+        const val APP_SECRET = "APP_SECRET_TO_REPLACE"
         const val CODE_TO_SESSION_URL = "https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code"
 
         fun codeToSession(code: String): String {
