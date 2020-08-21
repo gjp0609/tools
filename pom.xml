@@ -122,6 +122,12 @@
             </properties>
         </profile>
         <profile>
+            <id>test</id>
+            <properties>
+                <profile.active>test</profile.active>
+            </properties>
+        </profile>
+        <profile>
             <id>server</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
