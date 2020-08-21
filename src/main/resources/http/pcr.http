@@ -14,7 +14,7 @@ GET {{url}}/pcr/activity/current
 GET {{url}}/pcr/boss?activityId=3
 
 ### axis list
-GET {{url}}/pcr/axis?activityId=&bossId=
+GET {{url}}/pcr/axis?activityId=&bossId=&princessList=[1]
 
 ### axis list
 PUT {{url}}/pcr/axis
