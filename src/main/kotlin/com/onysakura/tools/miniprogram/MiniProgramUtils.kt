@@ -1,7 +1,7 @@
 package com.onysakura.tools.miniprogram
 
 import com.onysakura.tools.common.ServiceException
-import com.onysakura.tools.utils.JsonUtils
+import com.onysakura.tools.utils.MoshiUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.util.StringUtils
@@ -24,7 +24,7 @@ class MiniProgramUtils {
             val resp = URL(url).readText()
             log.info("resp: $resp")
             if (!StringUtils.isEmpty(resp)) {
-                val json: MutableMap<String, String>? = JsonUtils.stringMapAdapter.fromJson(resp)
+                val json: MutableMap<String, String>? = MoshiUtils.mapFromJson(resp)
                 if (!json.isNullOrEmpty()) {
                     if (json.containsKey("session_key")) {
                         val sessionKey: String? = json["session_key"]

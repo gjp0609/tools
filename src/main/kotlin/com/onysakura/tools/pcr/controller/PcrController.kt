@@ -9,7 +9,7 @@ import com.onysakura.tools.pcr.model.Boss
 import com.onysakura.tools.pcr.model.Princess
 import com.onysakura.tools.pcr.repository.*
 import com.onysakura.tools.utils.DateUtils
-import com.onysakura.tools.utils.JsonUtils
+import com.onysakura.tools.utils.MoshiUtils
 import com.onysakura.tools.utils.StringUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -100,7 +100,7 @@ open class PcrController(
             sql += "and a.boss_id = $bossId "
         }
         if (princessList.isNotBlank()) {
-            val list: MutableList<String>? = JsonUtils.mutableListStringAdapter.fromJson(princessList)
+            val list: MutableList<String>? = MoshiUtils.listFromJson(princessList)
             list?.forEach {
                 sql += "and ${if (invertSelection) "not" else ""} find_in_set('$it', a.princess_str) "
             }
