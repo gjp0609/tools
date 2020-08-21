@@ -1,5 +1,5 @@
 server:
-  port: 23456
+  port: 9001
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -8,11 +8,11 @@ spring:
     password: 123456
   servlet:
     multipart:
-      location: /Files/yj/temp
+      location: /mnt/c/Files/yj/temp
 
 # custom config
 custom:
-  uploadPath: /Files/yj/temp
+  uploadPath: /mnt/c/Files/yj/temp
   features-enable:
     wechat: false
     kindle: false
