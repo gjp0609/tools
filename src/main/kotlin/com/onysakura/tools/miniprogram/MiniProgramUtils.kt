@@ -24,10 +24,10 @@ class MiniProgramUtils {
             val resp = URL(url).readText()
             log.info("resp: $resp")
             if (!StringUtils.isEmpty(resp)) {
-                val json: Map<*, *>? = JsonUtils.mapAdapter.fromJson(resp)
+                val json: MutableMap<String, String>? = JsonUtils.stringMapAdapter.fromJson(resp)
                 if (!json.isNullOrEmpty()) {
                     if (json.containsKey("session_key")) {
-                        val sessionKey: String? = json["session_key"] as String
+                        val sessionKey: String? = json["session_key"]
                         if (!sessionKey.isNullOrBlank()) {
                             return sessionKey
                         }

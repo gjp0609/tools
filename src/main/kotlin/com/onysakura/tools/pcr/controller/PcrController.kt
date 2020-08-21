@@ -100,9 +100,8 @@ open class PcrController(
             sql += "and a.boss_id = $bossId "
         }
         if (princessList.isNotBlank()) {
-            val list: MutableList<*>? = JsonUtils.mutableListAdapter.fromJson(princessList)
+            val list: MutableList<String>? = JsonUtils.mutableListStringAdapter.fromJson(princessList)
             list?.forEach {
-                it as Long
                 sql += "and ${if (invertSelection) "not" else ""} find_in_set('$it', a.princess_str) "
             }
         }
