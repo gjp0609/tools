@@ -14,9 +14,9 @@ GET {{url}}/pcr/activity/current
 GET {{url}}/pcr/boss?activityId=3
 
 ### axis list
-GET {{url}}/pcr/axis?activityId=&bossId=&princessList=[1]
+GET {{url}}/pcr/axis?activityId=&bossId=&princessList=[2]&invertSelection=true
 
-### axis list
+### add axis
 PUT {{url}}/pcr/axis
 Content-Type: application/json
 

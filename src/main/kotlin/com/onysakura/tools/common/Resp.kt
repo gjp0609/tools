@@ -1,25 +1,25 @@
 package com.onysakura.tools.common
 
-class Result<Data> private constructor() {
+open class Resp<Data> private constructor() {
     var success: Boolean = true
     var msg: String = "success"
     var data: Data? = null
 
     companion object {
-        fun success(): Result<String> {
+        fun success(): Resp<*> {
             return success("success")
         }
 
-        fun success(msg: String): Result<String> {
-            return Result<String>().msg(msg)
+        fun success(msg: String): Resp<*> {
+            return Resp(null).msg(msg)
         }
 
-        fun error(): Result<String> {
+        fun error(): Resp<*> {
             return error("error")
         }
 
-        fun error(msg: String): Result<String> {
-            return Result<String>().error().msg(msg)
+        fun error(msg: String): Resp<*> {
+            return Resp(null).error().msg(msg)
         }
     }
 
@@ -27,23 +27,27 @@ class Result<Data> private constructor() {
         this.data = data
     }
 
-    fun success(): Result<Data> {
+    fun success(): Resp<Data> {
         this.success = true
         return this
     }
 
-    fun error(): Result<Data> {
+    fun error(): Resp<Data> {
         this.success = false
         return this
     }
 
-    fun msg(msg: String): Result<Data> {
+    fun msg(msg: String): Resp<Data> {
         this.msg = msg
         return this
     }
 
-    fun data(data: Data): Result<Data> {
+    fun data(data: Data): Resp<Data> {
         this.data = data
         return this
+    }
+
+    override fun toString(): String {
+        return "Result(success=$success, msg='$msg', data=$data)"
     }
 }

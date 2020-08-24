@@ -1,6 +1,6 @@
 package com.onysakura.tools.config
 
-import com.onysakura.tools.common.Result
+import com.onysakura.tools.common.Resp
 import com.onysakura.tools.common.ServiceException
 import com.onysakura.tools.interceptor.LogInterceptor
 import org.slf4j.Logger
@@ -19,11 +19,11 @@ open class WebAppConfigurer : WebMvcConfigurer {
 
     @ExceptionHandler(value = [Exception::class])
     @ResponseBody
-    fun configureContentNegotiation(e: Exception): Result<*> {
+    fun configureContentNegotiation(e: Exception): Resp<*> {
         if (e !is ServiceException) {
             log.warn("error", e)
         }
-        return Result.error("Error: " + e.message)
+        return Resp.error("Error: " + e.message)
     }
 
     override fun addInterceptors(registry: InterceptorRegistry) {
