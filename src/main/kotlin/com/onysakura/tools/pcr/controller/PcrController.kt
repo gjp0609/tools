@@ -131,6 +131,7 @@ open class PcrController(
         }
         val originalFilename: String = file.originalFilename ?: "null.jpg"
         val name: String = DateUtils.nowStr() + "-" + StringUtils.randomStr(4) + originalFilename.substring(originalFilename.lastIndexOf("."))
+        file.inputStream.transferTo(File("$uploadPath/pcr/axis/$name").outputStream())
         return Resp(name)
     }
 }
