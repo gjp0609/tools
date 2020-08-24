@@ -7,9 +7,6 @@ GET {{url}}/pcr/princess
 ### activity list
 GET {{url}}/pcr/activity
 
-### current activity
-GET {{url}}/pcr/activity/current
-
 ### boss list
 GET {{url}}/pcr/boss?activityId=3
 

@@ -19,6 +19,9 @@ class Boss {
     @Column(columnDefinition = "int(20)")
     var activityId: Long = 0L
 
+    @Column(columnDefinition = "varchar(20)")
+    var img: String = ""
+
     @Column(columnDefinition = "int(1)")
     var isFurious: Boolean = false
 }

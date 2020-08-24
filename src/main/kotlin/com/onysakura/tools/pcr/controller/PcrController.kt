@@ -3,7 +3,10 @@ package com.onysakura.tools.pcr.controller
 import com.onysakura.tools.common.Resp
 import com.onysakura.tools.common.ServiceException
 import com.onysakura.tools.miniprogram.MiniProgramUtils
+import com.onysakura.tools.pcr.model.Activity
 import com.onysakura.tools.pcr.model.Axis
+import com.onysakura.tools.pcr.model.Boss
+import com.onysakura.tools.pcr.model.Princess
 import com.onysakura.tools.pcr.repository.*
 import com.onysakura.tools.utils.DateUtils
 import com.onysakura.tools.utils.MoshiUtils
@@ -11,6 +14,7 @@ import com.onysakura.tools.utils.StringUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.data.domain.Sort
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -50,34 +54,21 @@ open class PcrController(
 
     @GetMapping("/princess")
     fun princessList(): Resp<*> {
-        val list = princessRepository.findAll()
+        val list: MutableList<Princess> = princessRepository.findAll(Sort.by(Sort.Order.asc("priority")))
         log.info("list: $list")
         return Resp(list)
     }
 
     @GetMapping("/activity")
     fun activityList(): Resp<*> {
-        val list = activityRepository.findAll()
+        val list: MutableList<Activity> = activityRepository.findAll(Sort.by(Sort.Order.desc("beginDate")))
         log.info("list: $list")
         return Resp(list)
     }
 
-
-    @GetMapping("/activity/current")
-    fun currentActivity(): Resp<*> {
-        val now = Date()
-        val list = activityRepository.findAllByBeginDateBeforeAndEndDateAfter(now, now)
-        log.info("list: $list")
-        if (list.size > 0) {
-            return Resp(list[0].id)
-        } else {
-            return Resp.error()
-        }
-    }
-
     @GetMapping("/boss")
     fun bossList(activityId: Long): Resp<*> {
-        val list = bossRepository.findAllByActivityId(activityId)
+        val list: MutableList<Boss> = bossRepository.findAllByActivityId(activityId)
         log.info("boss list: $list")
         return Resp(list)
     }
@@ -89,7 +80,7 @@ open class PcrController(
             @RequestParam(value = "princessList", required = false, defaultValue = "") princessList: String,
             @RequestParam(value = "invertSelection", required = false, defaultValue = "false") invertSelection: Boolean
     ): Resp<*> {
-        var sql = "select a.* from pcr_axis a left join pcr_boss b on a.boss_id = b.id where status in (0,1) "
+        var sql = "select a.* from pcr_axis a left join pcr_boss b on a.boss_id = b.id where a.status in (0,1) "
         if (activityId != 0L) {
             sql += "and b.activity_id = $activityId "
         }
@@ -102,7 +93,7 @@ open class PcrController(
                 sql += "and ${if (invertSelection) "not" else ""} find_in_set('$it', a.princess_str) "
             }
         }
-        sql += ";"
+        sql += "order by a.damage_amount desc;"
         log.info("sql: $sql")
         val list: MutableList<Axis> = jdbcTemplate.query(sql, JdbcRowMapperWrapper(Axis::class.java))
         log.info("list: $list")
