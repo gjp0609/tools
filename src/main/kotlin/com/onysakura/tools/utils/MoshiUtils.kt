@@ -25,6 +25,11 @@ class MoshiUtils {
         inline fun <reified K, reified V> mapFromJson(json: String): MutableMap<K, V>? =
                 fromJson(json, Types.newParameterizedType(MutableMap::class.java, K::class.java, V::class.java))
 
+        fun toJson(any: Any): String {
+            return moshi.adapter(Any::class.java).toJson(any)
+        }
+
         private fun <T> getAdapter(type: Type): JsonAdapter<T> = moshi.adapter(type)
+
     }
 }
