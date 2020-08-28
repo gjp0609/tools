@@ -19,7 +19,6 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
-import java.util.*
 import javax.servlet.http.HttpServletRequest
 
 @CrossOrigin(origins = ["https://pages.onysakura.com", "https://onysakura.fun"])
@@ -67,8 +66,13 @@ open class PcrController(
     }
 
     @GetMapping("/boss")
-    fun bossList(activityId: Long): Resp<*> {
-        val list: MutableList<Boss> = bossRepository.findAllByActivityId(activityId)
+    fun bossList(@RequestParam(value = "activityId", required = false, defaultValue = "0") activityId: Long): Resp<*> {
+        val list: MutableList<Boss>
+        if (activityId == 0L) {
+            list = bossRepository.findAll()
+        } else {
+            list = bossRepository.findAllByActivityId(activityId)
+        }
         log.info("boss list: $list")
         return Resp(list)
     }
