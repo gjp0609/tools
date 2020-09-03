@@ -64,8 +64,7 @@ open class PcrController(
                 log.info("decryptData: $decryptData")
             }
         } catch (e: Exception) {
-            e.printStackTrace()
-            log.info("error, {}", e.message)
+            log.error("error", e)
         }
         request.session.setAttribute("sessionKey", sessionKey)
         return Resp(request.session.id)
