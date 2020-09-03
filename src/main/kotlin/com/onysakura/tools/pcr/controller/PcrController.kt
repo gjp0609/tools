@@ -46,26 +46,10 @@ open class PcrController(
     private val uploadPath: String = ""
 
     @GetMapping("/login")
-    fun login(code: String, encryptedData: String, iv: String, request: HttpServletRequest): Resp<*> {
+    fun login(code: String, request: HttpServletRequest): Resp<*> {
         log.info("code: $code")
-        log.info("encryptedData: $encryptedData")
-        log.info("iv: $iv")
         val sessionKey: String = MiniProgramUtils.codeToSession(code)
         log.info("sessionKey: $sessionKey")
-        try {
-            val aes = WXInfoProcessAES()
-            val resultByte: ByteArray = aes.decrypt(
-                    Base64.getDecoder().decode(encryptedData.replace(" ", "+")),
-                    Base64.getDecoder().decode(sessionKey),
-                    Base64.getDecoder().decode(iv)
-            )
-            if (resultByte.isNotEmpty()) {
-                val decryptData: String = String(WxPKCS7Encoder.decode(resultByte))
-                log.info("decryptData: $decryptData")
-            }
-        } catch (e: Exception) {
-            log.error("error", e)
-        }
         request.session.setAttribute("sessionKey", sessionKey)
         return Resp(request.session.id)
     }
