@@ -13,7 +13,6 @@ import com.onysakura.tools.utils.MoshiUtils
 import com.onysakura.tools.utils.StringUtils
 import com.onysakura.tools.wechat.WXInfoProcessAES
 import com.onysakura.tools.wechat.WxPKCS7Encoder
-import org.apache.commons.codec.binary.Base64
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -22,6 +21,7 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
+import java.util.*
 import javax.servlet.http.HttpServletRequest
 
 @CrossOrigin(origins = ["https://pages.onysakura.com", "https://onysakura.fun"])
@@ -54,7 +54,11 @@ open class PcrController(
         log.info("sessionKey: $sessionKey")
         try {
             val aes = WXInfoProcessAES()
-            val resultByte: ByteArray = aes.decrypt(Base64.decodeBase64(encryptedData.replace(" ", "+")), Base64.decodeBase64(sessionKey), Base64.decodeBase64(iv))
+            val resultByte: ByteArray = aes.decrypt(
+                    Base64.getDecoder().decode(encryptedData.replace(" ", "+")),
+                    Base64.getDecoder().decode(sessionKey),
+                    Base64.getDecoder().decode(iv)
+            )
             if (resultByte.isNotEmpty()) {
                 val decryptData: String = String(WxPKCS7Encoder.decode(resultByte))
                 log.info("decryptData: $decryptData")
