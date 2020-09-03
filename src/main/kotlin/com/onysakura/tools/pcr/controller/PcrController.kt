@@ -11,6 +11,9 @@ import com.onysakura.tools.pcr.repository.*
 import com.onysakura.tools.utils.DateUtils
 import com.onysakura.tools.utils.MoshiUtils
 import com.onysakura.tools.utils.StringUtils
+import com.onysakura.tools.wechat.WXInfoProcessAES
+import com.onysakura.tools.wechat.WxPKCS7Encoder
+import org.apache.commons.codec.binary.Base64
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -43,10 +46,20 @@ open class PcrController(
     private val uploadPath: String = ""
 
     @GetMapping("/login")
-    fun login(code: String, request: HttpServletRequest): Resp<*> {
+    fun login(code: String, encryptedData: String, iv: String, request: HttpServletRequest): Resp<*> {
         log.info("code: $code")
         val sessionKey: String = MiniProgramUtils.codeToSession(code)
         log.info("sessionKey: $sessionKey")
+        try {
+            val aes = WXInfoProcessAES()
+            val resultByte: ByteArray = aes.decrypt(Base64.decodeBase64(encryptedData), Base64.decodeBase64(sessionKey), Base64.decodeBase64(iv))
+            if (resultByte.isNotEmpty()) {
+                val decryptData: String = String(WxPKCS7Encoder.decode(resultByte))
+                log.info("decryptData: $decryptData")
+            }
+        } catch (e: Exception) {
+            log.warn("error, ", e)
+        }
         request.session.setAttribute("sessionKey", sessionKey)
         return Resp(request.session.id)
     }
