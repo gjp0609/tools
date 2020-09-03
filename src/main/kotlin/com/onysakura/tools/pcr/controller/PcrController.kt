@@ -48,11 +48,13 @@ open class PcrController(
     @GetMapping("/login")
     fun login(code: String, encryptedData: String, iv: String, request: HttpServletRequest): Resp<*> {
         log.info("code: $code")
+        log.info("encryptedData: $encryptedData")
+        log.info("iv: $iv")
         val sessionKey: String = MiniProgramUtils.codeToSession(code)
         log.info("sessionKey: $sessionKey")
         try {
             val aes = WXInfoProcessAES()
-            val resultByte: ByteArray = aes.decrypt(Base64.decodeBase64(encryptedData), Base64.decodeBase64(sessionKey), Base64.decodeBase64(iv))
+            val resultByte: ByteArray = aes.decrypt(Base64.decodeBase64(encryptedData.replace(" ", "+")), Base64.decodeBase64(sessionKey), Base64.decodeBase64(iv))
             if (resultByte.isNotEmpty()) {
                 val decryptData: String = String(WxPKCS7Encoder.decode(resultByte))
                 log.info("decryptData: $decryptData")
