@@ -20,7 +20,7 @@
         <kotlin.version>1.4.0</kotlin.version>
         <guava.version>29.0-jre</guava.version>
         <moshi.version>1.9.3</moshi.version>
-        <jsoup.version>1.13.1</jsoup.version>
+        <jsoup.version>1.14.2</jsoup.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
     </properties>
 
