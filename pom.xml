@@ -17,7 +17,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <kotlin.version>1.4.0</kotlin.version>
+        <kotlin.version>1.6.0</kotlin.version>
         <guava.version>29.0-jre</guava.version>
         <moshi.version>1.9.3</moshi.version>
         <jsoup.version>1.14.2</jsoup.version>
